@@ -24,11 +24,6 @@
         public string ImageFormat { get; set; }
         public DateTime SnapshotTime { get; set; }
 
-        [ForeignKey("Camera")]
-        public int Camera_Id { get; set; }
-        [ForeignKey("Position")]
-        public int Position_Id { get; set; }
-
 
         #region Navigation properties
 
@@ -38,6 +33,11 @@
         public virtual Position Position { get; set; }
         [JsonIgnore]
         public virtual ImageData ImageData { get; set; }
+
+        [ForeignKey("Camera")]
+        public int Camera_Id { get; set; }
+        [ForeignKey("Position")]
+        public int Position_Id { get; set; }
 
         #endregion
 

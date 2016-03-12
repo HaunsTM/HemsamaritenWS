@@ -19,17 +19,17 @@
 
         public string CronExpression { get; set; }
 
-        [ForeignKey("Camera")]
-        public int Camera_Id { get; set; }
-        [ForeignKey("ActionType")]
-        public int ActionType_Id { get; set; }
-
         #region Navigation properties
 
         [JsonIgnore]
         public virtual Camera Camera { get; set; }
         [JsonIgnore]
         public virtual ActionType ActionType { get; set; }
+
+        [ForeignKey("Camera")]
+        public int Camera_Id { get; set; }
+        [ForeignKey("ActionType")]
+        public int ActionType_Id { get; set; }
 
         #endregion
 
