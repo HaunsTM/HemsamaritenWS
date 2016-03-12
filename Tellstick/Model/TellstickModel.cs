@@ -3,6 +3,8 @@
     using Tellstick.Model.Interfaces;
 
     using System.ComponentModel.DataAnnotations;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
 
     public class TellstickModel : IEntity, ITellstickModel
     {
@@ -18,10 +20,14 @@
 
         #region Navigation properties
 
+        [JsonIgnore]
+        public virtual List<TellstickUnit> TellstickUnits { get; set; }
+
         #endregion
 
         public TellstickModel()
         {
+            this.TellstickUnits = new List<TellstickUnit>();
         }
 
     }

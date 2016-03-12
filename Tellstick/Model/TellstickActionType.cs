@@ -1,8 +1,12 @@
 ﻿namespace Tellstick.Model
 {
+    using System.Collections.Generic;
+
     using Tellstick.Model.Interfaces;
 
     using System.ComponentModel.DataAnnotations;
+
+    using Newtonsoft.Json;
 
     public class TellstickActionType : IEntity, ITellstickActionType
     {
@@ -20,10 +24,14 @@
 
         #region Navigation properties
 
+        [JsonIgnore]
+        public virtual List<TellstickAction> TellstickActions { get; set; }
+
         #endregion
 
         public TellstickActionType()
         {
+            this.TellstickActions = new List<TellstickAction>();
         }
     }
 }

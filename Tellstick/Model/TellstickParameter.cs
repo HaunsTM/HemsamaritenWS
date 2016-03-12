@@ -3,7 +3,9 @@
     using Tellstick.Model.Enums;
     using Tellstick.Model.Interfaces;
 
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Newtonsoft.Json;
 
     public class TellstickParameter : IEntity, ITellstickParameter
     {
@@ -19,6 +21,9 @@
         public TellstickParameter_Unit Unit { get; set; }
 
         #region Navigation properties
+
+        [JsonIgnore]
+        public virtual List<TellstickUnit> TellstickUnits { get; set; }
 
         #endregion
 

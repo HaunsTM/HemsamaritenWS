@@ -6,7 +6,7 @@
     using System.ComponentModel.DataAnnotations;
     using Newtonsoft.Json;
 
-    public class TellstickUnit : IEntity, ITellstickUnit
+    public class TellstickScheduler : IEntity, ITellstickScheduler
     {
         #region IEntity members
 
@@ -16,21 +16,16 @@
 
         #endregion
 
-        public string Name { get; set; }
-        public string LocationDesciption { get; set; }
+        public string CronExpression { get; set; }
 
         #region Navigation properties
-
+        
         [JsonIgnore]
         public virtual List<TellstickAction> TellstickActions { get; set; }
 
-        public virtual TellstickParameter TellstickParameter { get; set; }
-        public virtual TellstickProtocol TellstickProtocol { get; set; }
-        public virtual TellstickModel TellstickModel { get; set; }
-
         #endregion
 
-        public TellstickUnit()
+        public TellstickScheduler()
         {
             this.TellstickActions = new List<TellstickAction>();
         }

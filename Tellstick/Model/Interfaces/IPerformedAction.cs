@@ -4,6 +4,6 @@
 
     public interface IPerformedAction : IEntity
     {
-         DateTime TimeOfPerformance { get; set; }
+         DateTime Time { get; set; }
     }
 }

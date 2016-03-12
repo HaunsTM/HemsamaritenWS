@@ -16,6 +16,12 @@
 
         #region Navigation properties
 
+
+        public virtual PerformedAction PerformedAction { get; set; }
+        public virtual TellstickUnit TellstickUnit { get; set; }
+        public virtual TellstickActionType TellstickActionType { get; set; }
+        public virtual TellstickScheduler TellstickScheduler { get; set; }
+
         #endregion
 
         public TellstickAction()

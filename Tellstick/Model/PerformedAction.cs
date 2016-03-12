@@ -1,10 +1,12 @@
-﻿
-namespace Tellstick.Model
+﻿namespace Tellstick.Model
 {
     using Tellstick.Model.Interfaces;
 
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using Newtonsoft.Json;
 
     public class PerformedAction : IEntity, IPerformedAction
     {
@@ -16,14 +18,21 @@ namespace Tellstick.Model
 
         #endregion
 
-        public DateTime TimeOfPerformance { get; set; }
+        /// <summary>
+        /// Time of performance
+        /// </summary>
+        public DateTime Time { get; set; }
 
         #region Navigation properties
+
+        [JsonIgnore]
+        public virtual List<TellstickAction> TellstickActions { get; set; }
 
         #endregion
 
         public PerformedAction()
         {
+            this.TellstickActions = new List<TellstickAction>();
         }
 
     }
