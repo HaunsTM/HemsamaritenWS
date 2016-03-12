@@ -1,4 +1,4 @@
-namespace SurveillanceCam2DB.BLL.Interfaces
+namespace Tellstick.BLL.Interfaces
 {
     using System.Drawing;
     using System.Drawing.Imaging;

@@ -1,9 +1,9 @@
 ﻿//Here is the once-per-application setup information
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
-namespace SurveillanceCam2DB.ConsoleForTestingPurpose
+namespace Tellstick.ConsoleForTestingPurpose
 {
-    using SurveillanceCam2DB.BLL;
+    using Tellstick.BLL;
 
     using System;
     using System.Configuration;
@@ -29,7 +29,6 @@ namespace SurveillanceCam2DB.ConsoleForTestingPurpose
             CreateDBTest();
             //TestLogger();
             //TestLinq();
-            //Console.ReadLine();
         }
 
         private static void TestConvertImagesInDbToFiles()
@@ -71,7 +70,6 @@ namespace SurveillanceCam2DB.ConsoleForTestingPurpose
             var stupidValue = db.Cameras.Count();
 
         }
-
 
         public static void TestLogger()
         {

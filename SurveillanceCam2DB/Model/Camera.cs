@@ -1,4 +1,4 @@
-﻿namespace SurveillanceCam2DB.Model
+﻿namespace Tellstick.Model
 {
     using Interfaces;
 

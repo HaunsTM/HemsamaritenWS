@@ -1,6 +1,6 @@
-﻿namespace SurveillanceCam2DB.Model
+﻿namespace Tellstick.Model
 {
-    using SurveillanceCam2DB.Model.Interfaces;
+    using Tellstick.Model.Interfaces;
 
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
