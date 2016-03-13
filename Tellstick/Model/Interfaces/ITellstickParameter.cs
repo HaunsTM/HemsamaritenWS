@@ -2,7 +2,7 @@
 {
     public interface ITellstickParameter : IEntity
     {
-        Model.Enums.TellstickParameter_House House { get; set; }
-        Model.Enums.TellstickParameter_Unit Unit { get; set; }
+        Model.Enums.EnumTellstickParameter_House House { get; set; }
+        Model.Enums.EnumTellstickParameter_Unit Unit { get; set; }
     }
 }

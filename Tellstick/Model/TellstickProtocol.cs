@@ -16,7 +16,9 @@
 
         #endregion
 
-        public Enums.TellstickProtocol Name { get; set; }
+        public string Name { get { return this.Type.ToString(); } }
+
+        public Enums.EnumTellstickProtocol Type { get; set; }
 
         #region Navigation properties
 

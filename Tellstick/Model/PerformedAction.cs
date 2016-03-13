@@ -5,6 +5,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using Newtonsoft.Json;
 
@@ -24,15 +25,17 @@
         public DateTime Time { get; set; }
 
         #region Navigation properties
-
+        
         [JsonIgnore]
-        public virtual List<TellstickAction> TellstickActions { get; set; }
+        public virtual TellstickAction TellstickAction { get; set; }
+
+        [ForeignKey("TellstickAction")]
+        public int TellstickAction_Id { get; set; }
 
         #endregion
 
         public PerformedAction()
         {
-            this.TellstickActions = new List<TellstickAction>();
         }
 
     }

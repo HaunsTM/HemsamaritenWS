@@ -16,6 +16,14 @@
 
         #endregion
 
+
+        /// <summary>
+        /// What the cron expression means in simple terms.
+        /// </summary>
+        public string CronDescription { get; set; }
+        /// <summary>
+        /// <example>http://www.cronmaker.com/</example>
+        /// </summary>
         public string CronExpression { get; set; }
 
         #region Navigation properties

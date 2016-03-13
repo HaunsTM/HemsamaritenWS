@@ -1,5 +1,7 @@
 ﻿namespace Tellstick.Model
 {
+    using System.Collections.Generic;
+
     using Tellstick.Model.Interfaces;
 
     using System.ComponentModel.DataAnnotations;
@@ -20,16 +22,15 @@
         #region Navigation properties
 
         [JsonIgnore]
-        public virtual PerformedAction PerformedAction { get; set; }
+        public virtual List<PerformedAction> PerformedActions { get; set; }
+
         [JsonIgnore]
         public virtual TellstickUnit TellstickUnit { get; set; }
         [JsonIgnore]
         public virtual TellstickActionType TellstickActionType { get; set; }
         [JsonIgnore]
         public virtual TellstickScheduler TellstickScheduler { get; set; }
-
-        [ForeignKey("PerformedAction")]
-        public int PerformedAction_Id { get; set; }
+        
         [ForeignKey("TellstickUnit")]
         public int TellstickUnit_Id { get; set; }
         [ForeignKey("TellstickActionType")]
@@ -41,6 +42,7 @@
 
         public TellstickAction()
         {
+            this.PerformedActions = new List<PerformedAction>();
         }
     }
 }

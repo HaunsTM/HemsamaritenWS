@@ -1,6 +1,7 @@
 ﻿namespace Tellstick.ConsoleForTestingPurpose
 {
     using System;
+    using System.Linq;
 
     using Tellstick.TelldusNETWrapper;
 
@@ -9,11 +10,24 @@
 
         static void Main(string[] args)
         {
-            //var command = "protocol:arctech;model:selflearning;house: 30891002; unit: 16; group: 0; method: turnon;";
-            //var result = TelldusWrapper.TelldusNETWrapper.tdSendRawCommand(command,0);
-            RegisterDevice();
+            CreateDBTest();
+            //RegisterDevice();
             //DisplayInfo();
 
+
+        }
+
+
+        private static void CreateDBTest()
+        {
+            System.Data.Entity.Database.SetInitializer(new Tellstick.Model.DefaultDataDbInitializer());
+            var db = new Model.TellstickDBContext("name=TellstickDBConnection");
+#if DEBUG
+             db.Database.Initialize(true);
+#endif
+
+            //do something random stupid to force seed
+            var stupidValue = db.TellstickModels.Count();
 
         }
 

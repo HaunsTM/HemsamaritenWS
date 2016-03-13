@@ -1,6 +1,6 @@
 ﻿namespace Tellstick.Model.Enums
 {
-    public enum TellstickActionType
+    public enum EnumTellstickActionType
     {
         TurnOn,
         TurnOff,

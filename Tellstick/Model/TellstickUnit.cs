@@ -25,7 +25,6 @@
 
         [JsonIgnore]
         public virtual List<TellstickAction> TellstickActions { get; set; }
-
         [JsonIgnore]
         public virtual TellstickParameter TellstickParameter { get; set; }
         [JsonIgnore]

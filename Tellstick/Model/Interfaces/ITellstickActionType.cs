@@ -2,7 +2,7 @@
 {
     public interface ITellstickActionType
     {
-         Model.Enums.TellstickActionType Action { get; set; }
+        Model.Enums.EnumTellstickActionType Type { get; set; }
         int DimValue { get; set; }
     }
 }

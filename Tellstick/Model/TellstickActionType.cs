@@ -1,11 +1,9 @@
 ﻿namespace Tellstick.Model
 {
-    using System.Collections.Generic;
-
     using Tellstick.Model.Interfaces;
 
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
     using Newtonsoft.Json;
 
     public class TellstickActionType : IEntity, ITellstickActionType
@@ -19,7 +17,7 @@
         #endregion
 
 
-        public Enums.TellstickActionType Action { get; set; }
+        public Enums.EnumTellstickActionType Type { get; set; }
         public int DimValue { get; set; }
 
         #region Navigation properties

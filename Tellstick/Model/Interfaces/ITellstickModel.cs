@@ -1,7 +1,13 @@
 ﻿namespace Tellstick.Model.Interfaces
 {
-    public interface ITellstickModel : IEntity
+    public interface ITellstickModelTypeAndTellstickManufacturer
     {
-         Enums.TellstickModel Name { get; set; }
+        Enums.EnumTellstickModelType Type { get; set; }
+        Enums.EnumTellstickModelManufacturer Manufacturer { get; set; }
+    }
+
+    public interface ITellstickModel : IEntity, ITellstickModelTypeAndTellstickManufacturer
+    {
+        string Model { get; }
     }
 }

@@ -2,6 +2,7 @@
 {
     public interface ITellstickScheduler
     {
-         string CronExpression { get; set; }
+        string CronDescription { get; set; }
+        string CronExpression { get; set; }
     }
 }

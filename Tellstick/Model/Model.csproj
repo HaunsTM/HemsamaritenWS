@@ -57,11 +57,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\TellstickActionType.cs" />
-    <Compile Include="Enums\TellstickModel.cs" />
-    <Compile Include="Enums\TellstickParameter_Unit.cs" />
-    <Compile Include="Enums\TellstickParameter_House.cs" />
-    <Compile Include="Enums\TellstickProtocol.cs" />
+    <Compile Include="DefaultDataDBInitializer.cs" />
+    <Compile Include="Enums\EnumHelper.cs" />
+    <Compile Include="Enums\EnumTellstickActionType.cs" />
+    <Compile Include="Enums\EnumTellstickModelManufacturer.cs" />
+    <Compile Include="Enums\EnumTellstickModelType.cs" />
+    <Compile Include="Enums\EnumTellstickParameter_Unit.cs" />
+    <Compile Include="Enums\EnumTellstickParameter_House.cs" />
+    <Compile Include="Enums\EnumTellstickProtocol.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\ITellstickActionType.cs" />
     <Compile Include="Interfaces\ITellstickAction.cs" />

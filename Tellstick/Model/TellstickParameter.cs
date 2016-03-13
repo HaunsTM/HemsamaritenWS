@@ -17,8 +17,8 @@
 
         #endregion
 
-        public TellstickParameter_House House { get; set; }
-        public TellstickParameter_Unit Unit { get; set; }
+        public EnumTellstickParameter_House House { get; set; }
+        public EnumTellstickParameter_Unit Unit { get; set; }
 
         #region Navigation properties
 
@@ -29,6 +29,7 @@
 
         public TellstickParameter()
         {
+            this.TellstickUnits = new List<TellstickUnit>();
         }
     }
 }

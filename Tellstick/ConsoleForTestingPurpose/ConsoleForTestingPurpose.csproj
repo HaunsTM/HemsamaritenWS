@@ -68,6 +68,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BLL\BLL.csproj">
+      <Project>{2c3f2178-d1af-4d0e-a2e7-b64e69440fb7}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{80e3f2e7-77c9-4e92-8794-21cee5a51263}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TelldusNETWrapper\TelldusNETWrapper.csproj">
       <Project>{675c494f-7d3b-4f6f-ab7a-98ba9e2b2b43}</Project>
       <Name>TelldusNETWrapper</Name>

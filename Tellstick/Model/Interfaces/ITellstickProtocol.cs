@@ -2,6 +2,7 @@
 {
     public interface ITellstickProtocol : IEntity
     {
-         Model.Enums.TellstickProtocol Name { get; set; }
+        string Name { get; }
+        Model.Enums.EnumTellstickProtocol Type { get; set; }
     }
 }
