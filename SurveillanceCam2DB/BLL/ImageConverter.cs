@@ -1,4 +1,4 @@
-﻿namespace SurveillanceCam2DB.BLL
+﻿namespace Tellstick.BLL
 {
     using System;
 
