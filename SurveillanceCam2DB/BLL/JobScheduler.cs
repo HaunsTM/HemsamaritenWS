@@ -1,4 +1,4 @@
-﻿namespace SurveillanceCam2DB.BLL
+﻿namespace Tellstick.BLL
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@
     using Quartz;
     using Quartz.Impl;
 
-    using SurveillanceCam2DB.Model;
+    using Tellstick.Model;
 
     public class JobScheduler
     {

@@ -1,7 +1,7 @@
-﻿namespace SurveillanceCam2DB.ConsoleForTestingPurpose
+﻿namespace Tellstick.ConsoleForTestingPurpose
 {
-    using SurveillanceCam2DB.BLL;
-    using SurveillanceCam2DB.Model;
+    using Tellstick.BLL;
+    using Tellstick.Model;
 
     using System;
     using System.Drawing.Imaging;
@@ -78,7 +78,7 @@
         private ImageAndImageDataForDB DownloadImageFromCamera(Model.Interfaces.ICamera camCurrent, Model.Interfaces.IPosition camCurrentPosition, Uri camSnapshotUri, NetworkCredential camNetworkCredentials, int storeImagesInThisQualityPercent)
         {
 
-            var imgConv = new SurveillanceCam2DB.BLL.ImageConverter();
+            var imgConv = new Tellstick.BLL.ImageConverter();
 
             var surCam = new SurveillanceCam(snapshotUri: camSnapshotUri,
                                              networkCredentials: camNetworkCredentials);

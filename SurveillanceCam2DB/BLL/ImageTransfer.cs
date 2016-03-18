@@ -1,11 +1,11 @@
-﻿namespace SurveillanceCam2DB.BLL
+﻿namespace Tellstick.BLL
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Net;
 
-    using SurveillanceCam2DB.Model;
+    using Tellstick.Model;
 
     public class ImageTransfer
     {
@@ -86,7 +86,7 @@
         private ImageAndImageDataForDB DownloadImageFromCamera(Model.Interfaces.ICamera camCurrent, Model.Interfaces.IPosition imagePosition, int storeImagesInThisQualityPercent, Size newImageSize, bool preserveImageAspectRatio)
         {
 
-            var imgConv = new SurveillanceCam2DB.BLL.ImageConverter();
+            var imgConv = new Tellstick.BLL.ImageConverter();
             var picUrl = camCurrent.GetPicURL;
             var camNetworkCredentials = new NetworkCredential(userName: camCurrent.CameraNetworkUser, password: camCurrent.CameraNetworkUserPassword);
             var surCam = new SurveillanceCam(snapshotUri: new Uri(picUrl),

@@ -1,4 +1,4 @@
-﻿namespace SurveillanceCam2DB.ConsoleForTestingPurpose
+﻿namespace Tellstick.ConsoleForTestingPurpose
 {
     using System.Collections.Generic;
 
@@ -7,7 +7,7 @@
     using System.Drawing;
     using System.Linq;
 
-    using SurveillanceCam2DB.Model.Enums;
+    using Tellstick.Model.Enums;
 
     public class DefaultDataDbInitializer : DropCreateDatabaseIfModelChanges<SurveillanceCam2DBContext>
     {

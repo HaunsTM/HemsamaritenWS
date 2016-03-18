@@ -1,4 +1,4 @@
-﻿namespace SurveillanceCam2DB.BLL.Interfaces
+﻿namespace Tellstick.BLL.Interfaces
 {
     public interface ICameraEventArgs
     {
