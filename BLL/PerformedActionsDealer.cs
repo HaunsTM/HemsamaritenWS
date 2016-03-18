@@ -6,9 +6,10 @@
 
     using log4net;
 
+    using Tellstick.BLL.Interfaces;
     using Tellstick.Model;
 
-    public class PerformedActionsDealer
+    public class PerformedActionsDealer : IPerformedActionsDealer
     {
 
         private static readonly ILog log =

@@ -12,7 +12,7 @@
 
     using Tellstick.Model.Interfaces;
 
-    public class TellstickUnitDealer
+    public class TellstickUnitDealer : ITellstickUnitDealer
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         

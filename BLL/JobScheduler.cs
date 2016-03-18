@@ -11,7 +11,9 @@
     using Quartz;
     using Quartz.Impl;
 
-    public class JobScheduler
+    using Tellstick.BLL.Interfaces;
+
+    public class JobScheduler : IJobScheduler
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -24,7 +26,6 @@
             this.DbConnectionStringName = dbConnectionStringName;
             this.Scheduler = StdSchedulerFactory.GetDefaultScheduler();
         }
-
 
         public void Start()
         {

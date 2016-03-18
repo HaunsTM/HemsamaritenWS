@@ -87,7 +87,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IJobScheduler.cs" />
     <Compile Include="Interfaces\INativeTellstickCommander.cs" />
+    <Compile Include="Interfaces\IPerformedActionsDealer.cs" />
+    <Compile Include="Interfaces\ITellstickUnitDealer.cs" />
     <Compile Include="TellstickJob.cs" />
     <Compile Include="JobScheduler.cs" />
     <Compile Include="PerformedActionsDealer.cs" />
