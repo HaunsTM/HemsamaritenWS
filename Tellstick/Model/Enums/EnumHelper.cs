@@ -10,7 +10,7 @@
         /// <typeparam name="T">The type of the attribute you want to retrieve</typeparam>
         /// <param name="enumVal">The enum value</param>
         /// <returns>The attribute of type T that exists on the enum value</returns>
-        /// <example>string desc = myEnumVariable.GetAttributeOfType<DescriptionAttribute>().Description;</example>
+        /// <example>string desc = myEnumVariable.GetAttributeOfType;lt;DescriptionAttribute;gt&().Description;</example>
         public static T GetAttributeOfType<T>(this Enum enumVal) where T : System.Attribute
         {
             //http://stackoverflow.com/questions/1799370/getting-attributes-of-enums-value#answer-9276348

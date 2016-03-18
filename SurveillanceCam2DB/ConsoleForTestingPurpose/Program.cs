@@ -3,14 +3,9 @@
 
 namespace Tellstick.ConsoleForTestingPurpose
 {
-    using Tellstick.BLL;
-
-    using System;
-    using System.Configuration;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Linq;
-    using System.Net;
 
     using log4net;
     

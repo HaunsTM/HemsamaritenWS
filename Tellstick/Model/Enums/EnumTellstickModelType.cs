@@ -6,7 +6,7 @@
     {
         [Description("bell")]
         bell = 0,
-        [Description("code-switch")]
+        [Description("codeswitch")]
         codeswitch = 1,
         [Description("selflearning")]
         selflearning = 2 ,

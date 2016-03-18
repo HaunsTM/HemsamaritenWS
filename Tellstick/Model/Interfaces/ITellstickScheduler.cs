@@ -1,6 +1,6 @@
 ﻿namespace Tellstick.Model.Interfaces
 {
-    public interface ITellstickScheduler
+    public interface ITellstickScheduler : IEntity
     {
         string CronDescription { get; set; }
         string CronExpression { get; set; }

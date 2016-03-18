@@ -18,6 +18,8 @@
 
         #endregion
 
+        [Index(IsUnique = true)]
+        public int NativeDeviceId { get; set; }
         public string Name { get; set; }
         public string LocationDesciption { get; set; }
 

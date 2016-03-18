@@ -8,60 +8,258 @@
 
     public class DefaultDataDbInitializer : DropCreateDatabaseIfModelChanges<TellstickDBContext>
     {
-        protected override void Seed(TellstickDBContext context)
+        private List<TellstickActionType> TellstickActionTypes()
         {
-            context.TellstickActionTypes.AddRange(new List<TellstickActionType>
-                                                      {
-                                                          new TellstickActionType { Active = true, Type = Enums.EnumTellstickActionType.TurnOn},
-                                                          new TellstickActionType { Active = true, Type = Enums.EnumTellstickActionType.TurnOff},
-                                                          new TellstickActionType { Active = true, Type = Enums.EnumTellstickActionType.TurnOff}
-                                                      });
-
-            context.TellstickProtocols.Add(
-                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.arctech }
-            );
-
-            context.TellstickModels.Add(
-                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.codeswitch, Manufacturer = EnumTellstickModelManufacturer.Nexa }
-                );
-            context.TellstickSchedulers.AddRange( new List<TellstickScheduler>
+            var tellstickActionTypes = new List<TellstickActionType>
             {
-                new TellstickScheduler { Active = true, CronDescription = "Triggar var 10:e sekund", CronExpression = "0/3 * * * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar var 10:e sekund", CronExpression = "0/8 * * * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar var 10:e sekund", CronExpression = "0/10 * * * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar var 30:e sekund", CronExpression = "0/30 * * * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar varje minut", CronExpression = "* * * * *"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar var 5:e minut", CronExpression = "0 0/5 * * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar var 5:e minut, kl 15, Måndag - Fredag", CronExpression = "*/5 15 * * MON-FRI"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar var 10:e minut", CronExpression = "0 0/10 * * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar var 30:e minut", CronExpression = "0 0/30 * * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 00 varje dag", CronExpression = "0 0 0 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 01 varje dag", CronExpression = "0 0 1 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 02 varje dag", CronExpression = "0 0 2 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 03 varje dag", CronExpression = "0 0 3 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 04 varje dag", CronExpression = "0 0 4 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 05 varje dag", CronExpression = "0 0 5 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 06 varje dag", CronExpression = "0 0 6 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 07 varje dag", CronExpression = "0 0 7 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 08 varje dag", CronExpression = "0 0 8 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 09 varje dag", CronExpression = "0 0 9 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 12 varje dag", CronExpression = "0 0 10 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 11 varje dag", CronExpression = "0 0 11 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 12 varje dag", CronExpression = "0 0 12 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 13 varje dag", CronExpression = "0 0 13 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 14 varje dag", CronExpression = "0 0 14 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 15 varje dag", CronExpression = "0 0 15 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 16 varje dag", CronExpression = "0 0 16 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 17 varje dag", CronExpression = "0 0 17 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 18 varje dag", CronExpression = "0 0 18 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 19 varje dag", CronExpression = "0 0 19 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 20 varje dag", CronExpression = "0 0 20 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 21 varje dag", CronExpression = "0 0 21 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 22 varje dag", CronExpression = "0 0 22 * * ?"},
-                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 23 varje dag", CronExpression = "0 0 23 * * ?"}
-            });
+                new TellstickActionType { Active = true, Type = Enums.EnumTellstickActionType.TurnOn},
+                new TellstickActionType { Active = true, Type = Enums.EnumTellstickActionType.TurnOff},
+                new TellstickActionType { Active = true, Type = Enums.EnumTellstickActionType.TurnOff}
+            };
 
-            context.TellstickParameters.AddRange( new List<TellstickParameter>
+            return tellstickActionTypes;
+        }
+
+        private List<TellstickProtocol> TellstickProtocols()
+        {
+            var tellstickProtocols = new List<TellstickProtocol>
+            {
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.arctech },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.brateck },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.everflourish },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.fuhaote },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.hasta },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.ikea },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.kangtai },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.risingsun },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.sartano },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.silvanchip },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.upm },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.waveman },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.x10 },
+                new TellstickProtocol { Active = true, Type = Enums.EnumTellstickProtocol.yidong }
+            };
+
+            return tellstickProtocols;
+        }
+
+        private List<TellstickModel> TellstickModels()
+        {
+            var tellstickModels = new List<TellstickModel>
+            {
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.codeswitch, Manufacturer = EnumTellstickModelManufacturer.Anslut },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.bell, Manufacturer = EnumTellstickModelManufacturer.Anslut },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearning, Manufacturer = EnumTellstickModelManufacturer.Anslut },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningDimmer, Manufacturer = EnumTellstickModelManufacturer.Anslut },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningSwitch, Manufacturer = EnumTellstickModelManufacturer.Anslut },
+
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.codeswitch, Manufacturer = EnumTellstickModelManufacturer.Brennenstuhl },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.bell, Manufacturer = EnumTellstickModelManufacturer.Brennenstuhl },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearning, Manufacturer = EnumTellstickModelManufacturer.Brennenstuhl },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningDimmer, Manufacturer = EnumTellstickModelManufacturer.Brennenstuhl },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningSwitch, Manufacturer = EnumTellstickModelManufacturer.Brennenstuhl },
+
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.codeswitch, Manufacturer = EnumTellstickModelManufacturer.Chacon },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.bell, Manufacturer = EnumTellstickModelManufacturer.Chacon },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearning, Manufacturer = EnumTellstickModelManufacturer.Chacon },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningDimmer, Manufacturer = EnumTellstickModelManufacturer.Chacon },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningSwitch, Manufacturer = EnumTellstickModelManufacturer.Chacon },
+
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.codeswitch, Manufacturer = EnumTellstickModelManufacturer.Hasta },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.bell, Manufacturer = EnumTellstickModelManufacturer.Hasta },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearning, Manufacturer = EnumTellstickModelManufacturer.Hasta },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningDimmer, Manufacturer = EnumTellstickModelManufacturer.Hasta },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningSwitch, Manufacturer = EnumTellstickModelManufacturer.Hasta },
+
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.codeswitch, Manufacturer = EnumTellstickModelManufacturer.Intertechno },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.bell, Manufacturer = EnumTellstickModelManufacturer.Intertechno },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearning, Manufacturer = EnumTellstickModelManufacturer.Intertechno },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningDimmer, Manufacturer = EnumTellstickModelManufacturer.Intertechno },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningSwitch, Manufacturer = EnumTellstickModelManufacturer.Intertechno },
+
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.codeswitch, Manufacturer = EnumTellstickModelManufacturer.Kappa },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.bell, Manufacturer = EnumTellstickModelManufacturer.Kappa },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearning, Manufacturer = EnumTellstickModelManufacturer.Kappa },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningDimmer, Manufacturer = EnumTellstickModelManufacturer.Kappa },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningSwitch, Manufacturer = EnumTellstickModelManufacturer.Kappa },
+
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.codeswitch, Manufacturer = EnumTellstickModelManufacturer.Nexa },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.bell, Manufacturer = EnumTellstickModelManufacturer.Nexa },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearning, Manufacturer = EnumTellstickModelManufacturer.Nexa },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningDimmer, Manufacturer = EnumTellstickModelManufacturer.Nexa },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningSwitch, Manufacturer = EnumTellstickModelManufacturer.Nexa },
+
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.codeswitch, Manufacturer = EnumTellstickModelManufacturer.Proove },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.bell, Manufacturer = EnumTellstickModelManufacturer.Proove },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearning, Manufacturer = EnumTellstickModelManufacturer.Proove },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningDimmer, Manufacturer = EnumTellstickModelManufacturer.Proove },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningSwitch, Manufacturer = EnumTellstickModelManufacturer.Proove },
+
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.codeswitch, Manufacturer = EnumTellstickModelManufacturer.Rusta },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.bell, Manufacturer = EnumTellstickModelManufacturer.Rusta },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearning, Manufacturer = EnumTellstickModelManufacturer.Rusta },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningDimmer, Manufacturer = EnumTellstickModelManufacturer.Rusta },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningSwitch, Manufacturer = EnumTellstickModelManufacturer.Rusta },
+
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.codeswitch, Manufacturer = EnumTellstickModelManufacturer.Sartano },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.bell, Manufacturer = EnumTellstickModelManufacturer.Sartano },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearning, Manufacturer = EnumTellstickModelManufacturer.Sartano },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningDimmer, Manufacturer = EnumTellstickModelManufacturer.Sartano },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningSwitch, Manufacturer = EnumTellstickModelManufacturer.Sartano },
+
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.codeswitch, Manufacturer = EnumTellstickModelManufacturer.Waveman },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.bell, Manufacturer = EnumTellstickModelManufacturer.Waveman },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearning, Manufacturer = EnumTellstickModelManufacturer.Waveman },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningDimmer, Manufacturer = EnumTellstickModelManufacturer.Waveman },
+                new TellstickModel { Active = true, Type = Enums.EnumTellstickModelType.selflearningSwitch, Manufacturer = EnumTellstickModelManufacturer.Waveman }
+            };
+
+            return tellstickModels;
+        }
+
+        private List<TellstickScheduler> TellstickSchedulers()
+        {
+            var tellstickSchedulers = new List<TellstickScheduler>
+            {
+                new TellstickScheduler { Active = true, CronDescription = "Triggar varje sekund", CronExpression = "0/1 * * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar varannan sekund", CronExpression = "0/2 * * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 3:e sekund", CronExpression = "0/3 * * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 4:e sekund", CronExpression = "0/4 * * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 5:e sekund", CronExpression = "0/5 * * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 6:e sekund", CronExpression = "0/6 * * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 7:e sekund", CronExpression = "0/7 * * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 8:e sekund", CronExpression = "0/8 * * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 9:e sekund", CronExpression = "0/9 * * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 10:e sekund", CronExpression = "0/10 * * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 20:e sekund", CronExpression = "0/30 * * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 30:e sekund", CronExpression = "0/30 * * * * ?"},
+
+                new TellstickScheduler { Active = true, CronDescription = "Triggar varje minut", CronExpression = "* * * * *"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar varannan minut", CronExpression = "0 0/2 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 3:e minut", CronExpression = "0 0/3 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 4:e minut", CronExpression = "0 0/4 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 5:e minut", CronExpression = "0 0/5 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 6:e minut", CronExpression = "0 0/6 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 7:e minut", CronExpression = "0 0/7 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 8:e minut", CronExpression = "0 0/8 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 9:e minut", CronExpression = "0 0/9 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 10:e minut", CronExpression = "0 0/10 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 15:e minut", CronExpression = "0 0/15 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 20:e minut", CronExpression = "0 0/20 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 25:e minut", CronExpression = "0 0/25 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 30:e minut", CronExpression = "0 0/30 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 35:e minut", CronExpression = "0 0/35 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 40:e minut", CronExpression = "0 0/40 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 45:e minut", CronExpression = "0 0/45 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 50:e minut", CronExpression = "0 0/50 * * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 55:e minut", CronExpression = "0 0/55 * * * ?"},
+
+                new TellstickScheduler { Active = true, CronDescription = "Triggar var 5:e minut, Måndag - Fredag", CronExpression = "*/5 * * * MON-FRI"},
+
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 00:00 varje dag", CronExpression = "0 0 0 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 00:15 varje dag", CronExpression = "0 15 0 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 00:30 varje dag", CronExpression = "0 30 0 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 00:45 varje dag", CronExpression = "0 45 0 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 01:00 varje dag", CronExpression = "0 0 1 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 01:15 varje dag", CronExpression = "0 15 1 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 01:30 varje dag", CronExpression = "0 30 1 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 01:45 varje dag", CronExpression = "0 45 1 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 02:00 varje dag", CronExpression = "0 0 2 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 02:15 varje dag", CronExpression = "0 15 2 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 02:30 varje dag", CronExpression = "0 30 2 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 02:45 varje dag", CronExpression = "0 45 2 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 03:00 varje dag", CronExpression = "0 0 3 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 03:15 varje dag", CronExpression = "0 15 3 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 03:30 varje dag", CronExpression = "0 30 3 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 03:45 varje dag", CronExpression = "0 45 3 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 04:00 varje dag", CronExpression = "0 0 4 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 04:15 varje dag", CronExpression = "0 15 4 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 04:30 varje dag", CronExpression = "0 30 4 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 04:45 varje dag", CronExpression = "0 45 4 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 05:00 varje dag", CronExpression = "0 0 5 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 05:15 varje dag", CronExpression = "0 15 5 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 05:30 varje dag", CronExpression = "0 30 5 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 05:45 varje dag", CronExpression = "0 45 5 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 06:00 varje dag", CronExpression = "0 0 6 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 06:15 varje dag", CronExpression = "0 15 6 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 06:30 varje dag", CronExpression = "0 30 6 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 06:45 varje dag", CronExpression = "0 45 6 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 07:00 varje dag", CronExpression = "0 0 7 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 07:15 varje dag", CronExpression = "0 15 7 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 07:30 varje dag", CronExpression = "0 30 7 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 07:45 varje dag", CronExpression = "0 45 7 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 08:00 varje dag", CronExpression = "0 0 8 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 08:15 varje dag", CronExpression = "0 15 8 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 08:30 varje dag", CronExpression = "0 30 8 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 08:45 varje dag", CronExpression = "0 45 8 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 09:00 varje dag", CronExpression = "0 0 9 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 09:15 varje dag", CronExpression = "0 15 9 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 09:30 varje dag", CronExpression = "0 30 9 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 09:45 varje dag", CronExpression = "0 45 9 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 10:00 varje dag", CronExpression = "0 0 10 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 10:15 varje dag", CronExpression = "0 15 10 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 10:30 varje dag", CronExpression = "0 30 10 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 10:45 varje dag", CronExpression = "0 45 10 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 11:00 varje dag", CronExpression = "0 0 11 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 11:15 varje dag", CronExpression = "0 15 11 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 11:30 varje dag", CronExpression = "0 30 11 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 11:45 varje dag", CronExpression = "0 45 11 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 12:00 varje dag", CronExpression = "0 0 12 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 12:15 varje dag", CronExpression = "0 15 12 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 12:30 varje dag", CronExpression = "0 30 12 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 12:45 varje dag", CronExpression = "0 45 12 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 13:00 varje dag", CronExpression = "0 0 13 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 13:15 varje dag", CronExpression = "0 15 13 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 13:30 varje dag", CronExpression = "0 30 13 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 13:45 varje dag", CronExpression = "0 45 13 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 14:00 varje dag", CronExpression = "0 0 14 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 14:15 varje dag", CronExpression = "0 15 14 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 14:30 varje dag", CronExpression = "0 30 14 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 14:45 varje dag", CronExpression = "0 45 14 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 15:00 varje dag", CronExpression = "0 0 15 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 15:15 varje dag", CronExpression = "0 15 15 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 15:30 varje dag", CronExpression = "0 30 15 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 15:45 varje dag", CronExpression = "0 45 15 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 16:00 varje dag", CronExpression = "0 0 16 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 16:15 varje dag", CronExpression = "0 15 16 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 16:30 varje dag", CronExpression = "0 30 16 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 16:45 varje dag", CronExpression = "0 45 16 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 17:00 varje dag", CronExpression = "0 0 17 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 17:15 varje dag", CronExpression = "0 15 17 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 17:30 varje dag", CronExpression = "0 30 17 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 17:45 varje dag", CronExpression = "0 45 17 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 18:00 varje dag", CronExpression = "0 0 18 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 18:15 varje dag", CronExpression = "0 15 18 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 18:30 varje dag", CronExpression = "0 30 18 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 18:45 varje dag", CronExpression = "0 45 18 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 19:00 varje dag", CronExpression = "0 0 19 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 19:15 varje dag", CronExpression = "0 15 19 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 19:30 varje dag", CronExpression = "0 30 19 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 19:45 varje dag", CronExpression = "0 45 19 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 20:00 varje dag", CronExpression = "0 0 20 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 20:15 varje dag", CronExpression = "0 15 20 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 20:30 varje dag", CronExpression = "0 30 20 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 20:45 varje dag", CronExpression = "0 45 20 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 21:00 varje dag", CronExpression = "0 0 21 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 21:15 varje dag", CronExpression = "0 15 21 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 21:30 varje dag", CronExpression = "0 30 21 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 21:45 varje dag", CronExpression = "0 45 21 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 22:00 varje dag", CronExpression = "0 0 22 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 22:15 varje dag", CronExpression = "0 15 22 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 22:30 varje dag", CronExpression = "0 30 22 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 22:45 varje dag", CronExpression = "0 45 22 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 23:00 varje dag", CronExpression = "0 0 23 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 23:15 varje dag", CronExpression = "0 15 23 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 23:30 varje dag", CronExpression = "0 30 23 * * ?"},
+                new TellstickScheduler { Active = true, CronDescription = "Triggar kl 23:45 varje dag", CronExpression = "0 45 23 * * ?"}
+            };
+
+            return tellstickSchedulers;
+        }
+
+        private List<TellstickParameter> TellstickParameters()
+        {
+            var tellstickParameters = new List<TellstickParameter>
             {
                 new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.A },
                 new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.A },
@@ -95,77 +293,248 @@
                 new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.B },
                 new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.B },
                 new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.B },
-            });
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.C },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.D },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.E },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.F },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.G },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.H },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.I },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.J },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.K },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.L },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.M },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.N },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.O },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._1, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._2, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._3, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._4, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._5, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._6, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._7, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._8, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._9, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._10, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._11, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._12, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._13, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._14, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._15, House = EnumTellstickParameter_House.P },
+                new TellstickParameter { Active = true, Unit = EnumTellstickParameter_Unit._16, House = EnumTellstickParameter_House.P }
+            };
 
+            return tellstickParameters;
+        }
+
+        protected override void Seed(TellstickDBContext context)
+        {
+            context.TellstickActionTypes.AddRange(this.TellstickActionTypes());
+
+            context.TellstickProtocols.AddRange(this.TellstickProtocols());
+
+            context.TellstickModels.AddRange(this.TellstickModels());
+
+            context.TellstickSchedulers.AddRange(this.TellstickSchedulers());
+
+            context.TellstickParameters.AddRange(this.TellstickParameters());
 
             context.SaveChanges();
-
-            #region Test data
-
-            var artectProtocol =
-                (from prot in context.TellstickProtocols where prot.Type == EnumTellstickProtocol.arctech select prot)
-                    .First();
-
-            var nexaModel =
-                (from mod in context.TellstickModels where mod.Type == EnumTellstickModelType.codeswitch && mod.Manufacturer == EnumTellstickModelManufacturer.Nexa select mod)
-                    .First();
-
-            context.TellstickUnits.Add(
-                new TellstickUnit
-                {
-                    Active = true,
-                    Name="Unit 9",
-                    LocationDesciption = "Hans skrivbord",
-                    TellstickProtocol = artectProtocol,
-                    TellstickModel = nexaModel,
-                    TellstickParameter = (from par in context.TellstickParameters where par.Unit == EnumTellstickParameter_Unit._9 && par.House == EnumTellstickParameter_House.A select par).First()
-                });
-
-            context.SaveChanges();
-
-            var tellstickUnit9 =
-                (from unit in context.TellstickUnits where unit.Name == "Unit 9" select unit)
-                    .First();
-
-            var schedulerOnTrigger =
-                (from trig in context.TellstickSchedulers where trig.CronExpression == "0/8 * * * * ?" select trig)
-                    .First();
-            var schedulerOffTrigger =
-                (from trig in context.TellstickSchedulers where trig.CronExpression == "0/3 * * * * ?" select trig)
-                    .First();
-
-            var onAction =
-                (from act in context.TellstickActionTypes where act.Type == EnumTellstickActionType.TurnOn select act)
-                    .First();
-
-            var offAction =
-                (from act in context.TellstickActionTypes where act.Type == EnumTellstickActionType.TurnOff select act)
-                    .First();
-
-            context.TellstickActions.AddRange( new List<TellstickAction>
-                {
-                    new TellstickAction { Active = true, TellstickUnit = tellstickUnit9, TellstickActionType = onAction, TellstickScheduler = schedulerOnTrigger},
-                    new TellstickAction { Active = true, TellstickUnit = tellstickUnit9, TellstickActionType = offAction, TellstickScheduler = schedulerOffTrigger}
-                });
-
-            context.SaveChanges();
-
-            #endregion
-            /*
-            
-
-            context.ActionTypes.AddRange(new List<ActionType>
-                                             {
-                                                 new ActionType { Active = true, Type = ActionTypes.Do_CopyImageFrom_SurveillanceCamera2DB},
-                                                 new ActionType { Active = true, Type = ActionTypes.Dont_CopyImageFrom_SurveillanceCamera2DB}
-                                             });
-
-            context.SaveChanges();
-
-            
-            
-            */
-
         }
     }
 }
