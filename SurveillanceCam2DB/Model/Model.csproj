@@ -56,19 +56,24 @@
     <Compile Include="Action.cs" />
     <Compile Include="ActionType.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="DefaultDataDbInitializer.cs" />
     <Compile Include="Enums\ActionTypes.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="ImageData.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Interfaces\IActionType.cs" />
     <Compile Include="Interfaces\IImageData.cs" />
+    <Compile Include="Interfaces\IPerformedAction.cs" />
     <Compile Include="Interfaces\IPosition.cs" />
     <Compile Include="Interfaces\ICamera.cs" />
     <Compile Include="Interfaces\IImage.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
+    <Compile Include="Interfaces\IScheduler.cs" />
+    <Compile Include="PerformedAction.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SurveillanceCam2DBContext.cs" />
+    <Compile Include="Scheduler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

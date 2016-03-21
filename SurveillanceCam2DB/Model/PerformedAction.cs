@@ -2,12 +2,13 @@
 {
     using SurveillanceCam2DB.Model.Interfaces;
 
-    using System.Collections.Generic;
+    using System;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using Newtonsoft.Json;
 
-    public class ActionType : IEntity, IActionType
+    public class PerformedAction : IEntity, IPerformedAction
     {
         #region IEntity members
 
@@ -17,18 +18,24 @@
 
         #endregion
 
-        public SurveillanceCam2DB.Model.Enums.ActionTypes Name { get; set; }
+        /// <summary>
+        /// Time of performance
+        /// </summary>
+        public DateTime Time { get; set; }
 
         #region Navigation properties
-
+        
         [JsonIgnore]
-        public virtual List<Action> Actions { get; set; }
+        public virtual Action Action { get; set; }
+
+        [ForeignKey("Action")]
+        public int Action_Id { get; set; }
 
         #endregion
 
-        public ActionType()
+        public PerformedAction()
         {
-            this.Actions = new List<Action>();
         }
+
     }
 }

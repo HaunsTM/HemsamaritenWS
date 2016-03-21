@@ -82,8 +82,11 @@
     <Compile Include="ImageTransferJob.cs" />
     <Compile Include="Interfaces\ICameraEventArgs.cs" />
     <Compile Include="Interfaces\IImageConverter.cs" />
+    <Compile Include="Interfaces\IJobScheduler.cs" />
+    <Compile Include="Interfaces\IPerformedActionsDealer.cs" />
     <Compile Include="Interfaces\ISurveillanceCam.cs" />
     <Compile Include="JobScheduler.cs" />
+    <Compile Include="PerformedActionsDealer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SurveillanceCam.cs" />
   </ItemGroup>

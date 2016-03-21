@@ -1,17 +1,18 @@
-﻿namespace Tellstick.ConsoleForTestingPurpose
+﻿namespace SurveillanceCam2DB.ConsoleForTestingPurpose
 {
-    using Tellstick.BLL;
-    using Tellstick.Model;
+    using SurveillanceCam2DB.Model.Interfaces;
+
+    using SurveillanceCam2DB.BLL;
+    using SurveillanceCam2DB.Model;
 
     using System;
     using System.Drawing.Imaging;
     using System.Net;
-    using Quartz;
 
     public class ImageTransfer
     {
 
-        public ImageTransfer(Model.Interfaces.ICamera camCurrent, Model.Interfaces.IPosition camCurrentPosition, Uri camSnapshotUri, NetworkCredential camNetworkCredentials, int storeImagesInThisQualityPercent, Model.SurveillanceCam2DBContext surveillanceCam2DBContext)
+        public ImageTransfer(ICamera camCurrent, IPosition camCurrentPosition, Uri camSnapshotUri, NetworkCredential camNetworkCredentials, int storeImagesInThisQualityPercent, Model.SurveillanceCam2DBContext surveillanceCam2DBContext)
         {
             CamCurrent = camCurrent;
             CamCurrentPosition = camCurrentPosition;
@@ -23,8 +24,8 @@
 
         #region Properties
 
-        public Model.Interfaces.ICamera CamCurrent { get; private set; }
-        public Model.Interfaces.IPosition CamCurrentPosition { get; private set; }
+        public ICamera CamCurrent { get; private set; }
+        public IPosition CamCurrentPosition { get; private set; }
         public Uri CamSnapshotUri { get; private set; }
         public NetworkCredential CamNetworkCredentials { get; private set; }
         public int StoreImagesInThisQualityPercent { get; private set; }
@@ -46,7 +47,7 @@
             return downloadAndSaveSucceeded;
         }
 
-        private bool DownloadImageFromCameraAndSaveItToDB(Model.Interfaces.ICamera camCurrent, Model.Interfaces.IPosition camCurrentPosition, Uri camSnapshotUri, NetworkCredential camNetworkCredentials, int storeImagesInThisQualityPercent, Model.SurveillanceCam2DBContext surveillanceCam2DBContext)
+        private bool DownloadImageFromCameraAndSaveItToDB(ICamera camCurrent, IPosition camCurrentPosition, Uri camSnapshotUri, NetworkCredential camNetworkCredentials, int storeImagesInThisQualityPercent, Model.SurveillanceCam2DBContext surveillanceCam2DBContext)
         {
             var downloadAndSaveSucceeded = false;
 
@@ -75,10 +76,10 @@
 
         }
 
-        private ImageAndImageDataForDB DownloadImageFromCamera(Model.Interfaces.ICamera camCurrent, Model.Interfaces.IPosition camCurrentPosition, Uri camSnapshotUri, NetworkCredential camNetworkCredentials, int storeImagesInThisQualityPercent)
+        private ImageAndImageDataForDB DownloadImageFromCamera(ICamera camCurrent, IPosition camCurrentPosition, Uri camSnapshotUri, NetworkCredential camNetworkCredentials, int storeImagesInThisQualityPercent)
         {
 
-            var imgConv = new Tellstick.BLL.ImageConverter();
+            var imgConv = new SurveillanceCam2DB.BLL.ImageConverter();
 
             var surCam = new SurveillanceCam(snapshotUri: camSnapshotUri,
                                              networkCredentials: camNetworkCredentials);
@@ -96,7 +97,7 @@
                         format: surCamSnapshotImageFormat,
                         imageQualityPercent: storeImagesInThisQualityPercent);
 
-                    var imageForDb = new Model.Image
+                    var imageForDb = new Image
                     {
                         Active = true,
                         Camera = (Camera)camCurrent,
@@ -108,7 +109,7 @@
                         ImageQualityPercent = storeImagesInThisQualityPercent
                     };
                     
-                    var imageDataForDb = new Model.ImageData
+                    var imageDataForDb = new ImageData
                     {
                         Active = true,
                         Data = surCamSnapshotByteArray,
@@ -128,14 +129,14 @@
 
         private class ImageAndImageDataForDB
         {
-            public ImageAndImageDataForDB(Model.Image image, Model.ImageData imageData)
+            public ImageAndImageDataForDB(Image image, ImageData imageData)
             {
                 Image = image;
                 ImageData = imageData;
             }
 
-            public Model.Image Image { get; private set; }
-            public Model.ImageData ImageData { get; private set; }
+            public Image Image { get; private set; }
+            public ImageData ImageData { get; private set; }
         }
 
     }

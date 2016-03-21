@@ -1,7 +1,5 @@
-﻿namespace Tellstick.Model.Interfaces
+﻿namespace SurveillanceCam2DB.Model.Interfaces
 {
-    using System.Drawing;
-
     public interface ICamera : IEntity
     {
         string Name { get; set; }
