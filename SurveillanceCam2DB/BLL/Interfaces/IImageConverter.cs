@@ -11,6 +11,9 @@ namespace SurveillanceCam2DB.BLL.Interfaces
 
         Image ByteArrayToImage(byte[] byteArrayIn);
 
+        Bitmap ByteArrayToBitmap(byte[] byteArrayIn);
+        Bitmap ByteArrayToBitmap(byte[] byteArrayIn, Size newSize);
+
         byte[] ImageToCompressedByteArray(Image imageIn, ImageFormat format);
 
         Image CompressedByteArrayToImage(byte[] compressedByteArrayIn);

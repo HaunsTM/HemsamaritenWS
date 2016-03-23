@@ -3,15 +3,17 @@
 
 namespace SurveillanceCam2DB.ConsoleForTestingPurpose
 {
-    using System.Drawing;
+    using System;
     using System.Drawing.Imaging;
     using System.Linq;
 
     using log4net;
 
     using SurveillanceCam2DB.BLL;
-    using SurveillanceCam2DB.Model;
+    using SurveillanceCam2DB.BLL.Interfaces;
     using SurveillanceCam2DB.Model.Enums;
+
+    using Action = SurveillanceCam2DB.Model.Action;
 
     internal class Program
     {
@@ -22,9 +24,10 @@ namespace SurveillanceCam2DB.ConsoleForTestingPurpose
 
         private static void Main(string[] args)
         {
-             //new JobScheduler(DB_CONNECTION_STRING_NAME).Start();
-            TestConvertImagesInDbToFiles();
+            //new JobScheduler(DB_CONNECTION_STRING_NAME).Start();
+            //TestConvertImagesInDbToFiles();
             //CreateDBTest();
+            TestCreatingVideo();
             //TestLogger();
             //TestLinq();
         }
@@ -87,8 +90,49 @@ namespace SurveillanceCam2DB.ConsoleForTestingPurpose
             log.Error("Other Class - Error logging");
             log.Fatal("Other Class - Fatal logging");
         }
+
+        public static void TestCreatingVideo()
+        {
+            var createdVideo = false;
+
+            DateTime startTime = new DateTime(2016, 3, 1);
+            DateTime endTime = DateTime.Now;
+                IImageConverter imageConverter = new BLL.ImageConverter();
+            string outputFileName = "c:\\Users\\hansb\\Desktop\\WinService\\"
+                                    + DateTime.Now.ToFileTimeUtc().ToString() + ".mp4";
+            int width = 412;//4128;
+            int height = 310;//3096;
+            int frameRateMs = 5;
+            var vd = new VideoDealer(DB_CONNECTION_STRING_NAME);
+            vd.BeginCreatingVideoFile += BeginCreatingVideoFile;
+            vd.FrameWritten += FrameWritten;
+            vd.VideoFileCreated += VideoFileCreated;
+            vd.VideoCreatorError += VideoCreatorError;
+
+            createdVideo = vd.CreateVideo(
+                startTime: startTime,
+                endTime: endTime,
+                imageConverter: imageConverter,
+                outputFileName: outputFileName,
+                width: width,
+                height: height,
+                frameRateMs: frameRateMs);
+
+            Console.WriteLine("Created video: " + createdVideo.ToString());
+            Console.ReadLine();
+        }
         
-        private static void TestLinq()
+
+        private static void BeginCreatingVideoFile(object sender, IVideoDealerStartUpEventArgs e)
+        { Console.WriteLine(String.Format("Begin creating a videofile {0}, width: {1} heigt: {2}, frames: {3}/s",e.OutputFileName, e.Width, e.Height, e.FrameRateMs));}
+        private static void FrameWritten(object sender, IVideoDealerProcessEventArgs e)
+        { Console.WriteLine(String.Format("Processirn Image_Id {0}, number in sequence: {1} (/{2}). Percent done: {3}%", e.Image_Id, e.CurrentImageNumberInSequence, e.TotalNumberOfImagesInSequence, e.PercentDone)); }
+        private static void VideoFileCreated(object sender, IVideoDealerFinishEventArgs e)
+        { Console.WriteLine(String.Format("Done creating a videofile {0}, width: {1} heigt: {2}, frames: {3}/s", e.OutputFileName, e.Width, e.Height, e.FrameRateMs)); }
+        private static void VideoCreatorError(object sender, IVideoDealerErrorEventArgs e)
+        { Console.WriteLine(String.Format("An error occurred: {0}\nInner exception: {1}", e.VideoDealerException.Message, e.VideoDealerException.InnerException.Message)); }
+
+        private void TestLinq()
         {
             using (var db = new Model.SurveillanceCam2DBContext(DB_CONNECTION_STRING_NAME))
             {
@@ -115,6 +159,5 @@ namespace SurveillanceCam2DB.ConsoleForTestingPurpose
             }
         }
     }
-    
 }
 
