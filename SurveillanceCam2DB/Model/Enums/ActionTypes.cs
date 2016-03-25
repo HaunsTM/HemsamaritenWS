@@ -1,4 +1,4 @@
-﻿namespace Tellstick.Model.Enums
+﻿namespace SurveillanceCam2DB.Model.Enums
 {
     public enum ActionTypes
     {

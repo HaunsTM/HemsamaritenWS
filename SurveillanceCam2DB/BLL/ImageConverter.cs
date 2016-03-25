@@ -1,4 +1,4 @@
-﻿namespace Tellstick.BLL
+﻿namespace SurveillanceCam2DB.BLL
 {
     using System;
 
@@ -25,7 +25,6 @@
         }
 
         #endregion
-        
 
         /// <summary>
         /// Returns the image as byte[] in the specified format.
@@ -144,6 +143,49 @@
             {
                 var returnImage = Image.FromStream(ms);
                 return returnImage;
+            }
+        }
+
+        public Bitmap ByteArrayToBitmap(byte[] byteArrayIn)
+        {
+            Bitmap bmp;
+            using (var ms = new MemoryStream(byteArrayIn))
+            {
+                bmp = new Bitmap(ms);
+            }
+            return bmp;
+        }
+
+        public Bitmap ByteArrayToBitmap(byte[] byteArrayIn, Size newSize)
+        {
+            Bitmap bmp;
+            var byteArrayResized = ResizePhoto(photoBytes: byteArrayIn, newSize: newSize);
+
+            using (var ms = new MemoryStream(byteArrayResized))
+            {
+                bmp = new Bitmap(ms);
+            }
+
+            return bmp;
+        }
+
+        public byte[] ResizePhoto(byte[] photoBytes, Size newSize)
+        {
+            using (MemoryStream inStream = new MemoryStream(photoBytes))
+            {
+                using (MemoryStream outStream = new MemoryStream())
+                {
+                    using (ImageFactory imageFactory = new ImageFactory())
+                    {
+                        // Load, resize, set the format and quality and save an image.
+                        imageFactory.Load(inStream)
+                                    .Resize(newSize)
+                                    .Save(outStream);
+                    }
+
+                    // Do something with the stream.
+                    return outStream.ToArray();
+                }
             }
         }
 

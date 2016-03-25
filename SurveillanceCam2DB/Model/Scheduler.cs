@@ -1,13 +1,13 @@
 ﻿namespace SurveillanceCam2DB.Model
 {
     using SurveillanceCam2DB.Model.Interfaces;
-
+    
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Newtonsoft.Json;
 
-    public class ActionType : IEntity, IActionType
+    public class Scheduler : IEntity, IScheduler
     {
         #region IEntity members
 
@@ -17,16 +17,24 @@
 
         #endregion
 
-        public SurveillanceCam2DB.Model.Enums.ActionTypes Name { get; set; }
+
+        /// <summary>
+        /// What the cron expression means in simple terms.
+        /// </summary>
+        public string CronDescription { get; set; }
+        /// <summary>
+        /// <example>http://www.cronmaker.com/</example>
+        /// </summary>
+        public string CronExpression { get; set; }
 
         #region Navigation properties
-
+        
         [JsonIgnore]
         public virtual List<Action> Actions { get; set; }
 
         #endregion
 
-        public ActionType()
+        public Scheduler()
         {
             this.Actions = new List<Action>();
         }

@@ -1,4 +1,4 @@
-﻿namespace Tellstick.Model.Interfaces
+﻿namespace SurveillanceCam2DB.Model.Interfaces
 {
     public interface IEntity
     {

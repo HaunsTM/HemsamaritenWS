@@ -1,4 +1,4 @@
-﻿namespace Tellstick.BLL
+﻿namespace SurveillanceCam2DB.BLL
 {
     using BLL.Interfaces;
 
@@ -94,6 +94,7 @@
                 log.Error("Exception message: " + ex.Message, ex);
                 throw ex;
             }
+
             return returnImage;
         }
     }

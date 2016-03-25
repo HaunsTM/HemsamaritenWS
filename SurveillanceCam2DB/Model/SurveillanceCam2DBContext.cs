@@ -1,7 +1,7 @@
-﻿namespace Tellstick.Model
+﻿namespace SurveillanceCam2DB.Model
 {
     using System.Data.Entity;
-
+    
     public class SurveillanceCam2DBContext : DbContext
     {
         /// <summary>
@@ -13,12 +13,13 @@
         {
         }
 
+        public DbSet<ImageData> ImageData { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Position> Positions { get; set; }
         public DbSet<Camera> Cameras { get; set; }
         public DbSet<Action> Actions { get; set; }
         public DbSet<ActionType> ActionTypes { get; set; }
-        public DbSet<Image> Images { get; set; }
-        public DbSet<ImageData> ImageData { get; set; }
-        public DbSet<Position> Positions { get; set; }
-
+        public DbSet<Scheduler> Schedulers { get; set; }
+        public DbSet<PerformedAction> PerformedActions { get; set; }
     }
 }

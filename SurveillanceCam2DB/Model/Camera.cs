@@ -1,13 +1,12 @@
-﻿namespace Tellstick.Model
+﻿namespace SurveillanceCam2DB.Model
 {
-    using Interfaces;
+    using SurveillanceCam2DB.Model.Interfaces;
 
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Drawing;
 
     using Newtonsoft.Json;
-
+    
     public class Camera : IEntity, ICamera
     {
         #region IEntity members
