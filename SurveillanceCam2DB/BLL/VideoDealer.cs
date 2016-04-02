@@ -6,10 +6,11 @@
     using System.Linq;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Threading.Tasks;
 
     using AForge.Video.FFMPEG;
 
-    public class VideoDealer
+    public class VideoDealer : IVideoDealer
     {
         //Here is the once-per-class call to initialize the log object
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -20,7 +21,7 @@
         public delegate void VideoDealerFinishEventHandler(VideoDealer checker, IVideoDealerFinishEventArgs e);
         public delegate void VideoDealerErrorEventHandler(VideoDealer checker, IVideoDealerErrorEventArgs e);
         public event VideoDealerStartUpEventHandler BeginCreatingVideoFile;
-        public event VideoDealerProcessEventHandler FrameWritten;
+        public event VideoDealerProcessEventHandler VideoFrameWritten;
         public event VideoDealerFinishEventHandler VideoFileCreated;
         public event VideoDealerErrorEventHandler VideoCreatorError;
         #endregion
@@ -32,12 +33,43 @@
             this.DbConnectionStringName = dbConnectionStringName;
         }
 
-        public bool CreateVideo(DateTime startTime, DateTime endTime, IImageConverter imageConverter, string outputFileName, int width, int height, int frameRateMs)
+        /// <summary>
+        /// Creates a video file asynchronously.
+        /// </summary>
+        /// <param name="startTime">From where to start creating the vide (with source in database).</param>
+        /// <param name="endTime">From where to end creating the video (with source in database).</param>
+        /// <param name="codec">Enumeration of some video codecs from FFmpeg library, which are available for writing video files.</param>
+        /// <param name="outputFileName"></param>
+        /// <param name="width">Frame width of the opened video file.</param>
+        /// <param name="height">Frame height of the opened video file.</param>
+        /// <param name="frameRateMs">Frame rate of the video file. (in milli seconds)</param>
+        /// <returns>A boolean value indicating if the movie was successfully created.</returns>
+        public Task<bool> CreateVideoAsync(DateTime startTime, DateTime endTime, VideoCodec codec, string outputFileName, int width, int height, int frameRateMs) 
+        {
+            return Task.Run<bool>(() =>
+            {
+                return CreateVideo(startTime, endTime, codec, outputFileName, width, height, frameRateMs);
+            });
+        }
+
+        /// <summary>
+        /// Creates a video file.
+        /// </summary>
+        /// <param name="startTime">From where to start creating the vide (with source in database).</param>
+        /// <param name="endTime">From where to end creating the video (with source in database).</param>
+        /// <param name="codec">Enumeration of some video codecs from FFmpeg library, which are available for writing video files.</param>
+        /// <param name="outputFileName"></param>
+        /// <param name="width">Frame width of the opened video file.</param>
+        /// <param name="height">Frame height of the opened video file.</param>
+        /// <param name="frameRateMs">Frame rate of the video file. (in milli seconds)</param>
+        /// <returns>A boolean value indicating if the movie was successfully created.</returns>
+        public bool CreateVideo(DateTime startTime, DateTime endTime, VideoCodec codec, string outputFileName, int width, int height, int frameRateMs)
         {
             var videoCreated = false;
             try
             {
                 log.Debug(String.Format("Begin creating video [{0}] from {1} to {2}", outputFileName, startTime.ToString(), endTime.ToString()));
+                IImageConverter imageConverter = new ImageConverter();
                 var imageSequence = this.ImagesAndImagesData(imageSequenceStart: startTime, imageSequenceEnd: endTime);
                 videoCreated = this.CreateVideo(
                     imagesAndImagesData: imageSequence,
@@ -101,7 +133,7 @@
                     vFWriter.WriteVideoFrame(bmp);
                     
                     //raise the event
-                    this.FrameWritten?.Invoke(checker: this, 
+                    this.VideoFrameWritten?.Invoke(checker: this, 
                                               e: new VideoDealerProcessEventArgs {
                                                  Image_Id = imageEntity.Image.Id,
                                                  CurrentImageNumberInSequence = imageNumber,
@@ -157,66 +189,5 @@
             public Model.Interfaces.IImage Image { get; set; }
             public Model.Interfaces.IImageData ImageData { get; set; }
         }
-    }
-
-    public interface IVideoDealerStartUpEventArgs
-    {
-        string OutputFileName { get; set; }
-        int Width { get; set; }
-        int Height { get; set; }
-        int FrameRateMs { get; set; }
-    }
-
-    public class VideoDealerStartUpEventArgs : EventArgs, IVideoDealerStartUpEventArgs
-    {
-        public string OutputFileName { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int FrameRateMs { get; set; }
-    }
-
-    public interface IVideoDealerProcessEventArgs
-    {
-        int Image_Id { get; set; }
-
-        int CurrentImageNumberInSequence { get; set; }
-
-        int TotalNumberOfImagesInSequence { get; set; }
-        int PercentDone { get; }
-    }
-
-    public class VideoDealerProcessEventArgs : EventArgs, IVideoDealerProcessEventArgs
-    {
-        public int Image_Id { get; set; }
-        public int CurrentImageNumberInSequence { get; set; }
-        public int TotalNumberOfImagesInSequence { get; set; }
-        public int PercentDone
-        {
-            get
-            {
-                var donePercent = (CurrentImageNumberInSequence / TotalNumberOfImagesInSequence) * 100;
-                return donePercent;
-            }
-        }
-    }
-
-    public interface IVideoDealerFinishEventArgs : IVideoDealerStartUpEventArgs { }
-
-    public class VideoDealerFinishEventArgs : VideoDealerProcessEventArgs, IVideoDealerFinishEventArgs
-    {
-        public string OutputFileName { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int FrameRateMs { get; set; }
-    }
-
-    public interface IVideoDealerErrorEventArgs
-    {
-        Exception VideoDealerException { get; set; }
-    }
-
-    public class VideoDealerErrorEventArgs : EventArgs, IVideoDealerErrorEventArgs
-    {
-        public Exception VideoDealerException { get; set; }
     }
 }

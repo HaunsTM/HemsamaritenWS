@@ -6,11 +6,15 @@ namespace SurveillanceCam2DB.ConsoleForTestingPurpose
     using System;
     using System.Drawing.Imaging;
     using System.Linq;
+    using System.Threading;
+
+    using AForge.Video.FFMPEG;
 
     using log4net;
 
     using SurveillanceCam2DB.BLL;
     using SurveillanceCam2DB.BLL.Interfaces;
+    using SurveillanceCam2DB.Model;
     using SurveillanceCam2DB.Model.Enums;
 
     using Action = SurveillanceCam2DB.Model.Action;
@@ -24,7 +28,7 @@ namespace SurveillanceCam2DB.ConsoleForTestingPurpose
 
         private static void Main(string[] args)
         {
-            //new JobScheduler(DB_CONNECTION_STRING_NAME).Start();
+            //TestScheduler();
             //TestConvertImagesInDbToFiles();
             //CreateDBTest();
             TestCreatingVideo();
@@ -105,14 +109,14 @@ namespace SurveillanceCam2DB.ConsoleForTestingPurpose
             int frameRateMs = 5;
             var vd = new VideoDealer(DB_CONNECTION_STRING_NAME);
             vd.BeginCreatingVideoFile += BeginCreatingVideoFile;
-            vd.FrameWritten += FrameWritten;
+            vd.VideoFrameWritten += VideoFrameWritten;
             vd.VideoFileCreated += VideoFileCreated;
             vd.VideoCreatorError += VideoCreatorError;
 
             createdVideo = vd.CreateVideo(
                 startTime: startTime,
                 endTime: endTime,
-                imageConverter: imageConverter,
+                codec: VideoCodec.MPEG4, 
                 outputFileName: outputFileName,
                 width: width,
                 height: height,
@@ -121,11 +125,24 @@ namespace SurveillanceCam2DB.ConsoleForTestingPurpose
             Console.WriteLine("Created video: " + createdVideo.ToString());
             Console.ReadLine();
         }
-        
+
+        private static void TestScheduler()
+        {
+            JobScheduler jobScheduler;
+            jobScheduler = new JobScheduler(DB_CONNECTION_STRING_NAME);
+            jobScheduler.Start();
+            Thread.Sleep(10000);
+            jobScheduler.Stop();
+            Thread.Sleep(10000);
+            jobScheduler = new JobScheduler(DB_CONNECTION_STRING_NAME);
+            jobScheduler.Start();
+        }
+
+
 
         private static void BeginCreatingVideoFile(object sender, IVideoDealerStartUpEventArgs e)
         { Console.WriteLine(String.Format("Begin creating a videofile {0}, width: {1} heigt: {2}, frames: {3}/s",e.OutputFileName, e.Width, e.Height, e.FrameRateMs));}
-        private static void FrameWritten(object sender, IVideoDealerProcessEventArgs e)
+        private static void VideoFrameWritten(object sender, IVideoDealerProcessEventArgs e)
         { Console.WriteLine(String.Format("Processirn Image_Id {0}, number in sequence: {1} (/{2}). Percent done: {3}%", e.Image_Id, e.CurrentImageNumberInSequence, e.TotalNumberOfImagesInSequence, e.PercentDone)); }
         private static void VideoFileCreated(object sender, IVideoDealerFinishEventArgs e)
         { Console.WriteLine(String.Format("Done creating a videofile {0}, width: {1} heigt: {2}, frames: {3}/s", e.OutputFileName, e.Width, e.Height, e.FrameRateMs)); }

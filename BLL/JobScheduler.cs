@@ -29,20 +29,25 @@
 
         public void Start()
         {
-
-            this.Scheduler.Start();
-
-            var preparedJobs = this.PreparedJobs();
-
-            foreach (var preparedJob in preparedJobs)
+            if (!this.Scheduler.IsStarted)
             {
-                this.Scheduler.ScheduleJob(jobDetail: preparedJob.Job, trigger: preparedJob.Trigger);
+                this.Scheduler.Start();
+
+                var preparedJobs = this.PreparedJobs();
+
+                foreach (var preparedJob in preparedJobs)
+                {
+                    this.Scheduler.ScheduleJob(jobDetail: preparedJob.Job, trigger: preparedJob.Trigger);
+                }
             }
         }
 
         public void Stop()
         {
-            this.Scheduler.Shutdown();
+            if (this.Scheduler.IsStarted)
+            {
+                this.Scheduler.Shutdown();
+            }
         }
 
         private List<JobDetailAndTrigger> PreparedJobs()

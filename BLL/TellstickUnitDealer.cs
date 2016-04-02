@@ -19,6 +19,12 @@
         public INativeTellstickCommander NativeCommander { get; private set; }
         public string DbConnectionStringName { get; private set; }
 
+        public TellstickUnitDealer(string dbConnectionStringName)
+        {
+            DbConnectionStringName = dbConnectionStringName;
+            NativeCommander = new NativeTellstickCommander();
+        }
+
         public TellstickUnitDealer(string dbConnectionStringName, INativeTellstickCommander nativeCommander)
         {
             DbConnectionStringName = dbConnectionStringName;
