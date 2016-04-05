@@ -12,6 +12,8 @@
 
     using Tellstick.Model.Interfaces;
 
+    using Protocol = Tellstick.Model.Enums.Protocol;
+
     public class TellstickUnitDealer : ITellstickUnitDealer
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -42,10 +44,10 @@
         /// <param name="unit">Example: "1"</param>
         /// <param name="house">Example: "F"</param>
         /// <returns>Registered device id</returns>
-        public TellstickUnit AddDevice(string name, string locationDesciption, EnumTellstickProtocol protocol, EnumTellstickModelType modelType, EnumTellstickModelManufacturer modelManufacturer, EnumTellstickParameter_Unit unit, EnumTellstickParameter_House house)
+        public Unit AddDevice(string name, string locationDesciption, Protocol protocol, ModelType modelType, ModelManufacturer modelManufacturer, Parameter_Unit unit, Parameter_House house)
         {
             int addedDeviceNativeId = -1;
-            TellstickUnit deviceAddedToDatabase = null;
+            Unit deviceAddedToDatabase = null;
 
             try
             {
@@ -89,7 +91,7 @@
             return deviceAddedToDatabase;
         }
 
-        private int AddDeviceToNativeSystem(string name, EnumTellstickProtocol protocol, EnumTellstickModelType modelType, EnumTellstickModelManufacturer modelManufacturer, EnumTellstickParameter_Unit unit, EnumTellstickParameter_House house)
+        private int AddDeviceToNativeSystem(string name, Protocol protocol, ModelType modelType, ModelManufacturer modelManufacturer, Parameter_Unit unit, Parameter_House house)
         {
             var nameSet = name;
             var protocolSet = protocol.GetAttributeOfType<DescriptionAttribute>().Description;
@@ -104,24 +106,24 @@
             return addedDeviceId;
         }
 
-        private TellstickUnit AddDeviceToDatabase(int nativeDeviceId, string name, string locationDesciption, EnumTellstickProtocol protocol, EnumTellstickModelType modelType, EnumTellstickModelManufacturer modelManufacturer, EnumTellstickParameter_Unit unit, EnumTellstickParameter_House house)
+        private Unit AddDeviceToDatabase(int nativeDeviceId, string name, string locationDesciption, Protocol protocol, ModelType modelType, ModelManufacturer modelManufacturer, Parameter_Unit unit, Parameter_House house)
         {
             using (var db = new Model.TellstickDBContext(DbConnectionStringName))
             {
-                var protocolToUse = (from prot in db.TellstickProtocols where prot.Active == true && prot.Type == protocol select prot).First();
-                var modelToUse = (from model in db.TellstickModels where model.Active == true && model.Type == modelType select model).First();
-                var parameterToUse = (from par in db.TellstickParameters where par.Unit == unit && par.House == house select par).First();
+                var protocolToUse = (from prot in db.Protocols where prot.Active == true && prot.Type == protocol select prot).First();
+                var modelToUse = (from model in db.Models where model.Active == true && model.Type == modelType select model).First();
+                var parameterToUse = (from par in db.Parameters where par.Unit == unit && par.House == house select par).First();
 
                 var tellstickUnitAdded =
-                db.TellstickUnits.Add(
-                    new TellstickUnit
+                db.Units.Add(
+                    new Unit
                     {
                         Active = true,
                         Name = name,
                         LocationDesciption = locationDesciption,
-                        TellstickProtocol = protocolToUse,
-                        TellstickModel = modelToUse,
-                        TellstickParameter = parameterToUse,
+                        Protocol = protocolToUse,
+                        ModelTypeAndTellstickModel = modelToUse,
+                        Parameter = parameterToUse,
                         NativeDeviceId = nativeDeviceId
                     });
                 db.SaveChanges();
@@ -135,27 +137,27 @@
             var deviceRemoved = false;
             try
             {
-                TellstickUnit dbTellstickUnit = null;
+                Unit dbUnit = null;
                 //1. Which TellstickUnit are we talking about? Get TellstickUnit from DB
                 using (var db = new Model.TellstickDBContext(this.DbConnectionStringName))
                 {
-                    dbTellstickUnit = (from tellstickUnit in db.TellstickUnits
+                    dbUnit = (from tellstickUnit in db.Units
                     where tellstickUnit.Active == true && tellstickUnit.NativeDeviceId == nativeDeviceId
                     select tellstickUnit).First();
                 }
                 
                 //2. Change tellstickUnit in disconnected mode (out of db scope)
-                if (dbTellstickUnit != null)
+                if (dbUnit != null)
                 {
                     //When "removing" TellstickUnit from database, just change its Active-property to false
-                    dbTellstickUnit.Active = false;
+                    dbUnit.Active = false;
                 }
 
                 //save modified entity using new Context
                 using (var db = new Model.TellstickDBContext(this.DbConnectionStringName))
                 {
                     //3. Mark entity as modified
-                    db.Entry(dbTellstickUnit).State = System.Data.Entity.EntityState.Modified;
+                    db.Entry(dbUnit).State = System.Data.Entity.EntityState.Modified;
 
                     //4. call SaveChanges
                     db.SaveChanges();
@@ -174,28 +176,28 @@
             return deviceRemoved;
         }
 
-        public bool RemoveDevice(ITellstickUnit tellstickUnit)
+        public bool RemoveDevice(IUnit unit)
         {
             var deviceRemoved = false;
             var nativeDeviceId = -1;
             try
             {
-                TellstickUnit dbTellstickUnit = null;
+                Unit dbUnit = null;
 
                 //1. Which TellstickUnit are we talking about? Get TellstickUnit from DB
                 using (var db = new Model.TellstickDBContext(this.DbConnectionStringName))
                 {
-                    dbTellstickUnit = (from tU in db.TellstickUnits
-                                       where tU.Active == true && tU.NativeDeviceId == tellstickUnit.NativeDeviceId
+                    dbUnit = (from tU in db.Units
+                                       where tU.Active == true && tU.NativeDeviceId == unit.NativeDeviceId
                                        select tU).First();
                 }
 
                 //2. Change tellstickUnit in disconnected mode (out of db scope)
-                if (dbTellstickUnit != null)
+                if (dbUnit != null)
                 {
                     //When "removing" TellstickUnit from database, just change its Active-property to false
-                    dbTellstickUnit.Active = false;
-                    nativeDeviceId = dbTellstickUnit.NativeDeviceId;
+                    dbUnit.Active = false;
+                    nativeDeviceId = dbUnit.NativeDeviceId;
                 }
                 else
                 {
@@ -206,7 +208,7 @@
                 using (var db = new Model.TellstickDBContext(this.DbConnectionStringName))
                 {
                     //3. Mark entity as modified
-                    db.Entry(dbTellstickUnit).State = System.Data.Entity.EntityState.Modified;
+                    db.Entry(dbUnit).State = System.Data.Entity.EntityState.Modified;
 
                     //4. call SaveChanges
                     db.SaveChanges();
@@ -225,25 +227,25 @@
             return deviceRemoved;
         }
 
-        public bool TurnOnDevice(ITellstickUnit tellstickUnit)
+        public bool TurnOnDevice(IUnit unit)
         {
             var deviceTurnedOn = false;
             var nativeDeviceId = -1;
             try
             {
-                TellstickUnit dbTellstickUnit = null;
+                Unit dbUnit = null;
 
                 //Which TellstickUnit are we talking about? Get TellstickUnit from DB
                 using (var db = new Model.TellstickDBContext(this.DbConnectionStringName))
                 {
-                    dbTellstickUnit = (from tU in db.TellstickUnits
-                                       where tU.Active == true && tU.NativeDeviceId == tellstickUnit.NativeDeviceId
+                    dbUnit = (from tU in db.Units
+                                       where tU.Active == true && tU.NativeDeviceId == unit.NativeDeviceId
                                        select tU).First();
                 }
 
-                if (dbTellstickUnit != null)
+                if (dbUnit != null)
                 {
-                    nativeDeviceId = dbTellstickUnit.NativeDeviceId;
+                    nativeDeviceId = dbUnit.NativeDeviceId;
 
                     //turn on the device
                     this.NativeCommander.TurnOn(nativeDeviceId);
@@ -281,28 +283,28 @@
             return deviceTurnedOn;
         }
 
-        public bool TurnOffDevice(ITellstickUnit tellstickUnit)
+        public bool TurnOffDevice(IUnit unit)
         {
             var deviceTurnedOff = false;
             var nativeDeviceId = -1;
             try
             {
-                TellstickUnit dbTellstickUnit = null;
+                Unit dbUnit = null;
 
                 //Which TellstickUnit are we talking about? Get TellstickUnit from DB
                 using (var db = new Model.TellstickDBContext(this.DbConnectionStringName))
                 {
-                    dbTellstickUnit = (from tU in db.TellstickUnits
-                                       where tU.Active == true && tU.NativeDeviceId == tellstickUnit.NativeDeviceId
+                    dbUnit = (from tU in db.Units
+                                       where tU.Active == true && tU.NativeDeviceId == unit.NativeDeviceId
                                        select tU).First();
                 }
 
-                if (dbTellstickUnit != null)
+                if (dbUnit != null)
                 {
-                    nativeDeviceId = dbTellstickUnit.NativeDeviceId;
+                    nativeDeviceId = dbUnit.NativeDeviceId;
 
-                    //turn on the device
-                    this.NativeCommander.TurnOn(nativeDeviceId);
+                    //turn off the device
+                    this.NativeCommander.TurnOff(nativeDeviceId);
 
                     deviceTurnedOff = true;
                 }
@@ -313,7 +315,7 @@
             }
             catch (Exception ex)
             {
-                log.Error("Couldn't turn on TellstickUnit.", ex);
+                log.Error("Couldn't turn off TellstickUnit.", ex);
                 throw ex;
             }
             return deviceTurnedOff;
@@ -325,13 +327,13 @@
             try
             {
                 //turn on the device
-                this.NativeCommander.TurnOn(nativeDeviceId);
+                this.NativeCommander.TurnOff(nativeDeviceId);
 
                 deviceTurnedOff = true;
             }
             catch (Exception ex)
             {
-                log.Error("Couldn't turn on TellstickUnit.", ex);
+                log.Error("Couldn't turn off TellstickUnit.", ex);
                 throw ex;
             }
             return deviceTurnedOff;

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tellstick.Model</RootNamespace>
     <AssemblyName>Tellstick.Model</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -85,32 +85,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultDataDBInitializer.cs" />
-    <Compile Include="Enums\EnumHelper.cs" />
-    <Compile Include="Enums\EnumTellstickActionType.cs" />
-    <Compile Include="Enums\EnumTellstickModelManufacturer.cs" />
-    <Compile Include="Enums\EnumTellstickModelType.cs" />
-    <Compile Include="Enums\EnumTellstickParameter_Unit.cs" />
-    <Compile Include="Enums\EnumTellstickParameter_House.cs" />
-    <Compile Include="Enums\EnumTellstickProtocol.cs" />
+    <Compile Include="Enums\Helper.cs" />
+    <Compile Include="Enums\ActionType.cs" />
+    <Compile Include="Enums\ModelManufacturer.cs" />
+    <Compile Include="Enums\ModelType.cs" />
+    <Compile Include="Enums\Parameter_Unit.cs" />
+    <Compile Include="Enums\Parameter_House.cs" />
+    <Compile Include="Enums\Protocol.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
-    <Compile Include="Interfaces\ITellstickActionType.cs" />
-    <Compile Include="Interfaces\ITellstickAction.cs" />
-    <Compile Include="Interfaces\ITellstickScheduler.cs" />
-    <Compile Include="Interfaces\ITellstickModel.cs" />
-    <Compile Include="Interfaces\ITellstickParameter.cs" />
-    <Compile Include="Interfaces\ITellstickProtocol.cs" />
-    <Compile Include="Interfaces\ITellstickUnit.cs" />
+    <Compile Include="Interfaces\IActionType.cs" />
+    <Compile Include="Interfaces\IAction.cs" />
+    <Compile Include="Interfaces\IScheduler.cs" />
+    <Compile Include="Interfaces\IModel.cs" />
+    <Compile Include="Interfaces\IParameter.cs" />
+    <Compile Include="Interfaces\IProtocol.cs" />
+    <Compile Include="Interfaces\IUnit.cs" />
     <Compile Include="Interfaces\IPerformedAction.cs" />
     <Compile Include="PerformedAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TellstickActionType.cs" />
-    <Compile Include="TellstickAction.cs" />
-    <Compile Include="TellstickScheduler.cs" />
+    <Compile Include="ActionType.cs" />
+    <Compile Include="Action.cs" />
+    <Compile Include="Scheduler.cs" />
     <Compile Include="TellstickDBContext.cs" />
-    <Compile Include="TellstickModel.cs" />
-    <Compile Include="TellstickParameter.cs" />
-    <Compile Include="TellstickProtocol.cs" />
-    <Compile Include="TellstickUnit.cs" />
+    <Compile Include="Model.cs" />
+    <Compile Include="Parameter.cs" />
+    <Compile Include="Protocol.cs" />
+    <Compile Include="Unit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,6 +1,6 @@
 ﻿namespace Tellstick.Model.Interfaces
 {
-    public interface ITellstickUnit : IEntity
+    public interface IUnit : IEntity
     {
         int NativeDeviceId { get; set; }
         string Name { get; set; }

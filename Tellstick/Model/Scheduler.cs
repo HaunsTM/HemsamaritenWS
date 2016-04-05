@@ -6,7 +6,7 @@
     using System.ComponentModel.DataAnnotations;
     using Newtonsoft.Json;
 
-    public class TellstickScheduler : IEntity, ITellstickScheduler
+    public class Scheduler : IEntity, IScheduler
     {
         #region IEntity members
 
@@ -16,11 +16,11 @@
 
         #endregion
 
-
         /// <summary>
         /// What the cron expression means in simple terms.
         /// </summary>
         public string CronDescription { get; set; }
+
         /// <summary>
         /// <example>http://www.cronmaker.com/</example>
         /// </summary>
@@ -29,13 +29,14 @@
         #region Navigation properties
         
         [JsonIgnore]
-        public virtual List<TellstickAction> TellstickActions { get; set; }
+        public virtual List<Action> Actions { get; set; }
 
         #endregion
 
-        public TellstickScheduler()
+        public Scheduler()
         {
-            this.TellstickActions = new List<TellstickAction>();
+            this.Actions = new List<Action>();
         }
+
     }
 }

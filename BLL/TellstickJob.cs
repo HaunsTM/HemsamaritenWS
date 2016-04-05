@@ -28,7 +28,7 @@
                 #region Job Data
 
                 var jsonSerializedCurrentTellstickActionType = dataMap.GetString("jsonSerializedTellstickActionType");
-                var currentTellstickActionType = Newtonsoft.Json.JsonConvert.DeserializeObject<EnumTellstickActionType>(jsonSerializedCurrentTellstickActionType);
+                var currentTellstickActionType = Newtonsoft.Json.JsonConvert.DeserializeObject<ActionType>(jsonSerializedCurrentTellstickActionType);
 
                 var jsonSerializedCurrentNativeDeviceId = dataMap.GetString("jsonSerializedCurrentNativeDeviceId");
                 var nativeDeviceId = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(jsonSerializedCurrentNativeDeviceId);
@@ -63,21 +63,21 @@
             }
         }
 
-        private bool PerformWork(EnumTellstickActionType actionType, NativeTellstickCommander commander, int nativeDeviceId, char dimValue)
+        private bool PerformWork(ActionType actionType, NativeTellstickCommander commander, int nativeDeviceId, char dimValue)
         {
             var workPerformed = false;
 
             switch (actionType)
             {
-                case EnumTellstickActionType.TurnOn:
+                case ActionType.TurnOn:
                     commander.TurnOn(nativeDeviceId);
                     workPerformed = true;
                     break;
-                case EnumTellstickActionType.TurnOff:
+                case ActionType.TurnOff:
                     commander.TurnOff(nativeDeviceId);
                     workPerformed = true;
                     break;
-                case EnumTellstickActionType.Dim:
+                case ActionType.Dim:
                     commander.Dim(nativeDeviceId, dimValue);
                     workPerformed = false;
                     break;

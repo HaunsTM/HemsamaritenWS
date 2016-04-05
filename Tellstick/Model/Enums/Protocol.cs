@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum EnumTellstickProtocol
+    public enum Protocol
     {
         [Description("arctech")]
         arctech = 0,

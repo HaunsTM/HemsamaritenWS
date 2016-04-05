@@ -5,9 +5,6 @@
     using System.Linq;
     using System.ServiceModel;
     using System.ServiceProcess;
-    using System.Threading.Tasks;
-
-    using AForge.Video.FFMPEG;
 
     using Tellstick.Model.Enums;
 
@@ -146,29 +143,6 @@
             }
         }
 
-        public void CreateVideo(
-            DateTime startTime,
-            DateTime endTime,
-            AForge.Video.FFMPEG.VideoCodec codec,
-            string outputFileName,
-            int width,
-            int height,
-            int frameRateMs)
-        {
-
-            var createdVideo = false;
-            var vD = new SurveillanceCam2DB.BLL.VideoDealer(DB_CONNECTION_STRING_NAME__SURVEILLANCE_CAM_2_DB);
-
-            createdVideo = vD.CreateVideo(
-                startTime: startTime,
-                endTime: endTime,
-                codec: codec,
-                outputFileName: outputFileName,
-                width: width,
-                height: height,
-                frameRateMs: frameRateMs);
-        }
-
         #endregion
 
         #region Tellstick
@@ -223,7 +197,7 @@
                         db.Database.Initialize(true);
 
                         //do something random stupid to force seed
-                        var stupidValue = db.TellstickModels.Count();
+                        var stupidValue = db.Models.Count();
                     }
                     log.Debug(String.Format("Initialized TellstickDB!"));
                 }
@@ -237,11 +211,11 @@
         public void RegisterTellstickDevice(
             string name,
             string locationDesciption,
-            EnumTellstickProtocol protocol,
-            EnumTellstickModelType modelType,
-            EnumTellstickModelManufacturer modelManufacturer,
-            EnumTellstickParameter_Unit unit,
-            EnumTellstickParameter_House house)
+            Protocol protocol,
+            ModelType modelType,
+            ModelManufacturer modelManufacturer,
+            Parameter_Unit unit,
+            Parameter_House house)
         {
             var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
             tellstickUnitDealer.AddDevice(name, locationDesciption, protocol, modelType, modelManufacturer, unit, house);

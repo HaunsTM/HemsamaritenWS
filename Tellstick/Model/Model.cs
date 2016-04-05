@@ -12,7 +12,7 @@
 
     using Tellstick.Model.Enums;
 
-    public class TellstickModel : IEntity, ITellstickModel
+    public class ModelTypeAndTellstickModel : IEntity, IModelTypeAndTellstickModel
     {
         #region IEntity members
 
@@ -33,19 +33,19 @@
             }
         }
 
-        public Enums.EnumTellstickModelType Type { get; set; }
-        public Enums.EnumTellstickModelManufacturer Manufacturer { get; set; }
+        public Enums.ModelType Type { get; set; }
+        public Enums.ModelManufacturer Manufacturer { get; set; }
 
         #region Navigation properties
 
         [JsonIgnore]
-        public virtual List<TellstickUnit> TellstickUnits { get; set; }
+        public virtual List<Unit> Units { get; set; }
 
         #endregion
 
-        public TellstickModel()
+        public ModelTypeAndTellstickModel()
         {
-            this.TellstickUnits = new List<TellstickUnit>();
+            this.Units = new List<Unit>();
         }
 
     }

@@ -13,13 +13,15 @@
 
     using Tellstick.BLL.Interfaces;
 
+    using IScheduler = Tellstick.Model.Interfaces.IScheduler;
+
     public class JobScheduler : IJobScheduler
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public string DbConnectionStringName { get; private set; }
 
-        private IScheduler Scheduler { get; set; }
+        private Quartz.IScheduler Scheduler { get; set; }
 
         public JobScheduler(string dbConnectionStringName)
         {
@@ -139,20 +141,20 @@
             {
                 using (var db = new Model.TellstickDBContext(this.DbConnectionStringName))
                 {
-                    var queryResult = from activeAction in db.TellstickActions
+                    var queryResult = from activeAction in db.Actions
                                       where activeAction.Active == true &&
-                                            activeAction.TellstickScheduler.Active == true &&
-                                            activeAction.TellstickActionType.Active == true &&
-                                            activeAction.TellstickUnit.Active == true &&
-                                            activeAction.TellstickUnit.TellstickProtocol.Active == true &&
-                                            activeAction.TellstickUnit.TellstickParameter.Active == true
+                                            activeAction.Scheduler.Active == true &&
+                                            activeAction.ActionType.Active == true &&
+                                            activeAction.Unit.Active == true &&
+                                            activeAction.Unit.Protocol.Active == true &&
+                                            activeAction.Unit.Parameter.Active == true
                                       select
                                           new TellstickUnitWithAction
                                           {
-                                              Scheduler = activeAction.TellstickScheduler,
+                                              Scheduler = activeAction.Scheduler,
                                               Action = activeAction,
-                                              ActionType = activeAction.TellstickActionType,
-                                              Unit = activeAction.TellstickUnit
+                                              ActionType = activeAction.ActionType,
+                                              Unit = activeAction.Unit
                                           };
 
                     tellstickUnitsWithActions = queryResult.ToList();
@@ -181,7 +183,7 @@
         private class TellstickUnitWithAction
         {
             public TellstickUnitWithAction() { }
-            public TellstickUnitWithAction(ITellstickScheduler currentScheduler, ITellstickAction currentAction, ITellstickActionType currentActionType, ITellstickUnit currentUnit)
+            public TellstickUnitWithAction(IScheduler currentScheduler, IAction currentAction, IActionType currentActionType, IUnit currentUnit)
             {
                 this.Scheduler = currentScheduler;
                 this.Action = currentAction;
@@ -189,10 +191,10 @@
                 this.Unit = currentUnit;
             }
 
-            public ITellstickScheduler Scheduler { get; set; }
-            public ITellstickAction Action { get; set; }
-            public ITellstickActionType ActionType { get; set; }
-            public ITellstickUnit Unit { get; set; }
+            public IScheduler Scheduler { get; set; }
+            public IAction Action { get; set; }
+            public IActionType ActionType { get; set; }
+            public IUnit Unit { get; set; }
         }
     }
 }

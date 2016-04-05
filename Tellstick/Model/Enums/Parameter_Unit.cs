@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum EnumTellstickParameter_Unit
+    public enum Parameter_Unit
     {
 
         [Description("1")]

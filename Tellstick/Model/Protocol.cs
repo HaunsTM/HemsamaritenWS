@@ -6,7 +6,7 @@
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
-    public class TellstickProtocol : IEntity, ITellstickProtocol
+    public class Protocol : IEntity, IProtocol
     {
         #region IEntity members
 
@@ -18,18 +18,18 @@
 
         public string Name { get { return this.Type.ToString(); } }
 
-        public Enums.EnumTellstickProtocol Type { get; set; }
+        public Enums.Protocol Type { get; set; }
 
         #region Navigation properties
 
         [JsonIgnore]
-        public virtual List<TellstickUnit> TellstickUnits { get; set; }
+        public virtual List<Unit> Units { get; set; }
 
         #endregion
 
-        public TellstickProtocol()
+        public Protocol()
         {
-            this.TellstickUnits = new List<TellstickUnit>();
+            this.Units = new List<Unit>();
         }
 
     }

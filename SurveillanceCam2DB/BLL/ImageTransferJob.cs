@@ -48,7 +48,7 @@
 
                 if (workDone)
                 {
-                    //if we reach this point we have succeeded in sending a message to TellstickUnit
+                    //if we reach this point we have succeeded in sending a message to Camera
                     var performedActionsDealer = new PerformedActionsDealer(connectionStringName);
 
                     var actionPerformedTime = DateTime.Now;

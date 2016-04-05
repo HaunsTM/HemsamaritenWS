@@ -5,6 +5,8 @@
     using Tellstick.Model;
     using Tellstick.Model.Enums;
 
+    using Protocol = Tellstick.Model.Enums.Protocol;
+
     [ServiceContract(CallbackContract = typeof(ITellstickDuplexCallback))]
     public interface ITellstickDuplexService
     {
@@ -29,7 +31,7 @@
         /// <param name="house">Example: "F"</param>
         /// <returns>Registered device id</returns>
         [OperationContract(IsOneWay = true)]
-        void RegisterTellstickDevice(string name, string locationDesciption, EnumTellstickProtocol protocol, EnumTellstickModelType modelType, EnumTellstickModelManufacturer modelManufacturer, EnumTellstickParameter_Unit unit, EnumTellstickParameter_House house);
+        void RegisterTellstickDevice(string name, string locationDesciption, Protocol protocol, ModelType modelType, ModelManufacturer modelManufacturer, Parameter_Unit unit, Parameter_House house);
          
         [OperationContract(IsOneWay = true)]
         void RemoveTellstickDevice(int nativeDeviceId);

@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum EnumTellstickActionType
+    public enum ActionType
     {
         [Description("Turn on")]
         TurnOn,

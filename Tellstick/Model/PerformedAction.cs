@@ -27,10 +27,10 @@
         #region Navigation properties
         
         [JsonIgnore]
-        public virtual TellstickAction TellstickAction { get; set; }
+        public virtual Action Action { get; set; }
 
-        [ForeignKey("TellstickAction")]
-        public int TellstickAction_Id { get; set; }
+        [ForeignKey("Action")]
+        public int Action_Id { get; set; }
 
         #endregion
 

@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum EnumTellstickModelType
+    public enum ModelType
     {
         [Description("bell")]
         bell = 0,

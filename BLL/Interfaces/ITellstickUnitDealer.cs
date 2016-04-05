@@ -4,6 +4,8 @@ namespace Tellstick.BLL.Interfaces
     using Tellstick.Model.Enums;
     using Tellstick.Model.Interfaces;
 
+    using Protocol = Tellstick.Model.Enums.Protocol;
+
     public interface ITellstickUnitDealer
     {
         INativeTellstickCommander NativeCommander { get; }
@@ -21,17 +23,17 @@ namespace Tellstick.BLL.Interfaces
         /// <param name="unit">Example: "1"</param>
         /// <param name="house">Example: "F"</param>
         /// <returns>Registered device id</returns>
-        TellstickUnit AddDevice(string name, string locationDesciption, EnumTellstickProtocol protocol, EnumTellstickModelType modelType, EnumTellstickModelManufacturer modelManufacturer, EnumTellstickParameter_Unit unit, EnumTellstickParameter_House house);
+        Unit AddDevice(string name, string locationDesciption, Protocol protocol, ModelType modelType, ModelManufacturer modelManufacturer, Parameter_Unit unit, Parameter_House house);
 
         bool RemoveDevice(int nativeDeviceId);
 
-        bool RemoveDevice(ITellstickUnit tellstickUnit);
+        bool RemoveDevice(IUnit unit);
 
-        bool TurnOnDevice(ITellstickUnit tellstickUnit);
+        bool TurnOnDevice(IUnit unit);
 
         bool TurnOnDevice(int nativeDeviceId);
 
-        bool TurnOffDevice(ITellstickUnit tellstickUnit);
+        bool TurnOffDevice(IUnit unit);
 
         bool TurnOffDevice(int nativeDeviceId);
     }

@@ -9,6 +9,8 @@
     using Tellstick.BLL.Interfaces;
     using Tellstick.Model;
 
+    using Action = Tellstick.Model.Action;
+
     public class PerformedActionsDealer : IPerformedActionsDealer
     {
 
@@ -28,7 +30,7 @@
         /// <param name="occurredAction"></param>
         /// <param name="timeOfOccurrence"></param>
         /// <returns></returns>
-        public bool Register(Tellstick.Model.TellstickAction occurredAction, DateTime timeOfOccurrence)
+        public bool Register(Tellstick.Model.Action occurredAction, DateTime timeOfOccurrence)
         {
             var registered = false;
 
@@ -36,7 +38,7 @@
             {
                 using (var db = new Model.TellstickDBContext(DbConnectionStringName))
                 {
-                    var pa = new PerformedAction() { Active = true, TellstickAction = occurredAction, Time = timeOfOccurrence };
+                    var pa = new PerformedAction() { Active = true, Action = occurredAction, Time = timeOfOccurrence };
                     db.PerformedActions.Add(pa);
                     db.SaveChanges();
 
@@ -57,7 +59,7 @@
         /// <param name="occurredAction"></param>
         /// <param name="timeOfOccurrence"></param>
         /// <returns></returns>
-        public bool Register(int occurredTellstickAction_Id, DateTime timeOfOccurrence)
+        public bool Register(int occurredAction_Id, DateTime timeOfOccurrence)
         {
             var registered = false;
 
@@ -65,7 +67,7 @@
             {
                 using (var db = new Model.TellstickDBContext(DbConnectionStringName))
                 {
-                    var pa = new PerformedAction() { Active = true, TellstickAction_Id = occurredTellstickAction_Id, Time = timeOfOccurrence };
+                    var pa = new PerformedAction() { Active = true, Action_Id = occurredAction_Id, Time = timeOfOccurrence };
                     db.PerformedActions.Add(pa);
                     db.SaveChanges();
 
@@ -86,9 +88,9 @@
         /// <param name="active">A flag that indicates if we should search for active items</param>
         /// <param name="startTime">A time stamp that indicates search start time</param>
         /// <param name="endTime">A time stamp that indicates search end time</param>
-        public List<Model.TellstickAction> OccurredTellstickActions(bool active, DateTime startTime, DateTime endTime)
+        public List<Model.Action> OccurredTellstickActions(bool active, DateTime startTime, DateTime endTime)
         {
-            var occurredTellstickActions = new List<TellstickAction>();
+            var occurredTellstickActions = new List<Action>();
 
             try
             {
@@ -98,7 +100,7 @@
                                       where (performedAct.Time >= startTime && performedAct.Time <= endTime && performedAct.Active == active)
                                       select new
                                       {
-                                          performedAct.TellstickAction
+                                          TellstickAction = performedAct.Action
                                       };
                     foreach (var item in queryResult)
                     {

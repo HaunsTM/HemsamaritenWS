@@ -1,6 +1,6 @@
 ﻿namespace Tellstick.Model.Interfaces
 {
-    public interface ITellstickAction : IEntity
+    public interface IAction : IEntity
     {
          
     }

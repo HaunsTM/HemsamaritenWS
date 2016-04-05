@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum EnumTellstickParameter_House
+    public enum Parameter_House
     {
 
         [Description("A")]

@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum EnumTellstickModelManufacturer
+    public enum ModelManufacturer
     {
         [Description("anslut")]
         Anslut = 0,

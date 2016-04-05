@@ -8,7 +8,7 @@
 
     using Newtonsoft.Json;
 
-    public class TellstickUnit : IEntity, ITellstickUnit
+    public class Unit : IEntity, IUnit
     {
         #region IEntity members
 
@@ -26,26 +26,26 @@
         #region Navigation properties
 
         [JsonIgnore]
-        public virtual List<TellstickAction> TellstickActions { get; set; }
+        public virtual List<Action> Actions { get; set; }
         [JsonIgnore]
-        public virtual TellstickParameter TellstickParameter { get; set; }
+        public virtual Parameter Parameter { get; set; }
         [JsonIgnore]
-        public virtual TellstickProtocol TellstickProtocol { get; set; }
+        public virtual Protocol Protocol { get; set; }
         [JsonIgnore]
-        public virtual TellstickModel TellstickModel { get; set; }
+        public virtual ModelTypeAndTellstickModel ModelTypeAndTellstickModel { get; set; }
 
-        [ForeignKey("TellstickParameter")]
-        public int TellstickParameter_Id { get; set; }
-        [ForeignKey("TellstickProtocol")]
-        public int TellstickProtocol_Id { get; set; }
-        [ForeignKey("TellstickModel")]
-        public int TellstickModel_Id { get; set; }
+        [ForeignKey("Parameter")]
+        public int Parameter_Id { get; set; }
+        [ForeignKey("Protocol")]
+        public int Protocol_Id { get; set; }
+        [ForeignKey("Model")]
+        public int Model_Id { get; set; }
 
         #endregion
 
-        public TellstickUnit()
+        public Unit()
         {
-            this.TellstickActions = new List<TellstickAction>();
+            this.Actions = new List<Action>();
         }
     }
 }

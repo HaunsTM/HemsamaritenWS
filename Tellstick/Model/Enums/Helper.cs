@@ -2,7 +2,7 @@
 {
     using System;
 
-    public static class EnumHelper
+    public static class Helper
     {
         /// <summary>
         /// Gets an attribute on an enum field value

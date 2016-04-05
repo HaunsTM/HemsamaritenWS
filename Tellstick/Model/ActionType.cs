@@ -1,13 +1,12 @@
 ﻿namespace Tellstick.Model
 {
-    using Tellstick.Model.Enums;
     using Tellstick.Model.Interfaces;
 
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Newtonsoft.Json;
 
-    public class TellstickParameter : IEntity, ITellstickParameter
+    public class ActionType : IEntity, IActionType
     {
         #region IEntity members
 
@@ -17,19 +16,19 @@
 
         #endregion
 
-        public EnumTellstickParameter_House House { get; set; }
-        public EnumTellstickParameter_Unit Unit { get; set; }
+        public Enums.ActionType Type { get; set; }
+        public int DimValue { get; set; }
 
         #region Navigation properties
 
         [JsonIgnore]
-        public virtual List<TellstickUnit> TellstickUnits { get; set; }
+        public virtual List<Action> Actions { get; set; }
 
         #endregion
 
-        public TellstickParameter()
+        public ActionType()
         {
-            this.TellstickUnits = new List<TellstickUnit>();
+            this.Actions = new List<Action>();
         }
     }
 }
