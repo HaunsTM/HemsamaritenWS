@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum Parameter_Unit
+    public enum Parameter_UnitOption
     {
 
         [Description("1")]

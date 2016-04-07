@@ -16,8 +16,7 @@
 
         #endregion
 
-        public Enums.ActionType Type { get; set; }
-        public int DimValue { get; set; }
+        public Enums.ActionTypeOption ActionTypeOption { get; set; }
 
         #region Navigation properties
 

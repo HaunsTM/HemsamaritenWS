@@ -36,7 +36,7 @@
         [ForeignKey("ActionType")]
         public int ActionType_Id { get; set; }
         [ForeignKey("Scheduler")]
-        public int Scheduler_Id { get; set; }
+        public int? Scheduler_Id { get; set; }
 
         #endregion
 

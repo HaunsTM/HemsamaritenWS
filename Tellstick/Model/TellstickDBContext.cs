@@ -15,7 +15,7 @@
         }
 
         public DbSet<Protocol> Protocols { get; set; }
-        public DbSet<ModelTypeAndTellstickModel> Models { get; set; }
+        public DbSet<Model> Models { get; set; }
         public DbSet<ActionType> ActionTypes { get; set; }
 
         public DbSet<Unit> Units { get; set; }

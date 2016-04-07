@@ -36,7 +36,7 @@
 
             try
             {
-                using (var db = new Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     var pa = new PerformedAction() { Active = true, Action = occurredAction, Time = timeOfOccurrence };
                     db.PerformedActions.Add(pa);
@@ -65,7 +65,7 @@
 
             try
             {
-                using (var db = new Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     var pa = new PerformedAction() { Active = true, Action_Id = occurredAction_Id, Time = timeOfOccurrence };
                     db.PerformedActions.Add(pa);
@@ -88,13 +88,13 @@
         /// <param name="active">A flag that indicates if we should search for active items</param>
         /// <param name="startTime">A time stamp that indicates search start time</param>
         /// <param name="endTime">A time stamp that indicates search end time</param>
-        public List<Model.Action> OccurredTellstickActions(bool active, DateTime startTime, DateTime endTime)
+        public List<Tellstick.Model.Action> OccurredTellstickActions(bool active, DateTime startTime, DateTime endTime)
         {
             var occurredTellstickActions = new List<Action>();
 
             try
             {
-                using (var db = new Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     var queryResult = from performedAct in db.PerformedActions
                                       where (performedAct.Time >= startTime && performedAct.Time <= endTime && performedAct.Active == active)

@@ -48,10 +48,10 @@ namespace Tellstick.ConsoleForTestingPurpose
             }
         }
 
-        private static IUnit RegisterDevice(string dbConnectionStringName, INativeTellstickCommander commander, string name, string locationDesciption, Protocol protocol, ModelType modelType, ModelManufacturer modelManufacturer, Parameter_Unit unit, Parameter_House house)
+        private static IUnit RegisterDevice(string dbConnectionStringName, INativeTellstickCommander commander, string name, string locationDesciption, ProtocolOption protocolOption, ModelTypeOption modelTypeOption, ModelManufacturerOption modelManufacturerOption, Parameter_UnitOption unitOption, Parameter_HouseOption houseOption)
         {
             var tellstickUnitDealer = new TellstickUnitDealer(dbConnectionStringName, commander);
-            var createdTellstickUnit = tellstickUnitDealer.AddDevice(name, locationDesciption, protocol, modelType, modelManufacturer, unit, house);
+            var createdTellstickUnit = tellstickUnitDealer.AddDevice(name, locationDesciption, protocolOption, modelTypeOption, modelManufacturerOption, unitOption, houseOption);
             return createdTellstickUnit;
         }
 

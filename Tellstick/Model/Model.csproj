@@ -86,12 +86,12 @@
   <ItemGroup>
     <Compile Include="DefaultDataDBInitializer.cs" />
     <Compile Include="Enums\Helper.cs" />
-    <Compile Include="Enums\ActionType.cs" />
-    <Compile Include="Enums\ModelManufacturer.cs" />
-    <Compile Include="Enums\ModelType.cs" />
-    <Compile Include="Enums\Parameter_Unit.cs" />
-    <Compile Include="Enums\Parameter_House.cs" />
-    <Compile Include="Enums\Protocol.cs" />
+    <Compile Include="Enums\ActionTypeOption.cs" />
+    <Compile Include="Enums\ModelManufacturerOption.cs" />
+    <Compile Include="Enums\ModelTypeOption.cs" />
+    <Compile Include="Enums\Parameter_UnitOption.cs" />
+    <Compile Include="Enums\Parameter_HouseOption.cs" />
+    <Compile Include="Enums\ProtocolOption.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IActionType.cs" />
     <Compile Include="Interfaces\IAction.cs" />

@@ -4,6 +4,7 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Linq;
 
     using log4net;
@@ -23,10 +24,19 @@
 
         private Quartz.IScheduler Scheduler { get; set; }
 
+        private NameValueCollection SchedulerProperties()
+        {
+            var properties = new NameValueCollection();
+            properties["quartz.scheduler.instanceName"] = "Tellstick_Scheduler";
+            return properties;
+        }
+
         public JobScheduler(string dbConnectionStringName)
         {
             this.DbConnectionStringName = dbConnectionStringName;
-            this.Scheduler = StdSchedulerFactory.GetDefaultScheduler();
+
+            ISchedulerFactory sf = new StdSchedulerFactory(props: SchedulerProperties());
+            this.Scheduler = sf.GetScheduler();
         }
 
         public void Start()
@@ -41,6 +51,11 @@
                 {
                     this.Scheduler.ScheduleJob(jobDetail: preparedJob.Job, trigger: preparedJob.Trigger);
                 }
+                log.Debug(String.Format("Started Scheduler for Tellstick!"));
+            }
+            else
+            {
+                log.Warn(String.Format("Tried to start Scheduler for Tellstick, but it was already started!"));
             }
         }
 
@@ -49,6 +64,11 @@
             if (this.Scheduler.IsStarted)
             {
                 this.Scheduler.Shutdown();
+                log.Debug(String.Format("Shutdown Scheduler for Tellstick!"));
+            }
+            else
+            {
+                log.Warn(String.Format("Tried to shutdown Scheduler for Tellstick, but it was already shutdown!"));
             }
         }
 
@@ -73,18 +93,13 @@
                     
                     #region JobData
 
-                    var jsonSerializedTellstickActionType = Newtonsoft.Json.JsonConvert.SerializeObject(task.ActionType.Type);
+                    var jsonSerializedTellstickActionType = Newtonsoft.Json.JsonConvert.SerializeObject(task.ActionType.ActionTypeOption);
                     var jsonSerializedTellstickActionType_Key = "jsonSerializedTellstickActionType";
                     var jsonSerializedTellstickActionType_Value = jsonSerializedTellstickActionType;
 
                     var jsonSerializedCurrentNativeDeviceId = Newtonsoft.Json.JsonConvert.SerializeObject(task.Unit.NativeDeviceId);
                     var jsonSerializedCurrentNativeDeviceId_Key = "jsonSerializedCurrentNativeDeviceId";
                     var jsonSerializedCurrentNativeDeviceId_Value = jsonSerializedCurrentNativeDeviceId;
-
-
-                    var jsonSerializedCurrentDimValue = Newtonsoft.Json.JsonConvert.SerializeObject(task.ActionType.DimValue);
-                    var jsonSerializedCurrentDimValue_Key = "jsonSerializedCurrentDimValue";
-                    var jsonSerializedCurrentDimValue_Value = jsonSerializedCurrentDimValue;
 
                     var jsonSerializedCurrentActionId= Newtonsoft.Json.JsonConvert.SerializeObject(task.Action.Id);
                     var jsonSerializedCurrentActionId_Key = "jsonSerializedCurrentActionId";
@@ -100,7 +115,6 @@
                         .WithIdentity(jobId)
                         .UsingJobData(jsonSerializedTellstickActionType_Key, jsonSerializedTellstickActionType_Value)
                         .UsingJobData(jsonSerializedCurrentNativeDeviceId_Key, jsonSerializedCurrentNativeDeviceId_Value)
-                        .UsingJobData(jsonSerializedCurrentDimValue_Key, jsonSerializedCurrentDimValue_Value)
                         .UsingJobData(jsonSerializedCurrentActionId_Key, jsonSerializedCurrentActionId_Value)
                         .UsingJobData(jsonDbConnectionStringName_Key, jsonDbConnectionStringName_Value)
                         .Build();

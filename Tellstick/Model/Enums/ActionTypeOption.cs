@@ -2,13 +2,11 @@
 {
     using System.ComponentModel;
 
-    public enum ActionType
+    public enum ActionTypeOption
     {
         [Description("Turn on")]
         TurnOn,
         [Description("Turn off")]
-        TurnOff,
-        [Description("Dim")]
-        Dim
+        TurnOff
     }
 }

@@ -18,7 +18,7 @@
 
         public string Name { get { return this.Type.ToString(); } }
 
-        public Enums.Protocol Type { get; set; }
+        public Tellstick.Model.Enums.ProtocolOption Type { get; set; }
 
         #region Navigation properties
 

@@ -21,7 +21,7 @@
         /// <param name="modelManufacturer">Example: "nexa"</param> 
         /// <param name="unit">Example: "1"</param>
         /// <param name="house">Example: "F"</param>
-        /// <returns>Registered device id (NativeDeviceId)</returns>
+        /// <returns>Registered device id (nativeDeviceId)</returns>
         public int AddDevice(string name, string protocol, string modelType, string modelManufacturer, string unit, string house)
         {
             var nativeDeviceId = -1;
@@ -49,14 +49,14 @@
         /// <summary>
         /// Removes a device.
         /// </summary>
-        /// <param name="deviceId">Id of device to remove</param>
+        /// <param name="nativeDeviceId">Id of device to remove</param>
         /// <returns>True on success, false otherwise</returns>
-        public bool RemoveDevice(int deviceId)
+        public bool RemoveDevice(int nativeDeviceId)
         {
             var succeededRemovingDevice = false;
             try
             {
-                succeededRemovingDevice = TelldusNETWrapper.tdRemoveDevice(deviceId);
+                succeededRemovingDevice = TelldusNETWrapper.tdRemoveDevice(nativeDeviceId);
             }
             catch (Exception ex)
             {
@@ -71,15 +71,15 @@
         /// Turns a device on.
         /// Make sure the device supports this by calling TelldusNETWrapper.tdMethods() before any calls to this function.
         /// </summary>
-        /// <param name="deviceId">Id of device to turn on</param>
+        /// <param name="nativeDeviceId">Id of device to turn on</param>
         /// <returns>If turn on message were sent</returns>
-        public bool TurnOn(int deviceId)
+        public bool TurnOn(int nativeDeviceId)
         {
             var turnedOnMessageSent = false;
 
             try
             {
-                TelldusNETWrapper.tdTurnOn(deviceId);
+                TelldusNETWrapper.tdTurnOn(nativeDeviceId);
                 turnedOnMessageSent = true;
             }
             catch (Exception ex)
@@ -96,15 +96,15 @@
         /// Turns a device off.
         /// Make sure the device supports this by calling TelldusNETWrapper.tdMethods() before any calls to this function.
         /// </summary>
-        /// <param name="deviceId">Id of device to turn off</param>
+        /// <param name="nativeDeviceId">Id of device to turn off</param>
         /// <returns>If turn off message were sent</returns>
-        public bool TurnOff(int deviceId) {
+        public bool TurnOff(int nativeDeviceId) {
 
             var turnedOffMessageSent = false;
 
             try
             {
-                TelldusNETWrapper.tdTurnOff(deviceId);
+                TelldusNETWrapper.tdTurnOff(nativeDeviceId);
                 turnedOffMessageSent = true;
             }
             catch (Exception ex)
@@ -120,16 +120,16 @@
         /// Dims a device.
         /// Make sure the device supports this by calling tdMethods() before any calls to this function.
         /// </summary>
-        /// <param name="deviceId">The device id to dim</param>
+        /// <param name="nativeDeviceId">The device id to dim</param>
         /// <param name="level">The level the device should dim to. This value should be 0-255</param>
         /// <returns>If dim message were sent</returns>
-        public bool Dim(int deviceId, char level)
+        public bool Dim(int nativeDeviceId, char level)
         {
             var dimMessageSent = false;
 
             try
             {
-                TelldusNETWrapper.tdDim(deviceId, level);
+                TelldusNETWrapper.tdDim(nativeDeviceId, level);
                 dimMessageSent = true;
             }
             catch (Exception ex)
@@ -137,8 +137,6 @@
                 log.Error("Could not turn on message Tellstick device!", ex);
                 throw ex;
             }
-
-
             return dimMessageSent;
         }
     }

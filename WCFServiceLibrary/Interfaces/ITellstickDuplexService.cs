@@ -5,8 +5,6 @@
     using Tellstick.Model;
     using Tellstick.Model.Enums;
 
-    using Protocol = Tellstick.Model.Enums.Protocol;
-
     [ServiceContract(CallbackContract = typeof(ITellstickDuplexCallback))]
     public interface ITellstickDuplexService
     {
@@ -24,14 +22,14 @@
         /// </summary>
         /// <param name="name">Example: Kitchen lamp switch</param>
         /// <param name="locationDesciption">Example: Over the table in the kitchen</param>
-        /// <param name="protocol">Example: "arctech"</param>
-        /// <param name="modelType">Example: "codeswitch"</param>
-        /// <param name="modelManufacturer">Example: "nexa"</param> 
-        /// <param name="unit">Example: "1"</param>
-        /// <param name="house">Example: "F"</param>
+        /// <param name="protocolOption">Example: "arctech"</param>
+        /// <param name="modelTypeOption">Example: "codeswitch"</param>
+        /// <param name="modelManufacturerOption">Example: "nexa"</param> 
+        /// <param name="unitOption">Example: "1"</param>
+        /// <param name="houseOption">Example: "F"</param>
         /// <returns>Registered device id</returns>
         [OperationContract(IsOneWay = true)]
-        void RegisterTellstickDevice(string name, string locationDesciption, Protocol protocol, ModelType modelType, ModelManufacturer modelManufacturer, Parameter_Unit unit, Parameter_House house);
+        void RegisterTellstickDevice(string name, string locationDesciption, ProtocolOption protocolOption, ModelTypeOption modelTypeOption, ModelManufacturerOption modelManufacturerOption, Parameter_UnitOption unitOption, Parameter_HouseOption houseOption);
          
         [OperationContract(IsOneWay = true)]
         void RemoveTellstickDevice(int nativeDeviceId);

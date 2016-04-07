@@ -1,4 +1,7 @@
-﻿namespace WCFServiceLibrary
+﻿//Here is the once-per-application setup information
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
+
+namespace WCFServiceLibrary
 {
     using System;
     using System.Collections.Generic;
@@ -31,6 +34,7 @@
 
         public HemsamaritenDuplexService()
         {
+            log.Debug("HemsamaritenDuplexService started!");
             this.SurveillanceCam2DBJobScheduler = null;
             this.TellstickJobScheduler = null;
         }
@@ -211,14 +215,14 @@
         public void RegisterTellstickDevice(
             string name,
             string locationDesciption,
-            Protocol protocol,
-            ModelType modelType,
-            ModelManufacturer modelManufacturer,
-            Parameter_Unit unit,
-            Parameter_House house)
+            ProtocolOption protocolOption,
+            ModelTypeOption modelTypeOption,
+            ModelManufacturerOption modelManufacturerOption,
+            Parameter_UnitOption unitOption,
+            Parameter_HouseOption houseOption)
         {
             var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-            tellstickUnitDealer.AddDevice(name, locationDesciption, protocol, modelType, modelManufacturer, unit, house);
+            tellstickUnitDealer.AddDevice(name, locationDesciption, protocolOption, modelTypeOption, modelManufacturerOption, unitOption, houseOption);
         }
 
         public void RemoveTellstickDevice(int nativeDeviceId)
@@ -246,7 +250,7 @@
                 lock (_syncRoot)
                 {
                     var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    tellstickUnitDealer.TurnOnDevice(nativeDeviceId);
+                    tellstickUnitDealer.ManualTurnOnAndRegisterPerformedAction(nativeDeviceId);
 
                     log.Debug(String.Format("Turned on Tellstick nativeDeviceId = {0}", nativeDeviceId));
                 }
@@ -264,7 +268,7 @@
                 lock (_syncRoot)
                 {
                     var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    tellstickUnitDealer.TurnOffDevice(nativeDeviceId);
+                    tellstickUnitDealer.ManualTurnOffAndRegisterPerformedAction(nativeDeviceId);
 
                     log.Debug(String.Format("Turned off Tellstick nativeDeviceId = {0}", nativeDeviceId));
                 }

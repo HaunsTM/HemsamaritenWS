@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum Protocol
+    public enum ProtocolOption
     {
         [Description("arctech")]
         arctech = 0,

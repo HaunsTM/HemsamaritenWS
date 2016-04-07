@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum ModelType
+    public enum ModelTypeOption
     {
         [Description("bell")]
         bell = 0,

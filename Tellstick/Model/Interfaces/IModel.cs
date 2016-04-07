@@ -2,12 +2,12 @@
 {
     public interface IModelTypeAndTellstickManufacturer : IEntity
     {
-        Enums.ModelType Type { get; set; }
-        Enums.ModelManufacturer Manufacturer { get; set; }
+        Enums.ModelTypeOption TypeOption { get; set; }
+        Enums.ModelManufacturerOption ManufacturerOption { get; set; }
     }
 
-    public interface IModelTypeAndTellstickModel : IEntity, IModelTypeAndTellstickManufacturer
+    public interface IModel : IEntity, IModelTypeAndTellstickManufacturer
     {
-        string Model { get; }
+        string Description { get; }
     }
 }

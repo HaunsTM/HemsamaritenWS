@@ -17,8 +17,8 @@
 
         #endregion
 
-        public Parameter_House House { get; set; }
-        public Parameter_Unit Unit { get; set; }
+        public Parameter_HouseOption HouseOption { get; set; }
+        public Parameter_UnitOption UnitOption { get; set; }
 
         #region Navigation properties
 

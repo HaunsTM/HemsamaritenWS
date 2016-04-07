@@ -4,6 +4,7 @@
 
     using Quartz;
 
+    using Tellstick.BLL.Interfaces;
     using Tellstick.Model.Enums;
 
     [DisallowConcurrentExecution]
@@ -19,7 +20,6 @@
         public void Execute(IJobExecutionContext context)
         {
             JobDataMap dataMap = context.JobDetail.JobDataMap;
-            var tellstickCommander = new NativeTellstickCommander();
 
             log.Debug(String.Format("Executing Job [{0}; {1}] with Trigger [{2}; {3}]", context.JobDetail.Key.Name, context.JobDetail.Key.Group, context.Trigger.Key.Name, context.Trigger.Key.Group));
 
@@ -28,14 +28,11 @@
                 #region Job Data
 
                 var jsonSerializedCurrentTellstickActionType = dataMap.GetString("jsonSerializedTellstickActionType");
-                var currentTellstickActionType = Newtonsoft.Json.JsonConvert.DeserializeObject<ActionType>(jsonSerializedCurrentTellstickActionType);
+                var currentTellstickActionType = Newtonsoft.Json.JsonConvert.DeserializeObject<ActionTypeOption>(jsonSerializedCurrentTellstickActionType);
 
                 var jsonSerializedCurrentNativeDeviceId = dataMap.GetString("jsonSerializedCurrentNativeDeviceId");
                 var nativeDeviceId = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(jsonSerializedCurrentNativeDeviceId);
-
-                var jsonSerializedCurrentDimValue = dataMap.GetString("jsonSerializedCurrentDimValue");
-                var dimValue = Newtonsoft.Json.JsonConvert.DeserializeObject<char>(jsonSerializedCurrentDimValue);
-
+                
                 var jsonSerializedCurrentActionId = dataMap.GetString("jsonSerializedCurrentActionId");
                 var currentActionId = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(jsonSerializedCurrentActionId);
 
@@ -44,8 +41,10 @@
 
                 #endregion
 
+                var tellstickCommander = new TellstickUnitDealer(dbConnectionStringName);
+
                 //perform the work we came here for
-                this.PerformWork(actionType: currentTellstickActionType, commander: tellstickCommander, nativeDeviceId: nativeDeviceId, dimValue: dimValue);
+                this.PerformWork(actionTypeOption: currentTellstickActionType, commander: tellstickCommander, nativeDeviceId: nativeDeviceId);
 
                 //if we reach this point we have succeeded in sending a message to TellstickUnit
                 var performedActionsDealer = new PerformedActionsDealer(dbConnectionStringName);
@@ -63,23 +62,19 @@
             }
         }
 
-        private bool PerformWork(ActionType actionType, NativeTellstickCommander commander, int nativeDeviceId, char dimValue)
+        private bool PerformWork(ActionTypeOption actionTypeOption, ITellstickUnitDealer commander, int nativeDeviceId)
         {
             var workPerformed = false;
 
-            switch (actionType)
+            switch (actionTypeOption)
             {
-                case ActionType.TurnOn:
-                    commander.TurnOn(nativeDeviceId);
+                case ActionTypeOption.TurnOn:
+                    commander.TurnOnDevice(nativeDeviceId);
                     workPerformed = true;
                     break;
-                case ActionType.TurnOff:
-                    commander.TurnOff(nativeDeviceId);
+                case ActionTypeOption.TurnOff:
+                    commander.TurnOffDevice(nativeDeviceId);
                     workPerformed = true;
-                    break;
-                case ActionType.Dim:
-                    commander.Dim(nativeDeviceId, dimValue);
-                    workPerformed = false;
                     break;
                 default:
                     workPerformed = false;

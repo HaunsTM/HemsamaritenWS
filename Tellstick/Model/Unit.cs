@@ -32,7 +32,7 @@
         [JsonIgnore]
         public virtual Protocol Protocol { get; set; }
         [JsonIgnore]
-        public virtual ModelTypeAndTellstickModel ModelTypeAndTellstickModel { get; set; }
+        public virtual Model Model { get; set; }
 
         [ForeignKey("Parameter")]
         public int Parameter_Id { get; set; }

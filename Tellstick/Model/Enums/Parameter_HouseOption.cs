@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum Parameter_House
+    public enum Parameter_HouseOption
     {
 
         [Description("A")]

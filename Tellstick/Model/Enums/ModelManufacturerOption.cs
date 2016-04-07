@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum ModelManufacturer
+    public enum ModelManufacturerOption
     {
         [Description("anslut")]
         Anslut = 0,

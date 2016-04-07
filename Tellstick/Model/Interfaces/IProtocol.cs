@@ -3,6 +3,6 @@
     public interface IProtocol : IEntity
     {
         string Name { get; }
-        Model.Enums.Protocol Type { get; set; }
+        Tellstick.Model.Enums.ProtocolOption Type { get; set; }
     }
 }
