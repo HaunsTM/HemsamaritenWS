@@ -1,9 +1,8 @@
-﻿namespace Tellstick.BLL
+﻿namespace SurveillanceCam2DB.BLL
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
-    using System.Drawing;
+    using System.Collections.Specialized;
     using System.Linq;
 
     using log4net;
@@ -11,30 +10,67 @@
     using Quartz;
     using Quartz.Impl;
 
-    using Tellstick.Model;
+    using SurveillanceCam2DB.BLL.Interfaces;
+    using SurveillanceCam2DB.Model.Interfaces;
 
-    public class JobScheduler
+    public class JobScheduler : IJobScheduler
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private const string DB_CONNECTION_STRING_NAME = "name=SurveillanceCamerasDBConnection";
 
-        private Model.Interfaces.IPosition _tomatkameraPosition;
+        public string DbConnectionStringName { get; private set; }
 
-        public JobScheduler()
+        private Quartz.IScheduler Scheduler { get; set; }
+
+        private NameValueCollection SchedulerProperties()
         {
+            var properties = new NameValueCollection();
+            properties["quartz.scheduler.instanceName"] = "SurveillanceCam2DB_Scheduler";
+            return properties;
+        }
+
+        private IPosition _tomatkameraPosition;
+
+        public JobScheduler(string dbConnectionStringName)
+        {
+            this.DbConnectionStringName = dbConnectionStringName;
+            
+            ISchedulerFactory sf = new StdSchedulerFactory(props: SchedulerProperties());
+            this.Scheduler = sf.GetScheduler();
+
             _tomatkameraPosition = null;
         }
 
         public void Start()
         {
-            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
-            scheduler.Start();
-
-            var preparedJobs = this.PreparedJobs();
-
-            foreach (var preparedJob in preparedJobs)
+            if (!this.Scheduler.IsStarted)
             {
-                scheduler.ScheduleJob(jobDetail: preparedJob.Job, trigger: preparedJob.Trigger);
+                this.Scheduler.Start();
+
+                var preparedJobs = this.PreparedJobs();
+
+                foreach (var preparedJob in preparedJobs)
+                {
+                    this.Scheduler.ScheduleJob(jobDetail: preparedJob.Job, trigger: preparedJob.Trigger);
+                }
+
+                log.Debug(String.Format("Started Scheduler for SurveillanceCam2DB!"));
+            }
+            else
+            {
+                log.Warn(String.Format("Tried to start Scheduler for SurveillanceCam2DB, but it was already started!"));
+            }
+        }
+
+        public void Stop()
+        {
+            if (this.Scheduler.IsStarted)
+            {
+                this.Scheduler.Shutdown();
+                log.Debug(String.Format("Shutdown Scheduler for SurveillanceCam2DB!"));
+            }
+            else
+            {
+                log.Warn(String.Format("Tried to shutdown Scheduler for SurveillanceCam2DB, but it was already shutdown!"));
             }
         }
 
@@ -42,18 +78,15 @@
         {
             var jobDetailsAndTriggers = new List<JobDetailAndTrigger>();
 
-            var camerasWithActions = this.CamerasWithActions(Model.Enums.ActionTypes.Do_CopyImageFrom_SurveillanceCamera2DB);
+            var camerasWithActions = this.CamerasWithActions();
 
-            foreach (var cameraAndAction in camerasWithActions)
+            foreach (var task in camerasWithActions)
             {
                 try
                 {
-                    var currentCamera = (Camera)cameraAndAction.Camera;
-                    var currentAction = cameraAndAction.ActionToBeRequested;
-
-                    var jobName = "Job for: " + currentCamera.Name;
-                    var triggerName = "Trigger for: " + currentCamera.Name;
-                    var jobAndTriggerGroup = "Cron expression: " + currentAction.CronExpression;
+                    var jobName = "Job for: " + task.Camera.Name;
+                    var triggerName = "Trigger for: " + task.Camera.Name;
+                    var jobAndTriggerGroup = "Cron expression: " + task.SchedulerToUse.CronExpression;
 
                     var jobId = new JobKey(name: jobName, group: jobAndTriggerGroup);
                     var triggerId = new TriggerKey(name: triggerName, group: jobAndTriggerGroup);
@@ -62,28 +95,23 @@
                     
                     #region JobData
 
-                    var jsonSerializedCurrentCamera = Newtonsoft.Json.JsonConvert.SerializeObject(currentCamera);
+                    var jsonSerializedCurrentCamera = Newtonsoft.Json.JsonConvert.SerializeObject(task.Camera);
                     var jobDataCurrentCamera_Key = "jsonSerializedCurrentCamera";
                     var jobDataCurrentCamera_Value = jsonSerializedCurrentCamera;
 
-                    var jsonSerializedDefaultImageQualityPercent = Newtonsoft.Json.JsonConvert.SerializeObject(currentCamera.DefaultImageQualityPercent);
-                    var jsonSerializedDefaultImageQualityPercent_Key = "jsonSerializedDefaultImageQualityPercent";
-                    var jsonSerializedDefaultImageQualityPercent_Value = jsonSerializedDefaultImageQualityPercent;
-
-                    var jsonSerializedDefaultMaxImageSize = Newtonsoft.Json.JsonConvert.SerializeObject(new Size(width: currentCamera.DefaultMaxImageWidth, height: currentCamera.DefaultMaxImageHeight));
-                    var jsonSerializedDefaultMaxImageSize_Key = "jsonSerializedDefaultMaxImageSize";
-                    var jsonSerializedDefaultMaxImageSize_Value = jsonSerializedDefaultMaxImageSize;
-
-                    var jsonSerializedPreserveImageAspectRatio = Newtonsoft.Json.JsonConvert.SerializeObject(currentCamera.PreserveImageAspectRatio);
-                    var jsonSerializedPreserveImageAspectRatio_Key = "jsonSerializedPreserveImageAspectRatio";
-                    var jsonSerializedPreserveImageAspectRatio_Value = jsonSerializedPreserveImageAspectRatio;
-
+                    var jsonSerializedCurrentActionType = Newtonsoft.Json.JsonConvert.SerializeObject(task.ActionTypeToBeRequested);
+                    var jobDataCurrentActionType_Key = "jsonSerializedCurrentActionType";
+                    var jobDataCurrentActionType_Value = jsonSerializedCurrentActionType;
 
                     var jsonSerializedTomatkameraPosition = Newtonsoft.Json.JsonConvert.SerializeObject(this.TomatkameraPosition);
                     var jobDataTomatkameraPosition_Key = "jsonSerializedTomatkameraPosition";
                     var jobDataTomatkameraPosition_Value = jsonSerializedTomatkameraPosition;
 
-                    var jsonSerializedDbConnectionStringName = Newtonsoft.Json.JsonConvert.SerializeObject(DB_CONNECTION_STRING_NAME);
+                    var jsonSerializedCurrentActionId = Newtonsoft.Json.JsonConvert.SerializeObject(task.ActionToBeRequested.Id);
+                    var jsonSerializedCurrentActionId_Key = "jsonSerializedCurrentActionId";
+                    var jsonSerializedCurrentActionId_Value = jsonSerializedCurrentActionId;
+
+                    var jsonSerializedDbConnectionStringName = Newtonsoft.Json.JsonConvert.SerializeObject(this.DbConnectionStringName);
                     var jsonDbConnectionStringName_Key = "jsonSerializedDbConnectionStringName";
                     var jsonDbConnectionStringName_Value = jsonSerializedDbConnectionStringName;
 
@@ -92,15 +120,14 @@
                     var job = JobBuilder.Create<ImageTransferJob>()
                         .WithIdentity(jobId)
                         .UsingJobData(jobDataCurrentCamera_Key, jobDataCurrentCamera_Value)
-                        .UsingJobData(jsonSerializedDefaultImageQualityPercent_Key, jsonSerializedDefaultImageQualityPercent_Value)
-                        .UsingJobData(jsonSerializedDefaultMaxImageSize_Key, jsonSerializedDefaultMaxImageSize_Value)
-                        .UsingJobData(jsonSerializedPreserveImageAspectRatio_Key, jsonSerializedPreserveImageAspectRatio_Value)
+                        .UsingJobData(jobDataCurrentActionType_Key, jobDataCurrentActionType_Value)
                         .UsingJobData(jobDataTomatkameraPosition_Key, jobDataTomatkameraPosition_Value)
+                        .UsingJobData(jsonSerializedCurrentActionId_Key, jsonSerializedCurrentActionId_Value)
                         .UsingJobData(jsonDbConnectionStringName_Key, jsonDbConnectionStringName_Value)
                         .Build();
 
                     //create a trigger for the corresponding Job
-                    var actionCronExpression = currentAction.CronExpression;
+                    var actionCronExpression = task.SchedulerToUse.CronExpression;
 
                     var trigger = TriggerBuilder.Create()
                         .WithIdentity(triggerId)
@@ -123,13 +150,13 @@
             return jobDetailsAndTriggers;
         }
 
-        private Model.Interfaces.IPosition TomatkameraPosition
+        private IPosition TomatkameraPosition
         {
             get
             {
                 if (_tomatkameraPosition == null)
                 {
-                    using (var db = new Model.SurveillanceCam2DBContext(DB_CONNECTION_STRING_NAME))
+                    using (var db = new Model.SurveillanceCam2DBContext(this.DbConnectionStringName))
                     {
                         try
                         {
@@ -153,42 +180,38 @@
             }
         }
 
-        private List<CameraWithAction> CamerasWithActions(Model.Enums.ActionTypes actionType)
+        private List<CameraWithAction> CamerasWithActions()
         {
             var camerasWithActions = new List<CameraWithAction>();
 
-            using (var db = new Model.SurveillanceCam2DBContext(DB_CONNECTION_STRING_NAME))
+            using (var db = new Model.SurveillanceCam2DBContext(this.DbConnectionStringName))
             {
                 try
                 {
-                    var camerasAndActions = (from cam in db.Cameras
-                                            join act in db.Actions on cam equals act.Camera
-                                            join actType in db.ActionTypes on act.ActionType equals actType
-                                            where
-                                                cam.Active == true && act.Active == true
-                                                && actType.Type == actionType
-                                            select new{cam, act}).ToList();
-                    foreach (var ca in camerasAndActions)
+                    var queryResult = (from act in db.Actions
+                                       where
+                                           act.Active == true && act.Camera.Active == true
+                                           && act.ActionType.Active == true && act.Scheduler.Active == true
+                                       select
+                                           new CameraWithAction {
+                                           ActionToBeRequested = act,
+                                           Camera = act.Camera,
+                                           ActionTypeToBeRequested = act.ActionType,
+                                           SchedulerToUse = act.Scheduler}).ToList();
+
+                    foreach (var ca in queryResult)
                     {
-                        camerasWithActions.Add(new CameraWithAction(camera: (Model.Camera)ca.cam, actionToBeRequested: (Model.Action)ca.act));
+                        camerasWithActions.Add(ca);
                     }
                 }
                 catch (Exception ex)
                 {
                     log.Fatal(
-                        "Error creating list of ICamera(s) and their " + actionType.ToString("G") + " Action(s)",
+                        "Error creating list of CamerasWithActions",
                         ex);
                     return null;
                 }
                 return camerasWithActions;
-            }
-        }
-
-        public Model.SurveillanceCam2DBContext SurveillanceCam2DBContext
-        {
-            get
-            {
-                return new Model.SurveillanceCam2DBContext(DB_CONNECTION_STRING_NAME);
             }
         }
         
@@ -205,14 +228,19 @@
 
         private class CameraWithAction
         {
-            public CameraWithAction(Model.Interfaces.ICamera camera, Model.Interfaces.IAction actionToBeRequested)
+            public CameraWithAction() { }
+            public CameraWithAction(ICamera camera, IAction actionToBeRequested, IActionType actionTypeToBeRequested, Model.Interfaces.IScheduler schedulerToUse)
             {
                 Camera = camera;
+                ActionTypeToBeRequested = actionTypeToBeRequested;
                 ActionToBeRequested = actionToBeRequested;
+                SchedulerToUse = schedulerToUse;
             }
 
-            public Model.Interfaces.ICamera Camera { get; private set; }
-            public Model.Interfaces.IAction ActionToBeRequested { get; private set; }
+            public ICamera Camera { get;  set; }
+            public IAction ActionToBeRequested { get;  set; }
+            public IActionType ActionTypeToBeRequested { get;  set; }
+            public Model.Interfaces.IScheduler SchedulerToUse { get;  set; }
         }
     }
 }

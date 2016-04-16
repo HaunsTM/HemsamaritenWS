@@ -1,4 +1,4 @@
-﻿namespace Tellstick.BLL
+﻿namespace SurveillanceCam2DB.BLL
 {
     using System.IO;
     using System.IO.Compression;

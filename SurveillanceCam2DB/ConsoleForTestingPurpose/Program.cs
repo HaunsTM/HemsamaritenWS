@@ -1,14 +1,19 @@
 ﻿//Here is the once-per-application setup information
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
-namespace Tellstick.ConsoleForTestingPurpose
+namespace SurveillanceCam2DB.ConsoleForTestingPurpose
 {
-    using System.Drawing;
     using System.Drawing.Imaging;
     using System.Linq;
+    using System.Threading;
 
     using log4net;
-    
+
+    using SurveillanceCam2DB.BLL;
+    using SurveillanceCam2DB.Model;
+    using SurveillanceCam2DB.Model.Enums;
+
+    using Action = SurveillanceCam2DB.Model.Action;
 
     internal class Program
     {
@@ -19,16 +24,16 @@ namespace Tellstick.ConsoleForTestingPurpose
 
         private static void Main(string[] args)
         {
-             //new JobScheduler().Start();
+            //TestScheduler();
             //TestConvertImagesInDbToFiles();
-            CreateDBTest();
+            //CreateDBTest();
             //TestLogger();
             //TestLinq();
         }
 
         private static void TestConvertImagesInDbToFiles()
         {
-            using (var db = new Model.SurveillanceCam2DBContext("name=SurveillanceCamerasDBConnection"))
+            using (var db = new Model.SurveillanceCam2DBContext(DB_CONNECTION_STRING_NAME))
             {
                 var imgConv = new BLL.ImageConverter();
                 var imagesandImageData = (from img in db.Images
@@ -37,15 +42,10 @@ namespace Tellstick.ConsoleForTestingPurpose
                             
                 foreach (var imgsAndImgsData in imagesandImageData)
                 {
-                    var tempImg = imgConv.ByteArrayToImage(imgsAndImgsData.imgData.Data);
-                    var tempImg1 = new Bitmap(tempImg.Width, tempImg.Height, tempImg.PixelFormat);
-                    using (Graphics g = Graphics.FromImage(tempImg1))
+                    using (var image = System.Drawing.Image.FromStream(new System.IO.MemoryStream(imgsAndImgsData.imgData.Data)))
                     {
-                        // Draw the original bitmap onto the graphics of the new bitmap
-                        g.DrawImage(tempImg, Point.Empty);
-                        g.Flush();
+                        image.Save("c:\\Users\\hansb\\Desktop\\WinService\\" + imgsAndImgsData.img.SnapshotTime.ToFileTimeUtc().ToString() + ".jpg", ImageFormat.Jpeg);  // Or Png
                     }
-                    tempImg1.Save("c:\\Users\\hansb\\Desktop\\WinService\\" + imgsAndImgsData.img.SnapshotTime.ToFileTimeUtc().ToString() + ".jpg", ImageFormat.Jpeg);
                 }
 
             }
@@ -56,13 +56,26 @@ namespace Tellstick.ConsoleForTestingPurpose
         private static void CreateDBTest()
         {
             System.Data.Entity.Database.SetInitializer(new DefaultDataDbInitializer());
-            var db = new Model.SurveillanceCam2DBContext("name=SurveillanceCamerasDBConnection");
-#if DEBUG
-            db.Database.Initialize(true);
-#endif
-           
-            //do something random stupid to force seed
-            var stupidValue = db.Cameras.Count();
+            using (var db = new Model.SurveillanceCam2DBContext("name=SurveillanceCamerasDBConnection"))
+            {
+                db.Database.Initialize(true);
+
+                db.Actions.Add(new Action
+                                   {
+                                       Active = true,
+                                       Camera = (from cam in db.Cameras
+                                                 where cam.Name == "Samsung Galaxy S4, Skräphögen"
+                                                 select cam).First(),
+                                       ActionType = (from actType in db.ActionTypes
+                                                     where actType.Name==ActionTypes.Do_CopyImageFrom_SurveillanceCamera2DB
+                                                     select actType).First(),
+                                       Scheduler = (from sched in db.Schedulers
+                                                    where sched.CronExpression == "0/2 * * * * ?"
+                                                    select sched).First()
+                                   });
+                db.SaveChanges();
+            }
+                
 
         }
 
@@ -77,7 +90,19 @@ namespace Tellstick.ConsoleForTestingPurpose
             log.Fatal("Other Class - Fatal logging");
         }
         
-        private static void TestLinq()
+        private static void TestScheduler()
+        {
+            JobScheduler jobScheduler;
+            jobScheduler = new JobScheduler(DB_CONNECTION_STRING_NAME);
+            jobScheduler.Start();
+            Thread.Sleep(10000);
+            jobScheduler.Stop();
+            Thread.Sleep(10000);
+            jobScheduler = new JobScheduler(DB_CONNECTION_STRING_NAME);
+            jobScheduler.Start();
+        }
+
+        private void TestLinq()
         {
             using (var db = new Model.SurveillanceCam2DBContext(DB_CONNECTION_STRING_NAME))
             {
@@ -86,14 +111,14 @@ namespace Tellstick.ConsoleForTestingPurpose
                                          join actType in db.ActionTypes on act.ActionType equals actType
                                          where
                                              cam.Active == true && act.Active == true
-                                             && actType.Type
+                                             && actType.Name
                                              == Model.Enums.ActionTypes.Do_CopyImageFrom_SurveillanceCamera2DB
                                          select new { cam, act }).ToList();
 
                 var actionsAndCameras = (from act in db.Actions
                                          join cam in db.Cameras on act.Camera equals cam
                                          join actType in db.ActionTypes on act.ActionType equals actType
-                                         where cam.Active == true && act.Active == true && actType.Type
+                                         where cam.Active == true && act.Active == true && actType.Name
                                              == Model.Enums.ActionTypes.Do_CopyImageFrom_SurveillanceCamera2DB
                                          select new { cam, act }).ToList();
 
@@ -104,6 +129,5 @@ namespace Tellstick.ConsoleForTestingPurpose
             }
         }
     }
-    
 }
 

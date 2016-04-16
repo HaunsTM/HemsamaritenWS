@@ -1,9 +1,10 @@
-﻿namespace Tellstick.Model
+﻿namespace SurveillanceCam2DB.Model
 {
-    using Tellstick.Model.Interfaces;
+    using SurveillanceCam2DB.Model.Interfaces;
 
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using Newtonsoft.Json;
 
     public class ActionType : IEntity, IActionType
@@ -16,7 +17,7 @@
 
         #endregion
 
-        public Enums.ActionTypes Type { get; set; }
+        public SurveillanceCam2DB.Model.Enums.ActionTypes Name { get; set; }
 
         #region Navigation properties
 

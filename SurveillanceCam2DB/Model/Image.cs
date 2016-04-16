@@ -1,6 +1,6 @@
-﻿namespace Tellstick.Model
+﻿namespace SurveillanceCam2DB.Model
 {
-    using Interfaces;
+    using SurveillanceCam2DB.Model.Interfaces;
 
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -24,6 +24,13 @@
         public string ImageFormat { get; set; }
         public DateTime SnapshotTime { get; set; }
 
+<<<<<<< HEAD
+=======
+        [ForeignKey("Camera")]
+        public int Camera_Id { get; set; }
+        [ForeignKey("Position")]
+        public int Position_Id { get; set; }
+>>>>>>> develop
 
         #region Navigation properties
 

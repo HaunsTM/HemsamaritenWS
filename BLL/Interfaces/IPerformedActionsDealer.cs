@@ -13,7 +13,7 @@ namespace Tellstick.BLL.Interfaces
         /// <param name="occurredAction"></param>
         /// <param name="timeOfOccurrence"></param>
         /// <returns></returns>
-        bool Register(Tellstick.Model.TellstickAction occurredAction, DateTime timeOfOccurrence);
+        bool Register(Tellstick.Model.Action occurredAction, DateTime timeOfOccurrence);
 
         /// <summary>
         /// Registers an occurred TellstickAction to database
@@ -21,7 +21,7 @@ namespace Tellstick.BLL.Interfaces
         /// <param name="occurredAction"></param>
         /// <param name="timeOfOccurrence"></param>
         /// <returns></returns>
-        bool Register(int occurredTellstickAction_Id, DateTime timeOfOccurrence);
+        bool Register(int occurredAction_Id, DateTime timeOfOccurrence);
 
         /// <summary>
         /// Retrieves a list of occurred TellstickActions from database
@@ -29,6 +29,6 @@ namespace Tellstick.BLL.Interfaces
         /// <param name="active">A flag that indicates if we should search for active items</param>
         /// <param name="startTime">A time stamp that indicates search start time</param>
         /// <param name="endTime">A time stamp that indicates search end time</param>
-        List<Model.TellstickAction> OccurredTellstickActions(bool active, DateTime startTime, DateTime endTime);
+        List<Model.Action> OccurredTellstickActions(bool active, DateTime startTime, DateTime endTime);
     }
 }

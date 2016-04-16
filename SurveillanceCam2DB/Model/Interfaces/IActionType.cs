@@ -1,7 +1,7 @@
-﻿namespace Tellstick.Model.Interfaces
+﻿namespace SurveillanceCam2DB.Model.Interfaces
 {
     public interface IActionType : IEntity
     {
-        Enums.ActionTypes Type { get; set; }
+        SurveillanceCam2DB.Model.Enums.ActionTypes Name { get; set; }
     }
 }

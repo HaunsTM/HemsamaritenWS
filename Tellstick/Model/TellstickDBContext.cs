@@ -14,15 +14,15 @@
         {
         }
 
-        public DbSet<TellstickProtocol> TellstickProtocols { get; set; }
-        public DbSet<TellstickModel> TellstickModels { get; set; }
-        public DbSet<TellstickActionType> TellstickActionTypes { get; set; }
+        public DbSet<Protocol> Protocols { get; set; }
+        public DbSet<Model> Models { get; set; }
+        public DbSet<ActionType> ActionTypes { get; set; }
 
-        public DbSet<TellstickUnit> TellstickUnits { get; set; }
-        public DbSet<TellstickAction> TellstickActions { get; set; }
-        public DbSet<TellstickScheduler> TellstickSchedulers { get; set; }
+        public DbSet<Unit> Units { get; set; }
+        public DbSet<Action> Actions { get; set; }
+        public DbSet<Scheduler> Schedulers { get; set; }
 
-        public DbSet<TellstickParameter> TellstickParameters { get; set; }
+        public DbSet<Parameter> Parameters { get; set; }
         public DbSet<PerformedAction> PerformedActions { get; set; }
 
     }

@@ -1,4 +1,4 @@
-namespace Tellstick.BLL.Interfaces
+namespace Tellstick.BLL
 {
     using Tellstick.Model;
     using Tellstick.Model.Enums;
@@ -6,8 +6,6 @@ namespace Tellstick.BLL.Interfaces
 
     public interface ITellstickUnitDealer
     {
-        INativeTellstickCommander NativeCommander { get; }
-
         string DbConnectionStringName { get; }
 
         /// <summary>
@@ -15,24 +13,40 @@ namespace Tellstick.BLL.Interfaces
         /// </summary>
         /// <param name="name">Example: Kitchen lamp switch</param>
         /// <param name="locationDesciption">Example: Over the table in the kitchen</param>
-        /// <param name="protocol">Example: "arctech"</param>
-        /// <param name="modelType">Example: "codeswitch"</param>
-        /// <param name="modelManufacturer">Example: "nexa"</param> 
-        /// <param name="unit">Example: "1"</param>
-        /// <param name="house">Example: "F"</param>
+        /// <param name="protocolOption">Example: "arctech"</param>
+        /// <param name="modelTypeOption">Example: "codeswitch"</param>
+        /// <param name="modelManufacturerOption">Example: "nexa"</param> 
+        /// <param name="unitOption">Example: "1"</param>
+        /// <param name="houseOption">Example: "F"</param>
         /// <returns>Registered device id</returns>
-        TellstickUnit AddDevice(string name, string locationDesciption, EnumTellstickProtocol protocol, EnumTellstickModelType modelType, EnumTellstickModelManufacturer modelManufacturer, EnumTellstickParameter_Unit unit, EnumTellstickParameter_House house);
+        Unit AddDevice(string name, string locationDesciption, ProtocolOption protocolOption, ModelTypeOption modelTypeOption, ModelManufacturerOption modelManufacturerOption, Parameter_UnitOption unitOption, Parameter_HouseOption houseOption);
 
         bool RemoveDevice(int nativeDeviceId);
 
-        bool RemoveDevice(ITellstickUnit tellstickUnit);
+        bool RemoveDevice(IUnit unit);
 
-        bool TurnOnDevice(ITellstickUnit tellstickUnit);
+        bool TurnOnDevice(IUnit unit);
 
         bool TurnOnDevice(int nativeDeviceId);
 
-        bool TurnOffDevice(ITellstickUnit tellstickUnit);
+        bool TurnOffDevice(IUnit unit);
 
         bool TurnOffDevice(int nativeDeviceId);
+
+        /// <summary>
+        /// Turns a device on.
+        /// Make sure the device supports this by calling TelldusNETWrapper.tdMethods() before any calls to this function.
+        /// </summary>
+        /// <param name="nativeDeviceId">Id of device to turn on</param>
+        /// <returns>If turn on message were sent</returns>
+        bool ManualTurnOnAndRegisterPerformedAction(int nativeDeviceId);
+
+        /// <summary>
+        /// Turns a device off.
+        /// Make sure the device supports this by calling TelldusNETWrapper.tdMethods() before any calls to this function.
+        /// </summary>
+        /// <param name="nativeDeviceId">Id of device to turn off</param>
+        /// <returns>If turn off message were sent</returns>
+        bool ManualTurnOffAndRegisterPerformedAction(int nativeDeviceId);
     }
 }

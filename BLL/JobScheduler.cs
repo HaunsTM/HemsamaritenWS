@@ -4,6 +4,7 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Linq;
 
     using log4net;
@@ -13,36 +14,62 @@
 
     using Tellstick.BLL.Interfaces;
 
+    using IScheduler = Tellstick.Model.Interfaces.IScheduler;
+
     public class JobScheduler : IJobScheduler
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public string DbConnectionStringName { get; private set; }
 
-        private IScheduler Scheduler { get; set; }
+        private Quartz.IScheduler Scheduler { get; set; }
+
+        private NameValueCollection SchedulerProperties()
+        {
+            var properties = new NameValueCollection();
+            properties["quartz.scheduler.instanceName"] = "Tellstick_Scheduler";
+            return properties;
+        }
 
         public JobScheduler(string dbConnectionStringName)
         {
             this.DbConnectionStringName = dbConnectionStringName;
-            this.Scheduler = StdSchedulerFactory.GetDefaultScheduler();
+
+            ISchedulerFactory sf = new StdSchedulerFactory(props: SchedulerProperties());
+            this.Scheduler = sf.GetScheduler();
         }
 
         public void Start()
         {
-
-            this.Scheduler.Start();
-
-            var preparedJobs = this.PreparedJobs();
-
-            foreach (var preparedJob in preparedJobs)
+            if (!this.Scheduler.IsStarted)
             {
-                this.Scheduler.ScheduleJob(jobDetail: preparedJob.Job, trigger: preparedJob.Trigger);
+                this.Scheduler.Start();
+
+                var preparedJobs = this.PreparedJobs();
+
+                foreach (var preparedJob in preparedJobs)
+                {
+                    this.Scheduler.ScheduleJob(jobDetail: preparedJob.Job, trigger: preparedJob.Trigger);
+                }
+                log.Debug(String.Format("Started Scheduler for Tellstick!"));
+            }
+            else
+            {
+                log.Warn(String.Format("Tried to start Scheduler for Tellstick, but it was already started!"));
             }
         }
 
         public void Stop()
         {
-            this.Scheduler.Shutdown();
+            if (this.Scheduler.IsStarted)
+            {
+                this.Scheduler.Shutdown();
+                log.Debug(String.Format("Shutdown Scheduler for Tellstick!"));
+            }
+            else
+            {
+                log.Warn(String.Format("Tried to shutdown Scheduler for Tellstick, but it was already shutdown!"));
+            }
         }
 
         private List<JobDetailAndTrigger> PreparedJobs()
@@ -66,18 +93,13 @@
                     
                     #region JobData
 
-                    var jsonSerializedTellstickActionType = Newtonsoft.Json.JsonConvert.SerializeObject(task.ActionType.Type);
+                    var jsonSerializedTellstickActionType = Newtonsoft.Json.JsonConvert.SerializeObject(task.ActionType.ActionTypeOption);
                     var jsonSerializedTellstickActionType_Key = "jsonSerializedTellstickActionType";
                     var jsonSerializedTellstickActionType_Value = jsonSerializedTellstickActionType;
 
                     var jsonSerializedCurrentNativeDeviceId = Newtonsoft.Json.JsonConvert.SerializeObject(task.Unit.NativeDeviceId);
                     var jsonSerializedCurrentNativeDeviceId_Key = "jsonSerializedCurrentNativeDeviceId";
                     var jsonSerializedCurrentNativeDeviceId_Value = jsonSerializedCurrentNativeDeviceId;
-
-
-                    var jsonSerializedCurrentDimValue = Newtonsoft.Json.JsonConvert.SerializeObject(task.ActionType.DimValue);
-                    var jsonSerializedCurrentDimValue_Key = "jsonSerializedCurrentDimValue";
-                    var jsonSerializedCurrentDimValue_Value = jsonSerializedCurrentDimValue;
 
                     var jsonSerializedCurrentActionId= Newtonsoft.Json.JsonConvert.SerializeObject(task.Action.Id);
                     var jsonSerializedCurrentActionId_Key = "jsonSerializedCurrentActionId";
@@ -93,7 +115,6 @@
                         .WithIdentity(jobId)
                         .UsingJobData(jsonSerializedTellstickActionType_Key, jsonSerializedTellstickActionType_Value)
                         .UsingJobData(jsonSerializedCurrentNativeDeviceId_Key, jsonSerializedCurrentNativeDeviceId_Value)
-                        .UsingJobData(jsonSerializedCurrentDimValue_Key, jsonSerializedCurrentDimValue_Value)
                         .UsingJobData(jsonSerializedCurrentActionId_Key, jsonSerializedCurrentActionId_Value)
                         .UsingJobData(jsonDbConnectionStringName_Key, jsonDbConnectionStringName_Value)
                         .Build();
@@ -134,20 +155,20 @@
             {
                 using (var db = new Model.TellstickDBContext(this.DbConnectionStringName))
                 {
-                    var queryResult = from activeAction in db.TellstickActions
+                    var queryResult = from activeAction in db.Actions
                                       where activeAction.Active == true &&
-                                            activeAction.TellstickScheduler.Active == true &&
-                                            activeAction.TellstickActionType.Active == true &&
-                                            activeAction.TellstickUnit.Active == true &&
-                                            activeAction.TellstickUnit.TellstickProtocol.Active == true &&
-                                            activeAction.TellstickUnit.TellstickParameter.Active == true
+                                            activeAction.Scheduler.Active == true &&
+                                            activeAction.ActionType.Active == true &&
+                                            activeAction.Unit.Active == true &&
+                                            activeAction.Unit.Protocol.Active == true &&
+                                            activeAction.Unit.Parameter.Active == true
                                       select
                                           new TellstickUnitWithAction
                                           {
-                                              Scheduler = activeAction.TellstickScheduler,
+                                              Scheduler = activeAction.Scheduler,
                                               Action = activeAction,
-                                              ActionType = activeAction.TellstickActionType,
-                                              Unit = activeAction.TellstickUnit
+                                              ActionType = activeAction.ActionType,
+                                              Unit = activeAction.Unit
                                           };
 
                     tellstickUnitsWithActions = queryResult.ToList();
@@ -176,7 +197,7 @@
         private class TellstickUnitWithAction
         {
             public TellstickUnitWithAction() { }
-            public TellstickUnitWithAction(ITellstickScheduler currentScheduler, ITellstickAction currentAction, ITellstickActionType currentActionType, ITellstickUnit currentUnit)
+            public TellstickUnitWithAction(IScheduler currentScheduler, IAction currentAction, IActionType currentActionType, IUnit currentUnit)
             {
                 this.Scheduler = currentScheduler;
                 this.Action = currentAction;
@@ -184,10 +205,10 @@
                 this.Unit = currentUnit;
             }
 
-            public ITellstickScheduler Scheduler { get; set; }
-            public ITellstickAction Action { get; set; }
-            public ITellstickActionType ActionType { get; set; }
-            public ITellstickUnit Unit { get; set; }
+            public IScheduler Scheduler { get; set; }
+            public IAction Action { get; set; }
+            public IActionType ActionType { get; set; }
+            public IUnit Unit { get; set; }
         }
     }
 }
