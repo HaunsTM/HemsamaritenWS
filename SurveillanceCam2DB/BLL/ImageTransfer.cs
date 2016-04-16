@@ -5,12 +5,13 @@
     using System.Drawing.Imaging;
     using System.Net;
 
+    using SurveillanceCam2DB.BLL.Interfaces;
     using SurveillanceCam2DB.Model;
     using SurveillanceCam2DB.Model.Interfaces;
     
     using Image = SurveillanceCam2DB.Model.Image;
 
-    public class ImageTransfer
+    public class ImageTransfer : IImageTransfer
     {
         //Here is the once-per-class call to initialize the log object
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -28,53 +29,83 @@
         public IPosition ImagePosition { get; private set; }
         public Model.SurveillanceCam2DBContext SurveillanceCam2DBContext { get; private set; }
 
-        #endregion
-        
-        public bool DownloadImageFromCameraAndSaveItToDB()
-        {
-            var downloadAndSaveSucceeded = false;
+        public delegate void CameraEventHandler(IImageTransfer imageTransferrer, CameraEventArgs e);
+        public event CameraEventHandler OnImageDownloadAndSaveSucceeded;
+        public event CameraEventHandler OnException;
 
-            downloadAndSaveSucceeded = this.DownloadImageFromCameraAndSaveItToDB(
-                                        camCurrent: this.CamCurrent,
-                                        imagePosition: this.ImagePosition,
-                                        storeImagesInThisQualityPercent: this.CamCurrent.DefaultImageQualityPercent, 
-                                        surveillanceCam2DBContext: this.SurveillanceCam2DBContext,
-                                        newImageSize: new Size(this.CamCurrent.DefaultMaxImageWidth, this.CamCurrent.DefaultMaxImageHeight), 
-                                        preserveImageAspectRatio: this.CamCurrent.PreserveImageAspectRatio);
-            return downloadAndSaveSucceeded;
+        #endregion
+
+        public SurveillanceCam2DB.Model.Interfaces.IImage DownloadImageFromCameraAndSaveItToDB()
+        {
+            ImageAndImageDataForDB downloadedImageAndImageDataForDB = null;
+
+            downloadedImageAndImageDataForDB = this.DownloadImageFromCameraAndSaveItToDB(
+                                               camCurrent: this.CamCurrent,
+                                               imagePosition: this.ImagePosition,
+                                               storeImagesInThisQualityPercent: this.CamCurrent.DefaultImageQualityPercent, 
+                                               surveillanceCam2DBContext: this.SurveillanceCam2DBContext,
+                                               newImageSize: new Size(this.CamCurrent.DefaultMaxImageWidth, this.CamCurrent.DefaultMaxImageHeight), 
+                                               preserveImageAspectRatio: this.CamCurrent.PreserveImageAspectRatio);
+
+            return downloadedImageAndImageDataForDB.Image;
         }
 
-        private bool DownloadImageFromCameraAndSaveItToDB(ICamera camCurrent, IPosition imagePosition, int storeImagesInThisQualityPercent, Size newImageSize, bool preserveImageAspectRatio, Model.SurveillanceCam2DBContext surveillanceCam2DBContext)
+        private ImageAndImageDataForDB DownloadImageFromCameraAndSaveItToDB(ICamera camCurrent, IPosition imagePosition, int storeImagesInThisQualityPercent, Size newImageSize, bool preserveImageAspectRatio, Model.SurveillanceCam2DBContext surveillanceCam2DBContext)
         {
-            var downloadAndSaveSucceeded = false;
+            ImageAndImageDataForDB downloadedImageAndImageDataForDB = null;
 
             try
             {
-                var downloaded = this.DownloadImageFromCamera(
+                downloadedImageAndImageDataForDB = this.DownloadImageFromCamera(
                     camCurrent: camCurrent,
                     imagePosition: imagePosition);
-
-                Image newImage = (Image)downloaded.Image;
-                var newImageData = downloaded.ImageData;
-                surveillanceCam2DBContext.Images.Add(newImage);
-                surveillanceCam2DBContext.ImageData.Add(downloaded.ImageData);
+                
+                surveillanceCam2DBContext.Images.Add(downloadedImageAndImageDataForDB.Image);
+                surveillanceCam2DBContext.ImageData.Add(downloadedImageAndImageDataForDB.ImageData);
 
                 surveillanceCam2DBContext.SaveChanges();
 
-                downloadAndSaveSucceeded = true;
+                //The event will be null until an event handler is actually added to it.
+                if (this.OnImageDownloadAndSaveSucceeded != null) //Watch out for NullReferenceException
+                {
+                    CameraEventArgs cEA = new CameraEventArgs {SnapShot = downloadedImageAndImageDataForDB.Image };
+                    OnImageDownloadAndSaveSucceeded(this, cEA);
+                }
             }
             catch (NullReferenceException nrex)
             {
-                log.Error("Is possibly surveillance camera turned off? Error downloading image from [" + camCurrent.Name + "] and saving it to db [" + surveillanceCam2DBContext.Database.Connection.ConnectionString + "]", nrex);
-                throw nrex;
+                var errorMessage =
+                    String.Format(
+                        "Is possibly surveillance camera turned off? Error downloading image from[{0}] and saving it to db[{1}]", camCurrent.Name, surveillanceCam2DBContext.Database.Connection.ConnectionString);
+
+                //The event will be null until an event handler is actually added to it.
+                if (this.OnException != null) //Watch out for NullReferenceException
+                {
+                    CameraEventArgs cEA = new CameraEventArgs { CameraException = new Exception(errorMessage, nrex) };
+                    OnException(this, cEA);
+                }
+
+                log.Error(errorMessage, nrex);
+                throw new Exception(errorMessage, nrex);
             }
             catch (Exception ex)
             { 
-                log.Error("Error downloading image from ["+camCurrent.Name+"] and saving it to db ["+ surveillanceCam2DBContext.Database.Connection.ConnectionString + "]",ex);
-                throw ex;
+                var errorMessage =
+                    String.Format(
+                        "Error downloading image from[{0}] and saving it to db[{1}]", camCurrent.Name, surveillanceCam2DBContext.Database.Connection.ConnectionString);
+
+                //The event will be null until an event handler is actually added to it.
+                if (this.OnException != null) //Watch out for NullReferenceException
+                {
+                    CameraEventArgs cEA = new CameraEventArgs { CameraException = new Exception(errorMessage, ex) };
+                    OnException(this, cEA);
+                }
+
+                log.Error(errorMessage, ex);
+                throw new Exception(errorMessage, ex);
             }
 
-            return downloadAndSaveSucceeded;
+            return downloadedImageAndImageDataForDB;
 
         }
 

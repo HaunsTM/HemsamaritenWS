@@ -212,7 +212,7 @@ namespace WCFServiceLibrary
             }
         }
         
-        public void RegisterTellstickDevice(
+        public Tellstick.Model.Unit RegisterTellstickDevice(
             string name,
             string locationDesciption,
             ProtocolOption protocolOption,
@@ -222,7 +222,8 @@ namespace WCFServiceLibrary
             Parameter_HouseOption houseOption)
         {
             var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-            tellstickUnitDealer.AddDevice(name, locationDesciption, protocolOption, modelTypeOption, modelManufacturerOption, unitOption, houseOption);
+            var addedUnit = tellstickUnitDealer.AddDevice(name, locationDesciption, protocolOption, modelTypeOption, modelManufacturerOption, unitOption, houseOption);
+            return addedUnit;
         }
 
         public void RemoveTellstickDevice(int nativeDeviceId)

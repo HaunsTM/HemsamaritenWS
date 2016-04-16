@@ -10,7 +10,6 @@ namespace SurveillanceCam2DB.ConsoleForTestingPurpose
     using log4net;
 
     using SurveillanceCam2DB.BLL;
-    using SurveillanceCam2DB.BLL.Interfaces;
     using SurveillanceCam2DB.Model;
     using SurveillanceCam2DB.Model.Enums;
 
@@ -102,7 +101,6 @@ namespace SurveillanceCam2DB.ConsoleForTestingPurpose
             jobScheduler = new JobScheduler(DB_CONNECTION_STRING_NAME);
             jobScheduler.Start();
         }
-        
 
         private void TestLinq()
         {

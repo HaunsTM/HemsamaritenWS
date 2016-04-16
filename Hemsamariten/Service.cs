@@ -115,24 +115,24 @@ namespace Hemsamariten
         #endregion
     }
 
-    //#region INSTALLER
-    //// Provide the ProjectInstaller class which allows 
-    //// the service to be installed by the Installutil.exe tool
-    //[RunInstaller(true)]
-    //public class ProjectInstaller : Installer
-    //{
-    //    private ServiceProcessInstaller process;
-    //    private ServiceInstaller service;
+    #region INSTALLER
+    // Provide the ProjectInstaller class which allows 
+    // the service to be installed by the Installutil.exe tool
+    [System.ComponentModel.RunInstaller(true)]
+    public class ProjectInstaller : Installer
+    {
+        private ServiceProcessInstaller process;
+        private ServiceInstaller service;
 
-    //    public ProjectInstaller()
-    //    {
-    //        process = new ServiceProcessInstaller();
-    //        process.Account = ServiceAccount.LocalSystem;
-    //        service = new ServiceInstaller();
-    //        service.ServiceName = "HemsamaritenWindowsService";
-    //        Installers.Add(process);
-    //        Installers.Add(service);
-    //    }
-    //}
-    //#endregion
+        public ProjectInstaller()
+        {
+            process = new ServiceProcessInstaller();
+            process.Account = ServiceAccount.LocalSystem;
+            service = new ServiceInstaller();
+            service.ServiceName = "HemsamaritenWindowsService";
+            Installers.Add(process);
+            Installers.Add(service);
+        }
+    }
+    #endregion
 }

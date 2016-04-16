@@ -1,10 +1,7 @@
 ﻿namespace WCFServiceLibrary.Interfaces
 {
     using System.ServiceModel;
-
-    using Tellstick.Model;
-    using Tellstick.Model.Enums;
-
+    
     [ServiceContract(CallbackContract = typeof(ITellstickDuplexCallback))]
     public interface ITellstickDuplexService
     {
@@ -28,8 +25,8 @@
         /// <param name="unitOption">Example: "1"</param>
         /// <param name="houseOption">Example: "F"</param>
         /// <returns>Registered device id</returns>
-        [OperationContract(IsOneWay = true)]
-        void RegisterTellstickDevice(string name, string locationDesciption, ProtocolOption protocolOption, ModelTypeOption modelTypeOption, ModelManufacturerOption modelManufacturerOption, Parameter_UnitOption unitOption, Parameter_HouseOption houseOption);
+        [OperationContract(IsOneWay = false)]
+        Tellstick.Model.Unit RegisterTellstickDevice(string name, string locationDesciption, Tellstick.Model.Enums.ProtocolOption protocolOption, Tellstick.Model.Enums.ModelTypeOption modelTypeOption, Tellstick.Model.Enums.ModelManufacturerOption modelManufacturerOption, Tellstick.Model.Enums.Parameter_UnitOption unitOption, Tellstick.Model.Enums.Parameter_HouseOption houseOption);
          
         [OperationContract(IsOneWay = true)]
         void RemoveTellstickDevice(int nativeDeviceId);

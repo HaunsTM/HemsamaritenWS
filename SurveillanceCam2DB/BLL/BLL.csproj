@@ -113,6 +113,7 @@
   <ItemGroup>
     <Compile Include="ByteArrayDealer.cs" />
     <Compile Include="CameraEventArgs.cs" />
+    <Compile Include="Interfaces\IImageTransfer.cs" />
     <Compile Include="ImageConverter.cs" />
     <Compile Include="ImageTransfer.cs" />
     <Compile Include="ImageTransferJob.cs" />

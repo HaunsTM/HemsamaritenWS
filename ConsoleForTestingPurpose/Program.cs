@@ -13,8 +13,8 @@
         static void Main(string[] args)
         {
             log4net.Config.XmlConfigurator.Configure();
-            //CreateLog4NetDB();
-            TestLogger();
+            CreateLog4NetDB();
+            //TestLogger();
         }
 
         private static void CreateLog4NetDB()

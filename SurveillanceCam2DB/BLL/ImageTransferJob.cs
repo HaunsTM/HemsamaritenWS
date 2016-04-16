@@ -17,12 +17,16 @@
         //Here is the once-per-class call to initialize the log object
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        public delegate void ImageTransferJobEventHandler(IJob imageTransferrer, CameraEventArgs e);
+        public event ImageTransferJobEventHandler OnImageDownloadedAndSavedSucceeded;
+        public event ImageTransferJobEventHandler OnException;
+
         public ImageTransferJob()
         {
         }
 
         public void Execute(IJobExecutionContext context)
-        {;
+        {
             JobDataMap dataMap = context.JobDetail.JobDataMap;
 
             log.Debug(String.Format("Executing Job [{0}; {1}] with Trigger [{2}; {3}]", context.JobDetail.Key.Name, context.JobDetail.Key.Group, context.Trigger.Key.Name, context.Trigger.Key.Group));
@@ -75,13 +79,45 @@
                 case ActionTypes.Do_CopyImageFrom_SurveillanceCamera2DB:
                     var imageTransfer = new ImageTransfer(camCurrent: currentCamera, imagePosition: currentPosition, dbConnectionStringName: dbConnectionStringName);
 
-                    var jobDone = imageTransfer.DownloadImageFromCameraAndSaveItToDB();
+                    try
+                    {
+                        var downloadedImageAndImageDataForDB = imageTransfer.DownloadImageFromCameraAndSaveItToDB();
 
-                    workPerformed = jobDone;
+                        //did the download and db save went well? 
+                        workPerformed = downloadedImageAndImageDataForDB != null;
+
+                        if (workPerformed)
+                        {
+                            //The event will be null until an event handler is actually added to it.
+                            if (this.OnImageDownloadedAndSavedSucceeded != null) //Watch out for NullReferenceException
+                            {
+                                CameraEventArgs cEA = new CameraEventArgs { SnapShot = downloadedImageAndImageDataForDB };
+                                OnImageDownloadedAndSavedSucceeded(this, cEA);
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception(string.Format("Couldn't either download a snapshot from camera [{0}], or save snapshot to db dbConnectionStringName = [{1}]", currentCamera.GetPicURL, dbConnectionStringName));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        //The event will be null until an event handler is actually added to it.
+                        if (this.OnException != null) //Watch out for NullReferenceException
+                        {
+                            CameraEventArgs cEA = new CameraEventArgs { CameraException = ex };
+                            OnException(this, cEA);
+                        }
+
+                        throw ex;
+                    }
+                    
                     break;
+
                 case ActionTypes.Dont_CopyImageFrom_SurveillanceCamera2DB:
                     workPerformed = true;
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }

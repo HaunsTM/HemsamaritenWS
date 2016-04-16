@@ -12,7 +12,6 @@
 
     using SurveillanceCam2DB.BLL.Interfaces;
     using SurveillanceCam2DB.Model.Interfaces;
-    
 
     public class JobScheduler : IJobScheduler
     {
