@@ -17,33 +17,33 @@ namespace Tellstick.BLL.Interfaces
         /// <summary>
         /// Removes a device.
         /// </summary>
-        /// <param name="deviceId">Id of device to remove</param>
+        /// <param name="nativeDeviceId">Id of device to remove</param>
         /// <returns>True on success, false otherwise</returns>
-        bool RemoveDevice(int deviceId);
+        bool RemoveDevice(int nativeDeviceId);
 
         /// <summary>
         /// Turns a device on.
         /// Make sure the device supports this by calling TelldusNETWrapper.tdMethods() before any calls to this function.
         /// </summary>
-        /// <param name="deviceId">Id of device to turn on</param>
+        /// <param name="nativeDeviceId">Id of device to turn on</param>
         /// <returns>If turn on message were sent</returns>
-        bool TurnOn(int deviceId);
+        bool TurnOn(int nativeDeviceId);
 
         /// <summary>
         /// Turns a device off.
         /// Make sure the device supports this by calling TelldusNETWrapper.tdMethods() before any calls to this function.
         /// </summary>
-        /// <param name="deviceId">Id of device to turn off</param>
+        /// <param name="nativeDeviceId">Id of device to turn off</param>
         /// <returns>If turn off message were sent</returns>
-        bool TurnOff(int deviceId);
+        bool TurnOff(int nativeDeviceId);
 
         /// <summary>
         /// Dims a device.
         /// Make sure the device supports this by calling tdMethods() before any calls to this function.
         /// </summary>
-        /// <param name="deviceId">The device id to dim</param>
+        /// <param name="nativeDeviceId">The device id to dim</param>
         /// <param name="level">The level the device should dim to. This value should be 0-255</param>
         /// <returns>If dim message were sent</returns>
-        bool Dim(int deviceId, char level);
+        bool Dim(int nativeDeviceId, char level);
     }
 }

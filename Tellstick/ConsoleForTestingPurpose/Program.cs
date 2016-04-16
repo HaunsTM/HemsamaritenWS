@@ -24,13 +24,13 @@ namespace Tellstick.ConsoleForTestingPurpose
         private const string DB_CONNECTION_STRING_NAME = "name=TellstickDBConnection";
         static void Main(string[] args)
         {
-            TestScheduler();
-            //CreateDBTest(DB_CONNECTION_STRING_NAME);
-            //var registeredDevice = RegisterDevice(dbConnectionStringName: DB_CONNECTION_STRING_NAME, commander: new NativeTellstickCommander(), name: "Ett namn på en Tellstick", locationDesciption: "Liggandes på skrivbordet i Hans rum", protocol: EnumTellstickProtocol.arctech, modelType:EnumTellstickModelType.codeswitch, modelManufacturer: EnumTellstickModelManufacturer.Nexa, unit: EnumTellstickParameter_Unit._1, house: EnumTellstickParameter_House.A );
+            //TestScheduler();
+            CreateDBTest(DB_CONNECTION_STRING_NAME);
+            //var registeredDevice = RegisterDevice(dbConnectionStringName: DB_CONNECTION_STRING_NAME, commander: new NativeTellstickCommander(), name: "Ett namn på en Tellstick", locationDesciption: "Liggandes på skrivbordet i Hans rum", protocol: EnumTellstickProtocol.arctech, modelType: EnumTellstickModelType.codeswitch, modelManufacturer: EnumTellstickModelManufacturer.Nexa, unit: EnumTellstickParameter_Unit._1, house: EnumTellstickParameter_House.A);
             //new TellstickUnitDealer(DB_CONNECTION_STRING_NAME, new NativeTellstickCommander()).TurnOnDevice(
             //    registeredDevice);
             //DisplayInfo();
-
+            //var un12 = UnregisterDevice(nativeDeviceId: 12, dbConnectionStringName: DB_CONNECTION_STRING_NAME, commander: new NativeTellstickCommander());
 
         }
 
@@ -44,15 +44,23 @@ namespace Tellstick.ConsoleForTestingPurpose
                 db.Database.Initialize(true);
 #endif
                 //do something random stupid to force seed
-                var stupidValue = db.TellstickModels.Count();
+                var stupidValue = db.Models.Count();
             }
         }
 
-        private static ITellstickUnit RegisterDevice(string dbConnectionStringName, INativeTellstickCommander commander, string name, string locationDesciption, EnumTellstickProtocol protocol, EnumTellstickModelType modelType, EnumTellstickModelManufacturer modelManufacturer, EnumTellstickParameter_Unit unit, EnumTellstickParameter_House house)
+        private static IUnit RegisterDevice(string dbConnectionStringName, INativeTellstickCommander commander, string name, string locationDesciption, ProtocolOption protocolOption, ModelTypeOption modelTypeOption, ModelManufacturerOption modelManufacturerOption, Parameter_UnitOption unitOption, Parameter_HouseOption houseOption)
         {
             var tellstickUnitDealer = new TellstickUnitDealer(dbConnectionStringName, commander);
-            var createdTellstickUnit = tellstickUnitDealer.AddDevice(name, locationDesciption, protocol, modelType, modelManufacturer, unit, house);
+            var createdTellstickUnit = tellstickUnitDealer.AddDevice(name, locationDesciption, protocolOption, modelTypeOption, modelManufacturerOption, unitOption, houseOption);
             return createdTellstickUnit;
+        }
+
+        private static bool UnregisterDevice(int nativeDeviceId, string dbConnectionStringName, INativeTellstickCommander commander)
+        {
+
+            var tellstickUnitDealer = new TellstickUnitDealer(dbConnectionStringName, commander);
+            var unregistered = tellstickUnitDealer.RemoveDevice(nativeDeviceId);
+            return unregistered;
         }
 
         private static void TestScheduler()
@@ -66,7 +74,6 @@ namespace Tellstick.ConsoleForTestingPurpose
             jobScheduler = new JobScheduler(DB_CONNECTION_STRING_NAME);
             jobScheduler.Start();
         }
-        
 
         private static void DisplayInfo()
         {

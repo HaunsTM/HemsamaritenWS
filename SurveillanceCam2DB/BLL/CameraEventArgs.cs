@@ -5,7 +5,7 @@
     public class CameraEventArgs : System.EventArgs, ICameraEventArgs
     {
 
-        public System.Drawing.Image SnapShot { get; set; }
+        public SurveillanceCam2DB.Model.Interfaces.IImage SnapShot { get; set; }
 
         public System.Exception CameraException { get; set; }
 

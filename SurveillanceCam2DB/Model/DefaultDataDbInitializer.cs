@@ -1,7 +1,5 @@
-﻿namespace SurveillanceCam2DB.ConsoleForTestingPurpose
+﻿namespace SurveillanceCam2DB.Model
 {
-    using SurveillanceCam2DB.Model;
-
     using System.Collections.Generic;
     using System.Data.Entity;
 

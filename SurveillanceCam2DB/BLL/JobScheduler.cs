@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Linq;
 
     using log4net;
@@ -11,7 +12,6 @@
 
     using SurveillanceCam2DB.BLL.Interfaces;
     using SurveillanceCam2DB.Model.Interfaces;
-    
 
     public class JobScheduler : IJobScheduler
     {
@@ -21,31 +21,57 @@
 
         private Quartz.IScheduler Scheduler { get; set; }
 
+        private NameValueCollection SchedulerProperties()
+        {
+            var properties = new NameValueCollection();
+            properties["quartz.scheduler.instanceName"] = "SurveillanceCam2DB_Scheduler";
+            return properties;
+        }
+
         private IPosition _tomatkameraPosition;
 
         public JobScheduler(string dbConnectionStringName)
         {
             this.DbConnectionStringName = dbConnectionStringName;
-            this.Scheduler = StdSchedulerFactory.GetDefaultScheduler();
+            
+            ISchedulerFactory sf = new StdSchedulerFactory(props: SchedulerProperties());
+            this.Scheduler = sf.GetScheduler();
 
             _tomatkameraPosition = null;
         }
 
         public void Start()
         {
-            this.Scheduler.Start();
-
-            var preparedJobs = this.PreparedJobs();
-
-            foreach (var preparedJob in preparedJobs)
+            if (!this.Scheduler.IsStarted)
             {
-                this.Scheduler.ScheduleJob(jobDetail: preparedJob.Job, trigger: preparedJob.Trigger);
+                this.Scheduler.Start();
+
+                var preparedJobs = this.PreparedJobs();
+
+                foreach (var preparedJob in preparedJobs)
+                {
+                    this.Scheduler.ScheduleJob(jobDetail: preparedJob.Job, trigger: preparedJob.Trigger);
+                }
+
+                log.Debug(String.Format("Started Scheduler for SurveillanceCam2DB!"));
+            }
+            else
+            {
+                log.Warn(String.Format("Tried to start Scheduler for SurveillanceCam2DB, but it was already started!"));
             }
         }
 
         public void Stop()
         {
-            this.Scheduler.Shutdown();
+            if (this.Scheduler.IsStarted)
+            {
+                this.Scheduler.Shutdown();
+                log.Debug(String.Format("Shutdown Scheduler for SurveillanceCam2DB!"));
+            }
+            else
+            {
+                log.Warn(String.Format("Tried to shutdown Scheduler for SurveillanceCam2DB, but it was already shutdown!"));
+            }
         }
 
         private List<JobDetailAndTrigger> PreparedJobs()
