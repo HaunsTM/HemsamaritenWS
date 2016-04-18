@@ -17,10 +17,8 @@
         public bool Active { get; set; }
 
         #endregion
-<<<<<<< HEAD
 
         public string CronExpression { get; set; }
-=======
         
         [ForeignKey("Camera")]
         public int Camera_Id { get; set; }
@@ -28,7 +26,6 @@
         public int ActionType_Id { get; set; }
         [ForeignKey("Scheduler")]
         public int Scheduler_Id { get; set; }
->>>>>>> develop
 
         #region Navigation properties
 
@@ -40,11 +37,6 @@
         public virtual Scheduler Scheduler { get; set; }
         [JsonIgnore]
         public virtual List<PerformedAction> PerformedActions { get; set; }
-
-        [ForeignKey("Camera")]
-        public int Camera_Id { get; set; }
-        [ForeignKey("ActionType")]
-        public int ActionType_Id { get; set; }
 
         #endregion
 

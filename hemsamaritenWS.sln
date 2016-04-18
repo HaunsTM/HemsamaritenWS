@@ -28,15 +28,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tellstick", "Tellstick", "{5E88F7F0-F7A3-49C1-8E1D-25579C654736}"
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-	ProjectSection(SolutionItems) = preProject
-		SurveillanceCam2DB\BLL\ImageTransferJob.cs = SurveillanceCam2DB\BLL\ImageTransferJob.cs
-	EndProjectSection
->>>>>>> develop
-=======
->>>>>>> develop
+ProjectSection(SolutionItems) = preProject
+	SurveillanceCam2DB\BLL\ImageTransferJob.cs = SurveillanceCam2DB\BLL\ImageTransferJob.cs
+EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleForTestingPurpose", "Tellstick\ConsoleForTestingPurpose\ConsoleForTestingPurpose.csproj", "{3E4601DE-D8EA-48A5-AE2D-E471E4BDCA3C}"
 EndProject
