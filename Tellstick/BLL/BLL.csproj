@@ -122,11 +122,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tellstick\Model\Model.csproj">
+    <ProjectReference Include="..\Model\Model.csproj">
       <Project>{80e3f2e7-77c9-4e92-8794-21cee5a51263}</Project>
       <Name>Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tellstick\TelldusNETWrapper\TelldusNETWrapper.csproj">
+    <ProjectReference Include="..\TelldusNETWrapper\TelldusNETWrapper.csproj">
       <Project>{675c494f-7d3b-4f6f-ab7a-98ba9e2b2b43}</Project>
       <Name>TelldusNETWrapper</Name>
     </ProjectReference>
