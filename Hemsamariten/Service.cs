@@ -118,8 +118,7 @@ namespace Hemsamariten
     #region INSTALLER
     // Provide the ProjectInstaller class which allows 
     // the service to be installed by the Installutil.exe tool
-    [System.ComponentModel.RunInstaller(true)]
-    public class ProjectInstaller : Installer
+    public partial class ProjectInstaller : Installer
     {
         private ServiceProcessInstaller process;
         private ServiceInstaller service;

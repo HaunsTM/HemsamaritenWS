@@ -101,7 +101,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BLL\BLL.csproj">
+    <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{2c3f2178-d1af-4d0e-a2e7-b64e69440fb7}</Project>
       <Name>BLL</Name>
     </ProjectReference>

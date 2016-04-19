@@ -107,10 +107,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\BLL\BLL.csproj">
-      <Project>{2c3f2178-d1af-4d0e-a2e7-b64e69440fb7}</Project>
-      <Name>Tellstick.BLL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SurveillanceCam2DB\BLL\BLL.csproj">
       <Project>{28442c3d-5366-451e-9e97-b1d0c6cefd4d}</Project>
       <Name>SurveillanceCam2DB.BLL</Name>
@@ -118,6 +114,10 @@
     <ProjectReference Include="..\SurveillanceCam2DB\Model\Model.csproj">
       <Project>{d7fca33d-2cf8-404f-b866-33df756c9b3a}</Project>
       <Name>SurveillanceCam2DB.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tellstick\BLL\BLL.csproj">
+      <Project>{2c3f2178-d1af-4d0e-a2e7-b64e69440fb7}</Project>
+      <Name>BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tellstick\Model\Model.csproj">
       <Project>{80E3F2E7-77C9-4E92-8794-21CEE5A51263}</Project>
