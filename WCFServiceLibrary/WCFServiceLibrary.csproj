@@ -117,11 +117,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Tellstick\BLL\BLL.csproj">
       <Project>{2c3f2178-d1af-4d0e-a2e7-b64e69440fb7}</Project>
-<<<<<<< HEAD
       <Name>Tellstick.BLL</Name>
-=======
-      <Name>BLL</Name>
->>>>>>> develop
     </ProjectReference>
     <ProjectReference Include="..\Tellstick\Model\Model.csproj">
       <Project>{80E3F2E7-77C9-4E92-8794-21CEE5A51263}</Project>
