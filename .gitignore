@@ -2,3 +2,4 @@ SurveillanceCam2DB/ConsoleForTestingPurpose/job_scheduling_data_2_0.xsd
 SurveillanceCam2DB/BLL/job_scheduling_data_2_0.xsd
 BLL/job_scheduling_data_2_0.xsd
 Externals/
+WCFServiceLibrary/job_scheduling_data_2_0.xsd
