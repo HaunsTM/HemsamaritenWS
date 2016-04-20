@@ -123,9 +123,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="job_scheduling_data_2_0.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
@@ -145,6 +142,10 @@
     <ProjectReference Include="..\..\Tellstick\Model\Model.csproj">
       <Project>{80E3F2E7-77C9-4E92-8794-21CEE5A51263}</Project>
       <Name>Tellstick.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{4aa68220-6993-4931-8702-e7b51fcc888e}</Project>
+      <Name>WCF.BLL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
