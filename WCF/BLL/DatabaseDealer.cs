@@ -1,8 +1,8 @@
-﻿namespace WCFService.BLL
+﻿namespace WCF.BLL
 {
-    using WCFService.BLL.Interfaces;
-
     using System.Linq;
+
+    using WCF.BLL.Interfaces;
 
     public class DatabaseDealer : IDatabaseDealer
     {
@@ -17,9 +17,9 @@
         {
             var databaseCreated = false;
 
-            System.Data.Entity.Database.SetInitializer(new WCFService.Model.DefaultDataDbInitializer());
+            System.Data.Entity.Database.SetInitializer(new WCF.Model.DefaultDataDbInitializer());
 
-            using (var db = new WCFService.Model.HemsamaritenContext(dbConnectionStringName))
+            using (var db = new WCF.Model.HemsamaritenContext(dbConnectionStringName))
             {
                 db.Database.Initialize(true);
 
