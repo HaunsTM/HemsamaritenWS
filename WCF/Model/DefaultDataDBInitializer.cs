@@ -1,4 +1,4 @@
-﻿namespace WCFService.Model
+﻿namespace WCF.Model
 {
     using System;
     using System.Collections.Generic;

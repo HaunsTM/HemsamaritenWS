@@ -1,7 +1,7 @@
 ﻿//Here is the once-per-application setup information
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
-namespace WCFService.ServiceLibrary
+namespace WCF.ServiceLibrary
 {
     using System;
     using System.Collections.Generic;
@@ -9,12 +9,12 @@ namespace WCFService.ServiceLibrary
     using System.ServiceModel;
     using System.ServiceProcess;
 
-    using WCFService.ServiceLibrary.Interfaces;
+    using WCF.ServiceLibrary.Interfaces;
 
     [ServiceBehavior(
         InstanceContextMode = InstanceContextMode.Single,
         ConcurrencyMode = ConcurrencyMode.Multiple)]
-    public class HemsamaritenDuplexService : ServiceBase, WCFService.ServiceLibrary.Interfaces.IHemsamaritenDuplexService
+    public class HemsamaritenDuplexService : ServiceBase, WCF.ServiceLibrary.Interfaces.IHemsamaritenDuplexService
     {
         //Here is the once-per-class call to initialize the log object
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

@@ -5,9 +5,7 @@ namespace Hemsamariten
 {
     using System;
     using System.IO;
-    using System.ComponentModel;
     using System.ServiceModel;
-    using System.Configuration;
     using System.Configuration.Install;
     using System.ServiceProcess;
 
@@ -49,7 +47,7 @@ namespace Hemsamariten
         {
             try
             {
-                ServiceBase.Run(new WCFService.ServiceLibrary.HemsamaritenDuplexService());
+                ServiceBase.Run(new WCF.ServiceLibrary.HemsamaritenDuplexService());
             }
             catch (FileNotFoundException fNFEx)
             {

@@ -1,4 +1,4 @@
-﻿namespace WCFService.Model.Interfaces
+﻿namespace WCF.Model.Interfaces
 {
     using System;
     using System.ComponentModel.DataAnnotations;

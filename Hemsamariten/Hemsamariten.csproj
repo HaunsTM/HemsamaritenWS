@@ -89,9 +89,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WCFService\ServiceLibrary\ServiceLibrary.csproj">
+    <ProjectReference Include="..\WCF\ServiceLibrary\ServiceLibrary.csproj">
       <Project>{5848b052-dcbe-422a-a1f5-8d8f10d2a50c}</Project>
-      <Name>ServiceLibrary</Name>
+      <Name>WCF.ServiceLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

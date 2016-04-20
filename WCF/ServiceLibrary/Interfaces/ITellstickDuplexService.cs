@@ -1,4 +1,4 @@
-﻿namespace WCFService.ServiceLibrary.Interfaces
+﻿namespace WCF.ServiceLibrary.Interfaces
 {
     using System.ServiceModel;
 

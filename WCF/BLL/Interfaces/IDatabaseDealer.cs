@@ -1,4 +1,4 @@
-﻿namespace WCFService.BLL.Interfaces
+﻿namespace WCF.BLL.Interfaces
 {
     interface IDatabaseDealer
     {
