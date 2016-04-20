@@ -38,7 +38,35 @@ namespace WCF.ServiceLibrary
         }
 
         #region IHemsamaritenDuplexService
-        
+
+        /// <summary>
+        /// Creates and initializes a database used for f ex log4net
+        /// </summary>
+        public void CreateAndInitializeHemsamaritenDB()
+        {
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var databaseDealer = new WCF.BLL.DatabaseDealer(DB_CONNECTION_STRING_NAME__HEMSAMARITEN_DB);
+
+                    var databaseCreated = databaseDealer.CreateAndInitializeHemsamaritenDB();
+                    if (databaseCreated)
+                    {
+                        log.Debug(String.Format("Created HemsamaritenDB."));
+                    }
+                    else
+                    {
+                        throw new Exception(String.Format("Failed in creating HemsamaritenDB."));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Failed in creating HemsamaritenDB."), ex);
+            }
+        }
+
         #endregion
 
         #region ISurveillanceCam2DBDuplexService
