@@ -1,4 +1,4 @@
-﻿namespace Model
+﻿namespace WCFService.Model
 {
     using System.Data.Entity;
 
@@ -11,7 +11,6 @@
         public HemsamaritenContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
-
         }
 
         public DbSet<Log> Logs { get; set; }

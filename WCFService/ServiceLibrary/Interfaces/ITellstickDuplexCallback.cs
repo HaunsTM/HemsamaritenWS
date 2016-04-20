@@ -1,4 +1,4 @@
-﻿namespace WCFServiceLibrary.Interfaces
+﻿namespace WCFService.ServiceLibrary.Interfaces
 {
     public interface ITellstickDuplexCallback
     {

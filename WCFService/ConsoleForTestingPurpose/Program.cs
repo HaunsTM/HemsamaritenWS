@@ -1,8 +1,6 @@
-﻿namespace ConsoleForTestingPurpose
+﻿namespace WCFService.ConsoleForTestingPurpose
 {
     using System;
-
-    using Model;
 
     class Program
     {
@@ -20,9 +18,9 @@
         private static void CreateLog4NetDB()
         {
 
-            var db = new Model.HemsamaritenContext("name=HemsamaritenDBConnection");
+            var db = new WCFService.Model.HemsamaritenContext("name=HemsamaritenDBConnection");
 
-            db.Logs.Add(new Log {Date = DateTime.Today, Exception = "NO EXCEPTION", Level = "NO LEVEL", Logger = "NO LOGGER", Message = "NO MESSAGE"});
+            db.Logs.Add(new WCFService.Model.Log {Date = DateTime.Today, Exception = "NO EXCEPTION", Level = "NO LEVEL", Logger = "NO LOGGER", Message = "NO MESSAGE"});
             db.SaveChanges();
         }
 

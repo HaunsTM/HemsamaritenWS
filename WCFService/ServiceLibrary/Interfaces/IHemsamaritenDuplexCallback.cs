@@ -1,7 +1,5 @@
-﻿namespace WCFServiceLibrary.Interfaces
+﻿namespace WCFService.ServiceLibrary.Interfaces
 {
-    using System.ServiceModel;
-
     public interface IHemsamaritenDuplexCallback : ISurveillanceCam2DBDuplexCallback, ITellstickDuplexCallback
     {
     }
