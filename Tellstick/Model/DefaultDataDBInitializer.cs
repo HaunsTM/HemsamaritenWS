@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Data.Entity;
-    using System.Linq;
 
     using Tellstick.Model.Enums;
 

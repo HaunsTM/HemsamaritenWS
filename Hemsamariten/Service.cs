@@ -49,7 +49,7 @@ namespace Hemsamariten
         {
             try
             {
-                ServiceBase.Run(new WCFServiceLibrary.HemsamaritenDuplexService());
+                ServiceBase.Run(new WCFService.ServiceLibrary.HemsamaritenDuplexService());
             }
             catch (FileNotFoundException fNFEx)
             {

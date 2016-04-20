@@ -1,7 +1,7 @@
-﻿namespace WCFServiceLibrary.Interfaces
+﻿namespace WCFService.ServiceLibrary.Interfaces
 {
     using System.ServiceModel;
-    
+
     [ServiceContract(CallbackContract = typeof(ITellstickDuplexCallback))]
     public interface ITellstickDuplexService
     {

@@ -1,7 +1,7 @@
 ﻿//Here is the once-per-application setup information
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
-namespace WCFServiceLibrary
+namespace WCFService.ServiceLibrary
 {
     using System;
     using System.Collections.Generic;
@@ -9,14 +9,12 @@ namespace WCFServiceLibrary
     using System.ServiceModel;
     using System.ServiceProcess;
 
-    using Tellstick.Model.Enums;
-
-    using WCFServiceLibrary.Interfaces;
+    using WCFService.ServiceLibrary.Interfaces;
 
     [ServiceBehavior(
         InstanceContextMode = InstanceContextMode.Single,
         ConcurrencyMode = ConcurrencyMode.Multiple)]
-    public class HemsamaritenDuplexService : ServiceBase, IHemsamaritenDuplexService
+    public class HemsamaritenDuplexService : ServiceBase, WCFService.ServiceLibrary.Interfaces.IHemsamaritenDuplexService
     {
         //Here is the once-per-class call to initialize the log object
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -40,50 +38,7 @@ namespace WCFServiceLibrary
         }
 
         #region IHemsamaritenDuplexService
-
-        public void Connect()
-        {
-            try
-            {
-                var callbackChannel =
-                    OperationContext.Current.GetCallbackChannel<IHemsamaritenDuplexCallback>();
-
-                lock (_syncRoot)
-                {
-                    if (!_callbackChannels.Contains(callbackChannel))
-                    {
-                        _callbackChannels.Add(callbackChannel);
-                        log.Debug(String.Format("Added Callback Channel: {0}", callbackChannel.GetHashCode()));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Failed in adding callback channel!"), ex);
-            }
-        }
-
-        public void Disconnect()
-        {
-            var callbackChannel =
-                    OperationContext.Current.GetCallbackChannel<IHemsamaritenDuplexCallback>();
-
-            try
-            {
-                lock (_syncRoot)
-                {
-                    if (_callbackChannels.Remove(callbackChannel))
-                    {
-                        log.Debug(String.Format("Removed callback channel: {0}", callbackChannel.GetHashCode()));
-                    }
-                }
-            }
-            catch(Exception ex)
-            {
-                log.Error(String.Format("Failed in removing callback channel: {0}", callbackChannel.GetHashCode()), ex);
-            }
-        }
-
+        
         #endregion
 
         #region ISurveillanceCam2DBDuplexService
@@ -96,8 +51,8 @@ namespace WCFServiceLibrary
             {
                 lock (_syncRoot)
                 {
-                    SurveillanceCam2DBJobScheduler = new SurveillanceCam2DB.BLL.JobScheduler(DB_CONNECTION_STRING_NAME__SURVEILLANCE_CAM_2_DB);
-                    SurveillanceCam2DBJobScheduler.Start();
+                    this.SurveillanceCam2DBJobScheduler = new SurveillanceCam2DB.BLL.JobScheduler(DB_CONNECTION_STRING_NAME__SURVEILLANCE_CAM_2_DB);
+                    this.SurveillanceCam2DBJobScheduler.Start();
                     log.Debug(String.Format("Started SurveillanceCam2DBScheduler."));
                 }
             }
@@ -113,8 +68,8 @@ namespace WCFServiceLibrary
             {
                 lock (_syncRoot)
                 {
-                    SurveillanceCam2DBJobScheduler.Stop();
-                    SurveillanceCam2DBJobScheduler = null;
+                    this.SurveillanceCam2DBJobScheduler.Stop();
+                    this.SurveillanceCam2DBJobScheduler = null;
                     log.Debug(String.Format("Stopped SurveillanceCam2DBScheduler."));
                 }
             }
@@ -159,8 +114,8 @@ namespace WCFServiceLibrary
             {
                 lock (_syncRoot)
                 {
-                    TellstickJobScheduler = new Tellstick.BLL.JobScheduler(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    TellstickJobScheduler.Start();
+                    this.TellstickJobScheduler = new Tellstick.BLL.JobScheduler(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    this.TellstickJobScheduler.Start();
 
                     log.Debug(String.Format("Started TellstickScheduler."));
                 }
@@ -177,8 +132,8 @@ namespace WCFServiceLibrary
             {
                 lock (_syncRoot)
                 {
-                    TellstickJobScheduler.Stop();
-                    TellstickJobScheduler = null;
+                    this.TellstickJobScheduler.Stop();
+                    this.TellstickJobScheduler = null;
 
                     log.Debug(String.Format("Stopped TellstickScheduler."));
                 }
@@ -215,11 +170,11 @@ namespace WCFServiceLibrary
         public Tellstick.Model.Unit RegisterTellstickDevice(
             string name,
             string locationDesciption,
-            ProtocolOption protocolOption,
-            ModelTypeOption modelTypeOption,
-            ModelManufacturerOption modelManufacturerOption,
-            Parameter_UnitOption unitOption,
-            Parameter_HouseOption houseOption)
+            Tellstick.Model.Enums.ProtocolOption protocolOption,
+            Tellstick.Model.Enums.ModelTypeOption modelTypeOption,
+            Tellstick.Model.Enums.ModelManufacturerOption modelManufacturerOption,
+            Tellstick.Model.Enums.Parameter_UnitOption unitOption,
+            Tellstick.Model.Enums.Parameter_HouseOption houseOption)
         {
             var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
             var addedUnit = tellstickUnitDealer.AddDevice(name, locationDesciption, protocolOption, modelTypeOption, modelManufacturerOption, unitOption, houseOption);

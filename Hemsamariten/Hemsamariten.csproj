@@ -84,15 +84,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WCFServiceLibrary\WCFServiceLibrary.csproj">
-      <Project>{5848b052-dcbe-422a-a1f5-8d8f10d2a50c}</Project>
-      <Name>WCFServiceLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Service.resx">
       <DependentUpon>Service.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WCFService\ServiceLibrary\ServiceLibrary.csproj">
+      <Project>{5848b052-dcbe-422a-a1f5-8d8f10d2a50c}</Project>
+      <Name>ServiceLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

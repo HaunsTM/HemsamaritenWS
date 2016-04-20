@@ -1,9 +1,9 @@
-﻿namespace Model
+﻿namespace WCFService.Model
 {
+    using WCFService.Model.Interfaces;
+
     using System;
     using System.ComponentModel.DataAnnotations;
-
-    using global::Model.Interfaces;
 
     public class Log : ILog
     {

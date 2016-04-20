@@ -7,8 +7,8 @@
     <ProjectGuid>{F786866E-69C3-45DB-A1E4-0F10BF1DEBDC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Model</RootNamespace>
-    <AssemblyName>Model</AssemblyName>
+    <RootNamespace>WCFService.Model</RootNamespace>
+    <AssemblyName>WCFService.Model</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -82,6 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultDataDBInitializer.cs" />
     <Compile Include="HemsamaritenContext.cs" />
     <Compile Include="Interfaces\ILog.cs" />
     <Compile Include="Log.cs" />

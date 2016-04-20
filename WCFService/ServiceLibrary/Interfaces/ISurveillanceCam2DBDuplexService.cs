@@ -1,6 +1,5 @@
-﻿namespace WCFServiceLibrary.Interfaces
+﻿namespace WCFService.ServiceLibrary.Interfaces
 {
-    using System;
     using System.ServiceModel;
 
     [ServiceContract(CallbackContract = typeof(ISurveillanceCam2DBDuplexCallback))]
