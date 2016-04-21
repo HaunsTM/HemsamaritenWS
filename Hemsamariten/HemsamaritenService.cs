@@ -4,6 +4,7 @@
 namespace Hemsamariten
 {
     using System;
+    using System.ComponentModel;
     using System.IO;
     using System.ServiceModel;
     using System.Configuration.Install;
@@ -12,7 +13,7 @@ namespace Hemsamariten
     using log4net;
 
     //https://msdn.microsoft.com/en-us/library/ms733069(v=vs.110).aspx
-    public class Service : ServiceBase
+    public class HemsamaritenService : ServiceBase
     {
 
         #region FIELDS
@@ -26,21 +27,14 @@ namespace Hemsamariten
 
         #region CONSTRUCTOR
 
-        public Service()
+        public HemsamaritenService()
         {
+            // Name the Windows Service
+            this.ServiceName = "WCFWindowsServiceHemsamariten";
         }
 
         #endregion
-
-        private void InitializeComponent()
-        {
-            // 
-            // Service
-            // 
-            this.ServiceName = "Hemsamariten.HemsamaritenDuplexService";
-
-        }
-
+        
         #region Main
 
         public static void Main(string[] args)
@@ -79,7 +73,7 @@ namespace Hemsamariten
 
                 // Create a ServiceHost for the CalculatorService type and 
                 // provide the base address.
-                this.serviceHost = new ServiceHost(typeof(Service));
+                this.serviceHost = new ServiceHost(typeof(HemsamaritenService));
 
                 // Open the ServiceHostBase to create listeners and start 
                 // listening for messages.
@@ -111,25 +105,28 @@ namespace Hemsamariten
         }
 
         #endregion
-    }
 
-    #region INSTALLER
-    // Provide the ProjectInstaller class which allows 
-    // the service to be installed by the Installutil.exe tool
-    public partial class ProjectInstaller : Installer
-    {
-        private ServiceProcessInstaller process;
-        private ServiceInstaller service;
+        #region INSTALLER
 
-        public ProjectInstaller()
+        // Provide the ProjectInstaller class which allows 
+        // the service to be installed by the Installutil.exe tool
+        [RunInstaller(true)]
+        public class ProjectInstaller : Installer
         {
-            process = new ServiceProcessInstaller();
-            process.Account = ServiceAccount.LocalSystem;
-            service = new ServiceInstaller();
-            service.ServiceName = "HemsamaritenWindowsService";
-            Installers.Add(process);
-            Installers.Add(service);
+            private ServiceProcessInstaller process;
+            private ServiceInstaller service;
+
+            public ProjectInstaller()
+            {
+                process = new ServiceProcessInstaller();
+                process.Account = ServiceAccount.LocalSystem;
+                service = new ServiceInstaller();
+                service.ServiceName = "WCFWindowsServiceHemsamariten";
+                Installers.Add(process);
+                Installers.Add(service);
+            }
         }
+        #endregion
     }
-    #endregion
+
 }
