@@ -53,17 +53,17 @@ namespace WCF.ServiceLibrary
                     var databaseCreated = databaseDealer.CreateAndInitializeHemsamaritenDB();
                     if (databaseCreated)
                     {
-                        log.Debug(String.Format("Created HemsamaritenDB."));
+                        log.Debug(String.Format("Created and initialized HemsamaritenDB!"));
                     }
                     else
                     {
-                        throw new Exception(String.Format("Failed in creating HemsamaritenDB."));
+                        throw new Exception(String.Format("Failed in creating and initializing HemsamaritenDB."));
                     }
                 }
             }
             catch (Exception ex)
             {
-                log.Error(String.Format("Failed in creating HemsamaritenDB."), ex);
+                log.Error(String.Format("Failed in creating and initializing HemsamaritenDB."), ex);
             }
         }
 
@@ -107,26 +107,31 @@ namespace WCF.ServiceLibrary
             }
         }
 
+        /// <summary>
+        /// Creates and initializes a database
+        /// </summary>
         public void CreateAndInitializeSurveillanceCam2DB()
         {
             try
             {
                 lock (_syncRoot)
                 {
-                    System.Data.Entity.Database.SetInitializer(new SurveillanceCam2DB.Model.DefaultDataDbInitializer());
-                    using (var db = new SurveillanceCam2DB.Model.SurveillanceCam2DBContext(DB_CONNECTION_STRING_NAME__SURVEILLANCE_CAM_2_DB))
-                    {
-                        db.Database.Initialize(true);
+                    var databaseDealer = new SurveillanceCam2DB.BLL.DatabaseDealer(DB_CONNECTION_STRING_NAME__SURVEILLANCE_CAM_2_DB);
 
-                        //do something random stupid to force seed
-                        var stupidValue = db.Images.Count();
+                    var databaseCreated = databaseDealer.CreateAndInitializeSurveillanceCam2DBDB();
+                    if (databaseCreated)
+                    {
+                        log.Debug(String.Format("Created and initialized SurveillanceCam2DB!"));
                     }
-                    log.Debug(String.Format("Initialized surveillance cam DB!"));
+                    else
+                    {
+                        throw new Exception(String.Format("Failed in creating and initializing SurveillanceCam2DB."));
+                    }
                 }
             }
             catch (Exception ex)
             {
-                log.Error(String.Format("Failed in initializing surveillance cam DB!"), ex);
+                log.Error(String.Format("Failed in creating and initializing SurveillanceCam2DB."), ex);
             }
         }
 
@@ -172,26 +177,31 @@ namespace WCF.ServiceLibrary
             }
         }
 
+        /// <summary>
+        /// Creates and initializes a database
+        /// </summary>
         public void CreateAndInitializeTellstickDB()
         {
             try
             {
                 lock (_syncRoot)
                 {
-                    System.Data.Entity.Database.SetInitializer(new Tellstick.Model.DefaultDataDbInitializer());
-                    using (var db = new Tellstick.Model.TellstickDBContext(DB_CONNECTION_STRING_NAME__TELLSTICK_DB))
-                    {
-                        db.Database.Initialize(true);
+                    var databaseDealer = new Tellstick.BLL.DatabaseDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
 
-                        //do something random stupid to force seed
-                        var stupidValue = db.Models.Count();
+                    var databaseCreated = databaseDealer.CreateAndInitializeTellstickDB();
+                    if (databaseCreated)
+                    {
+                        log.Debug(String.Format("Created and initialized TellstickDB!"));
                     }
-                    log.Debug(String.Format("Initialized TellstickDB!"));
+                    else
+                    {
+                        throw new Exception(String.Format("Failed in creating and initializing TellstickDB."));
+                    }
                 }
             }
             catch (Exception ex)
             {
-                log.Error(String.Format("Failed in initializing TellstickDB!"), ex);
+                log.Error(String.Format("Failed in creating and initializing TellstickDB."), ex);
             }
         }
         

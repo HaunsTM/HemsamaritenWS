@@ -69,9 +69,13 @@
                     unitOption,
                     houseOption);
             }
+            catch (InvalidOperationException invalidOperationException)
+            {
+                var possibleReason = String.Format("Did you forget to seed the database? {0}", invalidOperationException.Message);
+                throw new Exception(message: possibleReason, innerException: invalidOperationException);
+            }
             catch (Exception ex)
             {
-
                 if (addedDeviceNativeId == -1)
                 {
                     //we couln't register a device natively

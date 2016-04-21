@@ -103,7 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionsDealer.cs" />
+    <Compile Include="DatabaseDealer.cs" />
     <Compile Include="Interfaces\IActionsDealer.cs" />
+    <Compile Include="Interfaces\IDatabaseDealer.cs" />
     <Compile Include="Interfaces\IJobScheduler.cs" />
     <Compile Include="Interfaces\INativeTellstickCommander.cs" />
     <Compile Include="Interfaces\IPerformedActionsDealer.cs" />

@@ -13,6 +13,5 @@
 
         [OperationContract(IsOneWay = true)]
         void CreateAndInitializeSurveillanceCam2DB();
-
     }
 }
