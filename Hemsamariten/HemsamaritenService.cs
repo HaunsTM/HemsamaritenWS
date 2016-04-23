@@ -8,6 +8,7 @@ namespace Hemsamariten
     using System.IO;
     using System.ServiceModel;
     using System.Configuration.Install;
+    using System.Reflection;
     using System.ServiceProcess;
 
     using log4net;
@@ -34,14 +35,37 @@ namespace Hemsamariten
         }
 
         #endregion
-        
+
         #region Main
 
         public static void Main(string[] args)
         {
             try
             {
-                ServiceBase.Run(new WCF.ServiceLibrary.HemsamaritenDuplexService());
+                if (Environment.UserInteractive)
+                {
+                    string parameter = string.Concat(args);
+                    switch (parameter)
+                    {
+                        case "--install":
+                            ManagedInstallerClass.InstallHelper(new[] { Assembly.GetExecutingAssembly().Location });
+                            break;
+                        case "--uninstall":
+                            ManagedInstallerClass.InstallHelper(new[] { "/u", Assembly.GetExecutingAssembly().Location });
+                            break;
+                    }
+                }
+                else
+                {
+                    ServiceBase[] servicesToRun = new ServiceBase[]
+                                    {
+                                        new WCF.ServiceLibrary.HemsamaritenDuplexService()
+                                    };
+                    ServiceBase.Run(servicesToRun);
+
+                    log.Debug(String.Format("HemsamaritenDuplexService (WCF)."));
+
+                }
             }
             catch (FileNotFoundException fNFEx)
             {
@@ -75,6 +99,12 @@ namespace Hemsamariten
                 // provide the base address.
                 this.serviceHost = new ServiceHost(typeof(HemsamaritenService));
 
+                this.serviceHost.Opening += new EventHandler(host_Opening);
+                this.serviceHost.Opened += new EventHandler(host_Opened);
+                this.serviceHost.Closing += new EventHandler(host_Closing);
+                this.serviceHost.Closed += new EventHandler(host_Closed);
+                this.serviceHost.Faulted += new EventHandler(host_Faulted);
+
                 // Open the ServiceHostBase to create listeners and start 
                 // listening for messages.
                 this.serviceHost.Open();
@@ -106,27 +136,58 @@ namespace Hemsamariten
 
         #endregion
 
-        #region INSTALLER
+        #region Event Handlers
 
-        // Provide the ProjectInstaller class which allows 
-        // the service to be installed by the Installutil.exe tool
-        [RunInstaller(true)]
-        public class ProjectInstaller : Installer
+        private void host_Faulted(object sender, EventArgs e)
         {
-            private ServiceProcessInstaller process;
-            private ServiceInstaller service;
-
-            public ProjectInstaller()
-            {
-                process = new ServiceProcessInstaller();
-                process.Account = ServiceAccount.LocalSystem;
-                service = new ServiceInstaller();
-                service.ServiceName = "WCFWindowsServiceHemsamariten";
-                Installers.Add(process);
-                Installers.Add(service);
-            }
+            log.Debug("Host has faulted.");
         }
+
+        private void host_Closed(object sender, EventArgs e)
+        {
+            log.Debug("Host is closed.");
+        }
+
+        private void host_Closing(object sender, EventArgs e)
+        {
+            log.Debug("Host is closing.");
+        }
+
+        private void host_Opened(object sender, EventArgs e)
+        {
+            log.Debug("Host is opened.");
+        }
+
+        private void host_Opening(object sender, EventArgs e)
+        {
+            log.Debug("Host is opening.");
+        }
+
         #endregion
+
     }
+
+    #region INSTALLER
+
+    // Provide the ProjectInstaller class which allows 
+    // the service to be installed by the Installutil.exe tool
+    [RunInstaller(true)]
+    public class ProjectInstaller : Installer
+    {
+        private ServiceProcessInstaller process;
+        private ServiceInstaller service;
+
+        public ProjectInstaller()
+        {
+            process = new ServiceProcessInstaller();
+            process.Account = ServiceAccount.LocalSystem;
+            service = new ServiceInstaller();
+            service.ServiceName = "WCFWindowsServiceHemsamariten";
+            Installers.Add(process);
+            Installers.Add(service);
+        }
+    }
+
+    #endregion
 
 }
