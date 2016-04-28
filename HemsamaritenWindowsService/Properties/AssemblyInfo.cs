@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("HemsamaritenService")]
+[assembly: AssemblyTitle("HemsamaritenWindowsService")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("HemsamaritenService")]
+[assembly: AssemblyProduct("HemsamaritenWindowsService")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9a768fd0-89d7-49f9-9f4d-63c61cb50da4")]
+[assembly: Guid("dac9e94e-e2c8-417b-a899-9cf177860b1c")]
 
 // Version information for an assembly consists of the following four values:
 //
