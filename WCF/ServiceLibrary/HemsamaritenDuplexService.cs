@@ -73,6 +73,37 @@ namespace WCF.ServiceLibrary
         
         private SurveillanceCam2DB.BLL.JobScheduler SurveillanceCam2DBJobScheduler { get; set; }
 
+        public void DumpCurrentlyExecutingSurveillanceCam2DBJobsNamesToLog()
+        {
+            try
+            {
+                lock (_syncRoot)
+                {
+                    if (this.SurveillanceCam2DBJobScheduler != null)
+                    {
+                        var currentlyExecutingSurveillanceCam2DBJobsNamesList = this.SurveillanceCam2DBJobScheduler.CurrentlyExecutingJobsNames;
+                        if (currentlyExecutingSurveillanceCam2DBJobsNamesList.Count > 0)
+                        {
+                            var currentlyExecutingSurveillanceCam2DBJobsNames = string.Join("; ", currentlyExecutingSurveillanceCam2DBJobsNamesList);
+                            log.Debug(String.Format("Currently executing SurveillanceCam2DB jobs: {0}", currentlyExecutingSurveillanceCam2DBJobsNames));
+                        }
+                        else
+                        {
+                            log.Debug(String.Format("No SurveillanceCam2DB jobs executing currently!"));
+                        }
+                    }
+                    else
+                    {
+                        log.Debug(String.Format("Class SurveillanceCam2DBJobScheduler is not instantiated! Run StartSurveillanceCam2DBScheduler() first!"));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Failed in getting running Tellstick jobs."), ex);
+            }
+        }
+
         public void StartSurveillanceCam2DBScheduler()
         {
             try
@@ -140,6 +171,37 @@ namespace WCF.ServiceLibrary
         #region Tellstick
 
         private Tellstick.BLL.JobScheduler TellstickJobScheduler { get; set; }
+
+        public void DumpCurrentlyExecutingTellstickJobsNamesToLog()
+        {
+            try
+            {
+                lock (_syncRoot)
+                {
+                    if (this.TellstickJobScheduler != null)
+                    {
+                        var currentlyExecutingTellstickJobsNamesList = TellstickJobScheduler.CurrentlyExecutingJobsNames;
+                        if (currentlyExecutingTellstickJobsNamesList.Count > 0)
+                        {
+                            var currentlyExecutingTellstickJobsNames = string.Join("; ", currentlyExecutingTellstickJobsNamesList);
+                            log.Debug(String.Format("Currently executing Tellstick jobs: {0}", currentlyExecutingTellstickJobsNames));
+                        }
+                        else
+                        {
+                            log.Debug(String.Format("No Tellstick jobs executing currently!"));
+                        }
+                    }
+                    else
+                    {
+                        log.Debug(String.Format("Class TellstickJobScheduler is not instantiated! Run StartTellstickScheduler() first!"));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Failed in getting running Tellstick jobs."), ex);
+            }
+        }
 
         public void StartTellstickScheduler()
         {

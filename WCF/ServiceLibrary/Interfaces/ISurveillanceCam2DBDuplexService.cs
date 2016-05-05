@@ -6,6 +6,9 @@
     public interface ISurveillanceCam2DBDuplexService
     {
         [OperationContract(IsOneWay = true)]
+        void DumpCurrentlyExecutingSurveillanceCam2DBJobsNamesToLog();
+
+        [OperationContract(IsOneWay = true)]
         void StartSurveillanceCam2DBScheduler();
 
         [OperationContract(IsOneWay = true)]
