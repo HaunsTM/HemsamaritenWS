@@ -5,6 +5,10 @@
     [ServiceContract(CallbackContract = typeof(ITellstickDuplexCallback))]
     public interface ITellstickDuplexService
     {
+
+        [OperationContract(IsOneWay = true)]
+        void DumpCurrentlyExecutingTellstickJobsNamesToLog();
+
         [OperationContract(IsOneWay = true)]
         void StartTellstickScheduler();
 

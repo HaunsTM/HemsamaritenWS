@@ -39,6 +39,26 @@
             this.Scheduler = sf.GetScheduler();
         }
 
+        /// <summary>
+        /// Returns a list of all jobs which are currently running. Used for debugging.
+        /// </summary>
+        public List<string> CurrentlyExecutingJobsNames
+        {
+            get
+            {
+                var executingJobs = this.Scheduler.GetCurrentlyExecutingJobs();
+                var executingJobsNames = new List<string>();
+
+                foreach (var executingJob in executingJobs)
+                {
+                    executingJobsNames.Add(executingJob.JobDetail.Key.Name);
+                }
+
+                return executingJobsNames;
+
+            }
+        }
+
         public void Start()
         {
             if (!this.Scheduler.IsStarted)
