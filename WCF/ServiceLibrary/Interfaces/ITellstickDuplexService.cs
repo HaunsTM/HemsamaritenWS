@@ -32,6 +32,7 @@ namespace WCF.ServiceLibrary.Interfaces
         /// <param name="houseOption">Example: "F"</param>
         /// <returns>Registered device id</returns>
         [OperationContract(IsOneWay = false)]
+        [WebInvoke(Method = "POST", UriTemplate = "RegisterTellstickDevice", BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         Tellstick.Model.Unit RegisterTellstickDevice(string name, string locationDesciption, Tellstick.Model.Enums.ProtocolOption protocolOption, Tellstick.Model.Enums.ModelTypeOption modelTypeOption, Tellstick.Model.Enums.ModelManufacturerOption modelManufacturerOption, Tellstick.Model.Enums.Parameter_UnitOption unitOption, Tellstick.Model.Enums.Parameter_HouseOption houseOption);
          
         [OperationContract(IsOneWay = true)]
