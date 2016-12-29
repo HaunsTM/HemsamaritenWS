@@ -1,4 +1,6 @@
-﻿namespace WCF.ServiceLibrary.Interfaces
+﻿using System.ServiceModel.Web;
+
+namespace WCF.ServiceLibrary.Interfaces
 {
     using System.ServiceModel;
 
@@ -36,9 +38,11 @@
         void RemoveTellstickDevice(int nativeDeviceId);
 
         [OperationContract(IsOneWay = true)]
+        [WebInvoke(UriTemplate = "TurnOnTellstickDevice/{nativeDeviceId}")]
         void TurnOnTellstickDevice(int nativeDeviceId);
 
         [OperationContract(IsOneWay = true)]
+        [WebInvoke(UriTemplate = "TurnOffTellstickDevice/{nativeDeviceId}")]
         void TurnOffTellstickDevice(int nativeDeviceId);
     }
 }
