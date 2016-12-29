@@ -39,11 +39,11 @@ namespace WCF.ServiceLibrary.Interfaces
         void RemoveTellstickDevice(int nativeDeviceId);
 
         [OperationContract(IsOneWay = true)]
-        [WebInvoke(UriTemplate = "TurnOnTellstickDevice?id={nativeDeviceId}")]
+        [WebGet(UriTemplate = "TurnOnTellstickDevice?id={nativeDeviceId}")]
         void TurnOnTellstickDevice(int nativeDeviceId);
 
         [OperationContract(IsOneWay = true)]
-        [WebInvoke(UriTemplate = "TurnOffTellstickDevice?id={nativeDeviceId}")]
+        [WebGet(UriTemplate = "TurnOffTellstickDevice?id={nativeDeviceId}")]
         void TurnOffTellstickDevice(int nativeDeviceId);
     }
 }
