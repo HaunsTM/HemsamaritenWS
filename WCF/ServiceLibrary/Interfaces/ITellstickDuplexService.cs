@@ -9,15 +9,31 @@ namespace WCF.ServiceLibrary.Interfaces
     {
 
         [OperationContract(IsOneWay = true)]
+        [WebInvoke(Method = "POST",
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json,
+                    UriTemplate = "DumpCurrentlyExecutingTellstickJobsNamesToLog")]
         void DumpCurrentlyExecutingTellstickJobsNamesToLog();
 
         [OperationContract(IsOneWay = true)]
+        [WebInvoke(Method = "POST",
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json,
+                    UriTemplate = "StartTellstickScheduler")]
         void StartTellstickScheduler();
 
         [OperationContract(IsOneWay = true)]
+        [WebInvoke(Method = "POST",
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json,
+                    UriTemplate = "StopTellstickScheduler")]
         void StopTellstickScheduler();
 
         [OperationContract(IsOneWay = true)]
+        [WebInvoke(Method = "POST",
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json,
+                    UriTemplate = "CreateAndInitializeTellstickDB")]
         void CreateAndInitializeTellstickDB();
         
         /// <summary>
