@@ -56,6 +56,7 @@ namespace WCF.ServiceLibrary.Interfaces
 
         [OperationContract(IsOneWay = true)]
         [WebInvoke(Method = "POST",
+                    BodyStyle = WebMessageBodyStyle.WrappedRequest,
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json,
                     UriTemplate = "TurnOnTellstickDevice")]
@@ -63,6 +64,7 @@ namespace WCF.ServiceLibrary.Interfaces
 
         [OperationContract(IsOneWay = true)]
         [WebInvoke(Method = "POST",
+                    BodyStyle = WebMessageBodyStyle.WrappedRequest,
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json,
                     UriTemplate = "TurnOffTellstickDevice")]
