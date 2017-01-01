@@ -59,7 +59,7 @@ namespace WCF.ServiceLibrary.Interfaces
                     BodyStyle = WebMessageBodyStyle.WrappedRequest,
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json,
-                    UriTemplate = "TurnOnTellstickDevice?nativeDeviceId={nativeDeviceId}")]
+                    UriTemplate = "TurnOnTellstickDevice")]
         void TurnOnTellstickDevice(int nativeDeviceId);
 
         [OperationContract(IsOneWay = true)]
@@ -67,7 +67,7 @@ namespace WCF.ServiceLibrary.Interfaces
                     BodyStyle = WebMessageBodyStyle.WrappedRequest,
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json,
-                    UriTemplate = "TurnOffTellstickDevice?nativeDeviceId={nativeDeviceId}")]
+                    UriTemplate = "TurnOffTellstickDevice")]
         void TurnOffTellstickDevice(int nativeDeviceId);
     }
 }
