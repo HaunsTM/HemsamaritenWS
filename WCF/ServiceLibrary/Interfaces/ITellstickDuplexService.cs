@@ -55,19 +55,9 @@ namespace WCF.ServiceLibrary.Interfaces
         void RemoveTellstickDevice(int nativeDeviceId);
 
         [OperationContract(IsOneWay = true)]
-        [WebInvoke(Method = "POST",
-                    BodyStyle = WebMessageBodyStyle.WrappedRequest,
-                    RequestFormat = WebMessageFormat.Json,
-                    ResponseFormat = WebMessageFormat.Json,
-                    UriTemplate = "TurnOnTellstickDevice")]
         void TurnOnTellstickDevice(int nativeDeviceId);
 
         [OperationContract(IsOneWay = true)]
-        [WebInvoke(Method = "POST",
-                    BodyStyle = WebMessageBodyStyle.WrappedRequest,
-                    RequestFormat = WebMessageFormat.Json,
-                    ResponseFormat = WebMessageFormat.Json,
-                    UriTemplate = "TurnOffTellstickDevice")]
         void TurnOffTellstickDevice(int nativeDeviceId);
     }
 }
