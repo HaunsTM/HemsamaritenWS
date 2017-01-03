@@ -16,14 +16,14 @@ namespace WCF.ServiceLibrary.Interfaces
         void DumpCurrentlyExecutingTellstickJobsNamesToLog();
 
         [OperationContract(IsOneWay = true)]
-        [WebInvoke(Method = "POST",
+        [WebInvoke(Method = "GET",
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json,
                     UriTemplate = "StartTellstickScheduler")]
         void StartTellstickScheduler();
 
         [OperationContract(IsOneWay = true)]
-        [WebInvoke(Method = "POST",
+        [WebInvoke(Method = "GET",
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json,
                     UriTemplate = "StopTellstickScheduler")]
