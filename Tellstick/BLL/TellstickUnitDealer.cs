@@ -368,7 +368,7 @@
         /// </summary>
         /// <param name="nativeDeviceId">Id of device to turn on</param>
         /// <returns>If turn on message were sent</returns>
-        public bool ManualTurnOnAndRegisterPerformedAction(int nativeDeviceId)
+        public bool ManualTurnOnAndRegisterPerformedActionNative(int nativeDeviceId)
         {
             var turnedOnMessageSent = false;
 
@@ -376,7 +376,7 @@
             {
                 this.TurnOnDevice(nativeDeviceId);
                 turnedOnMessageSent = true;
-                this.RegisterManualPerformedAction_TurnOn(nativeDeviceId: nativeDeviceId, time: DateTime.Now);
+                this.RegisterManualPerformedAction_TurnOnNative(nativeDeviceId: nativeDeviceId, time: DateTime.Now);
             }
             catch (Exception ex)
             {
@@ -391,7 +391,7 @@
         /// </summary>
         /// <param name="nativeDeviceId">Id of device to turn off</param>
         /// <returns>If turn off message were sent</returns>
-        public bool ManualTurnOffAndRegisterPerformedAction(int nativeDeviceId)
+        public bool ManualTurnOffAndRegisterPerformedActionNative(int nativeDeviceId)
         {
 
             var turnedOffMessageSent = false;
@@ -400,7 +400,7 @@
             {
                 this.TurnOffDevice(nativeDeviceId);
                 turnedOffMessageSent = true;
-                this.RegisterManualPerformedAction_TurnOff(nativeDeviceId: nativeDeviceId, time: DateTime.Now);
+                this.RegisterManualPerformedAction_TurnOffNative(nativeDeviceId: nativeDeviceId, time: DateTime.Now);
             }
             catch (Exception ex)
             {
@@ -410,7 +410,75 @@
             return turnedOffMessageSent;
         }
 
-        private bool RegisterManualPerformedAction_TurnOn(int nativeDeviceId, DateTime time)
+        private Unit UnitBy(int id)
+        {
+            Unit dbUnit = null;
+            try
+            {
+                using (var db = new Tellstick.Model.TellstickDBContext(this.DbConnectionStringName))
+                {
+                    dbUnit = (from tellstickUnit in db.Units
+                              where tellstickUnit.Active == true && tellstickUnit.Id == id
+                              select tellstickUnit).First();
+                    return dbUnit;
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return dbUnit;
+        }
+
+        /// <summary>
+        /// Turns a device on. (with registration to PerformedAction table)
+        /// </summary>
+        /// <param name="nativeDeviceId">Id of device to turn on</param>
+        /// <returns>If turn on message were sent</returns>
+        public bool ManualTurnOnAndRegisterPerformedAction(int unitId)
+        {
+            var turnedOnMessageSent = false;
+            try
+            {
+                var currentUnit = UnitBy(unitId);
+                this.TurnOnDevice(nativeDeviceId: currentUnit.NativeDeviceId);
+                turnedOnMessageSent = true;
+                this.RegisterManualPerformedAction_TurnOnNative(nativeDeviceId: currentUnit.NativeDeviceId, time: DateTime.Now);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return turnedOnMessageSent;
+        }
+
+        /// <summary>
+        /// Turns a device off. (with registration to PerformedAction table)
+        /// </summary>
+        /// <param name="nativeDeviceId">Id of device to turn off</param>
+        /// <returns>If turn off message were sent</returns>
+        public bool ManualTurnOffAndRegisterPerformedAction(int unitId)
+        {
+
+            var turnedOffMessageSent = false;
+
+            try
+            {
+                var currentUnit = UnitBy(unitId);
+                this.TurnOffDevice(nativeDeviceId: currentUnit.NativeDeviceId);
+                turnedOffMessageSent = true;
+                this.RegisterManualPerformedAction_TurnOffNative(nativeDeviceId: currentUnit.NativeDeviceId, time: DateTime.Now);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return turnedOffMessageSent;
+        }
+
+        private bool RegisterManualPerformedAction_TurnOnNative(int nativeDeviceId, DateTime time)
         {
             var registered = false;
             try
@@ -445,7 +513,7 @@
             return registered;
         }
 
-        private bool RegisterManualPerformedAction_TurnOff(int nativeDeviceId, DateTime time)
+        private bool RegisterManualPerformedAction_TurnOffNative(int nativeDeviceId, DateTime time)
         {
             var registered = false;
             try

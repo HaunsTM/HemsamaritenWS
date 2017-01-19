@@ -59,13 +59,25 @@ namespace WCF.ServiceLibrary.Interfaces
                     BodyStyle = WebMessageBodyStyle.WrappedRequest,
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json)]
-        void TurnOnTellstickDevice(int nativeDeviceId);
+        void TurnOnTellstickDeviceNative(int nativeDeviceId);
 
         [OperationContract(IsOneWay = true)]
         [WebInvoke(Method = "GET",
                     BodyStyle = WebMessageBodyStyle.WrappedRequest,
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json)]
-        void TurnOffTellstickDevice(int nativeDeviceId);
+        void TurnOffTellstickDeviceNative(int nativeDeviceId);
+        
+        [WebInvoke(Method = "GET",
+                    BodyStyle = WebMessageBodyStyle.WrappedRequest,
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json)]
+        string TurnOnTellstickDevice(int unitId);
+        
+        [WebInvoke(Method = "GET",
+                    BodyStyle = WebMessageBodyStyle.WrappedRequest,
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json)]
+        string TurnOffTellstickDevice(int unitId);
     }
 }
