@@ -1,4 +1,5 @@
-﻿using System.ServiceModel.Web;
+﻿using System.Collections.Generic;
+using System.ServiceModel.Web;
 
 namespace WCF.ServiceLibrary.Interfaces
 {
@@ -54,6 +55,8 @@ namespace WCF.ServiceLibrary.Interfaces
         [OperationContract(IsOneWay = true)]
         void RemoveTellstickDevice(int nativeDeviceId);
 
+        #region Tellstick On/Off
+
         [OperationContract(IsOneWay = true)]
         [WebInvoke(Method = "GET",
                     BodyStyle = WebMessageBodyStyle.WrappedRequest,
@@ -75,9 +78,17 @@ namespace WCF.ServiceLibrary.Interfaces
         string TurnOnTellstickDevice(int unitId);
         
         [WebInvoke(Method = "GET",
-                    BodyStyle = WebMessageBodyStyle.WrappedRequest,
-                    RequestFormat = WebMessageFormat.Json,
-                    ResponseFormat = WebMessageFormat.Json)]
+                   BodyStyle = WebMessageBodyStyle.WrappedRequest,
+                   RequestFormat = WebMessageFormat.Json,
+                   ResponseFormat = WebMessageFormat.Json)]
         string TurnOffTellstickDevice(int unitId);
+
+        #endregion
+
+        [WebInvoke(Method = "GET",
+                   BodyStyle = WebMessageBodyStyle.WrappedRequest,
+                   RequestFormat = WebMessageFormat.Json,
+                   ResponseFormat = WebMessageFormat.Json)]
+        List<Tellstick.Model.ViewModel.UnitPerformedAction> LatestRegisteredAction(int[] unitIdList);
     }
 }

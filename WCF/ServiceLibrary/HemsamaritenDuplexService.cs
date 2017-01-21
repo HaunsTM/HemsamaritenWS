@@ -379,6 +379,25 @@ namespace WCF.ServiceLibrary
             return returnMessage;
         }
 
+        public List<Tellstick.Model.ViewModel.UnitPerformedAction> LatestRegisteredAction(int[] unitIdList)
+        {
+            List<Tellstick.Model.ViewModel.UnitPerformedAction> performedActions = null;
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    log.Debug(String.Format("Returned list of performed actions."));
+                    performedActions = performedActionsDealer.LatestRegisteredAction(unitIdList: unitIdList);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Failed in returning a list of performed actions."), ex);
+            }
+            return performedActions;
+        }
         #endregion
     }
 }
