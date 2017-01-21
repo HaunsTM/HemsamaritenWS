@@ -25,7 +25,8 @@ namespace Tellstick.ConsoleForTestingPurpose
         static void Main(string[] args)
         {
             //TestScheduler();
-            CreateDBTest(DB_CONNECTION_STRING_NAME);
+            //CreateDBTest(DB_CONNECTION_STRING_NAME);
+            AnswerCurrentSettings();
             //var registeredDevice = RegisterDevice(dbConnectionStringName: DB_CONNECTION_STRING_NAME, commander: new NativeTellstickCommander(), name: "Ett namn på en Tellstick", locationDesciption: "Liggandes på skrivbordet i Hans rum", protocol: EnumTellstickProtocol.arctech, modelType: EnumTellstickModelType.codeswitch, modelManufacturer: EnumTellstickModelManufacturer.Nexa, unit: EnumTellstickParameter_Unit._1, house: EnumTellstickParameter_House.A);
             //new TellstickUnitDealer(DB_CONNECTION_STRING_NAME, new NativeTellstickCommander()).TurnOnDevice(
             //    registeredDevice);
@@ -123,6 +124,14 @@ namespace Tellstick.ConsoleForTestingPurpose
             }
             Console.ReadLine();
 
+        }
+
+        private static void AnswerCurrentSettings()
+        {
+            
+            var pAD = new PerformedActionsDealer(DB_CONNECTION_STRING_NAME);
+            int[] unitIdsToCheckSettingsFor = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19};
+            var result = pAD.LatestRegisteredAction(unitIdsToCheckSettingsFor);
         }
     }
 }
