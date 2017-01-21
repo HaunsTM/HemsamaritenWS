@@ -104,6 +104,8 @@
   <ItemGroup>
     <Compile Include="ActionsDealer.cs" />
     <Compile Include="DatabaseDealer.cs" />
+    <Compile Include="Interfaces\ITimeConverter.cs" />
+    <Compile Include="Helpers\TimeConverter.cs" />
     <Compile Include="Interfaces\IActionsDealer.cs" />
     <Compile Include="Interfaces\IDatabaseDealer.cs" />
     <Compile Include="Interfaces\IJobScheduler.cs" />

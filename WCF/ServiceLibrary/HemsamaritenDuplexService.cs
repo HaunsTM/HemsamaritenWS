@@ -299,14 +299,14 @@ namespace WCF.ServiceLibrary
             }
         }
 
-        public void TurnOnTellstickDevice(int nativeDeviceId)
+        public void TurnOnTellstickDeviceNative(int nativeDeviceId)
         {
             try
             {
                 lock (_syncRoot)
                 {
                     var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    tellstickUnitDealer.ManualTurnOnAndRegisterPerformedAction(nativeDeviceId);
+                    tellstickUnitDealer.ManualTurnOnAndRegisterPerformedActionNative(nativeDeviceId);
 
                     log.Debug(String.Format("Turned on Tellstick nativeDeviceId = {0}", nativeDeviceId));
                 }
@@ -317,14 +317,14 @@ namespace WCF.ServiceLibrary
             }
         }
 
-        public void TurnOffTellstickDevice(int nativeDeviceId)
+        public void TurnOffTellstickDeviceNative(int nativeDeviceId)
         {
             try
             {
                 lock (_syncRoot)
                 {
                     var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    tellstickUnitDealer.ManualTurnOffAndRegisterPerformedAction(nativeDeviceId);
+                    tellstickUnitDealer.ManualTurnOffAndRegisterPerformedActionNative(nativeDeviceId);
 
                     log.Debug(String.Format("Turned off Tellstick nativeDeviceId = {0}", nativeDeviceId));
                 }
@@ -335,6 +335,69 @@ namespace WCF.ServiceLibrary
             }
         }
 
+        public string TurnOnTellstickDevice(int unitId)
+        {
+            var returnMessage = "";
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    tellstickUnitDealer.ManualTurnOnAndRegisterPerformedAction(unitId);
+
+                    returnMessage = String.Format("Turned on Tellstick unitId = {0}", unitId);
+                    log.Debug(returnMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                returnMessage = String.Format("Failed in turning on Tellstick unitId = {0}. Reason: {1}", unitId, ex.Message);
+                log.Error(String.Format("Failed in turning on Tellstick unitId = {0}", unitId), ex);
+            }
+            return returnMessage;
+        }
+
+        public string TurnOffTellstickDevice(int unitId)
+        {
+            var returnMessage = "";
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    tellstickUnitDealer.ManualTurnOffAndRegisterPerformedAction(unitId);
+
+                    returnMessage = String.Format("Turned off Tellstick unitId = {0}", unitId);
+                    log.Debug(returnMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                returnMessage = String.Format("Failed in turning off Tellstick unitId = {0}. Reason: {1}", unitId, ex.Message);
+                log.Error(String.Format("Failed in turning off Tellstick unitId = {0}", unitId), ex);
+            }
+            return returnMessage;
+        }
+
+        public List<Tellstick.Model.ViewModel.UnitPerformedAction> LatestRegisteredAction(int[] unitIdList)
+        {
+            List<Tellstick.Model.ViewModel.UnitPerformedAction> performedActions = null;
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    log.Debug(String.Format("Returned list of performed actions."));
+                    performedActions = performedActionsDealer.LatestRegisteredAction(unitIdList: unitIdList);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Failed in returning a list of performed actions."), ex);
+            }
+            return performedActions;
+        }
         #endregion
     }
 }

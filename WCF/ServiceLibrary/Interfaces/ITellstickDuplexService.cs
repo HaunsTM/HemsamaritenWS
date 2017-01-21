@@ -1,4 +1,7 @@
-﻿namespace WCF.ServiceLibrary.Interfaces
+﻿using System.Collections.Generic;
+using System.ServiceModel.Web;
+
+namespace WCF.ServiceLibrary.Interfaces
 {
     using System.ServiceModel;
 
@@ -7,15 +10,31 @@
     {
 
         [OperationContract(IsOneWay = true)]
+        [WebInvoke(Method = "POST",
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json,
+                    UriTemplate = "DumpCurrentlyExecutingTellstickJobsNamesToLog")]
         void DumpCurrentlyExecutingTellstickJobsNamesToLog();
 
         [OperationContract(IsOneWay = true)]
+        [WebInvoke(Method = "GET",
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json,
+                    UriTemplate = "StartTellstickScheduler")]
         void StartTellstickScheduler();
 
         [OperationContract(IsOneWay = true)]
+        [WebInvoke(Method = "GET",
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json,
+                    UriTemplate = "StopTellstickScheduler")]
         void StopTellstickScheduler();
 
         [OperationContract(IsOneWay = true)]
+        [WebInvoke(Method = "POST",
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json,
+                    UriTemplate = "CreateAndInitializeTellstickDB")]
         void CreateAndInitializeTellstickDB();
         
         /// <summary>
@@ -30,15 +49,46 @@
         /// <param name="houseOption">Example: "F"</param>
         /// <returns>Registered device id</returns>
         [OperationContract(IsOneWay = false)]
+        [WebInvoke(Method = "POST", UriTemplate = "RegisterTellstickDevice", BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         Tellstick.Model.Unit RegisterTellstickDevice(string name, string locationDesciption, Tellstick.Model.Enums.ProtocolOption protocolOption, Tellstick.Model.Enums.ModelTypeOption modelTypeOption, Tellstick.Model.Enums.ModelManufacturerOption modelManufacturerOption, Tellstick.Model.Enums.Parameter_UnitOption unitOption, Tellstick.Model.Enums.Parameter_HouseOption houseOption);
          
         [OperationContract(IsOneWay = true)]
         void RemoveTellstickDevice(int nativeDeviceId);
 
-        [OperationContract(IsOneWay = true)]
-        void TurnOnTellstickDevice(int nativeDeviceId);
+        #region Tellstick On/Off
 
         [OperationContract(IsOneWay = true)]
-        void TurnOffTellstickDevice(int nativeDeviceId);
+        [WebInvoke(Method = "GET",
+                    BodyStyle = WebMessageBodyStyle.WrappedRequest,
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json)]
+        void TurnOnTellstickDeviceNative(int nativeDeviceId);
+
+        [OperationContract(IsOneWay = true)]
+        [WebInvoke(Method = "GET",
+                    BodyStyle = WebMessageBodyStyle.WrappedRequest,
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json)]
+        void TurnOffTellstickDeviceNative(int nativeDeviceId);
+        
+        [WebInvoke(Method = "GET",
+                    BodyStyle = WebMessageBodyStyle.WrappedRequest,
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json)]
+        string TurnOnTellstickDevice(int unitId);
+        
+        [WebInvoke(Method = "GET",
+                   BodyStyle = WebMessageBodyStyle.WrappedRequest,
+                   RequestFormat = WebMessageFormat.Json,
+                   ResponseFormat = WebMessageFormat.Json)]
+        string TurnOffTellstickDevice(int unitId);
+
+        #endregion
+
+        [WebInvoke(Method = "GET",
+                   BodyStyle = WebMessageBodyStyle.WrappedRequest,
+                   RequestFormat = WebMessageFormat.Json,
+                   ResponseFormat = WebMessageFormat.Json)]
+        List<Tellstick.Model.ViewModel.UnitPerformedAction> LatestRegisteredAction(int[] unitIdList);
     }
 }

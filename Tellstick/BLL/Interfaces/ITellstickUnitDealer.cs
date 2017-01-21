@@ -39,7 +39,7 @@ namespace Tellstick.BLL
         /// </summary>
         /// <param name="nativeDeviceId">Id of device to turn on</param>
         /// <returns>If turn on message were sent</returns>
-        bool ManualTurnOnAndRegisterPerformedAction(int nativeDeviceId);
+        bool ManualTurnOnAndRegisterPerformedActionNative(int nativeDeviceId);
 
         /// <summary>
         /// Turns a device off.
@@ -47,6 +47,6 @@ namespace Tellstick.BLL
         /// </summary>
         /// <param name="nativeDeviceId">Id of device to turn off</param>
         /// <returns>If turn off message were sent</returns>
-        bool ManualTurnOffAndRegisterPerformedAction(int nativeDeviceId);
+        bool ManualTurnOffAndRegisterPerformedActionNative(int nativeDeviceId);
     }
 }
