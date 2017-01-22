@@ -386,6 +386,7 @@ namespace WCF.ServiceLibrary
             {
                 lock (_syncRoot)
                 {
+                    log.Debug(String.Format("About to decode unitIdListDelimitedString: {0}", unitIdListDelimitedString));
                     int[] unitIdList = unitIdListDelimitedString.Split(',').Select(x => int.Parse(x)).ToArray();
                     var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
                     performedActions = performedActionsDealer.LatestRegisteredAction(unitIdList: unitIdList);
