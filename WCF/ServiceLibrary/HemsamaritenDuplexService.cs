@@ -379,17 +379,17 @@ namespace WCF.ServiceLibrary
             return returnMessage;
         }
 
-        public List<Tellstick.Model.ViewModel.UnitPerformedAction> LatestRegisteredAction(int[] unitIdList)
+        public List<Tellstick.Model.ViewModel.UnitPerformedAction> LatestRegisteredAction(string unitIdListDelimitedString)
         {
             List<Tellstick.Model.ViewModel.UnitPerformedAction> performedActions = null;
             try
             {
                 lock (_syncRoot)
                 {
+                    int[] unitIdList = unitIdListDelimitedString.Split(',').Select(x => int.Parse(x)).ToArray();
                     var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    log.Debug(String.Format("Returned list of performed actions."));
                     performedActions = performedActionsDealer.LatestRegisteredAction(unitIdList: unitIdList);
-
+                    log.Debug(String.Format("Returning list of performed actions."));
                 }
             }
             catch (Exception ex)

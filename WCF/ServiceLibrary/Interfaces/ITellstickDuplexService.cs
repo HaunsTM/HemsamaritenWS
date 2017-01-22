@@ -89,6 +89,6 @@ namespace WCF.ServiceLibrary.Interfaces
                    BodyStyle = WebMessageBodyStyle.WrappedRequest,
                    RequestFormat = WebMessageFormat.Json,
                    ResponseFormat = WebMessageFormat.Json)]
-        List<Tellstick.Model.ViewModel.UnitPerformedAction> LatestRegisteredAction(int[] unitIdList);
+        List<Tellstick.Model.ViewModel.UnitPerformedAction> LatestRegisteredAction(string unitIdListDelimitedString);
     }
 }
