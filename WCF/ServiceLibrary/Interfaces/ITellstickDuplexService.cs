@@ -85,7 +85,7 @@ namespace WCF.ServiceLibrary.Interfaces
 
         #endregion
 
-        [WebInvoke(Method = "GET",
+        [WebInvoke(Method = "POST",
                    BodyStyle = WebMessageBodyStyle.WrappedRequest,
                    RequestFormat = WebMessageFormat.Json,
                    ResponseFormat = WebMessageFormat.Json)]
