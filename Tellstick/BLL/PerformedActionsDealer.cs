@@ -1,17 +1,17 @@
-﻿using Tellstick.BLL.Helpers;
-using Tellstick.Model;
-
-namespace Tellstick.BLL
+﻿namespace Tellstick.BLL
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using log4net;
-    
+
+    using Tellstick.BLL.Interfaces;
+    using Tellstick.Model;
+
     using Action = Tellstick.Model.Action;
 
-    public class PerformedActionsDealer : Tellstick.BLL.Interfaces.IPerformedActionsDealer
+    public class PerformedActionsDealer : IPerformedActionsDealer
     {
 
         private static readonly ILog log =
@@ -114,50 +114,6 @@ namespace Tellstick.BLL
                 throw ex;
             }
             return occurredTellstickActions;
-        }
-        
-        public List<Tellstick.Model.ViewModel.UnitPerformedAction> LatestRegisteredAction(int[] unitIdList)
-        {
-            var latestTellstickActions = new List<Tellstick.Model.ViewModel.UnitPerformedAction>();
-
-            try
-            {
-                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
-                {
-                    var perAct = from pA in (from p in db.PerformedActions
-                            where unitIdList.Contains(p.Action.Unit_Id) &&
-                                    p.Active == true
-                            select p)
-                        group pA by pA.Action.Unit_Id
-                        into groupedUnits
-                        select groupedUnits.OrderBy(gU => gU.Action.Unit_Id).ThenByDescending(gU => gU.Time).FirstOrDefault();
-
-                    var latestPerformedActionsList = perAct.ToList();
-
-                    foreach (var latestAction in latestPerformedActionsList)
-                    {
-                        latestTellstickActions.Add(
-                            new Tellstick.Model.ViewModel.UnitPerformedAction(
-                                unitId: latestAction.Action.Unit.Id,
-                                name: latestAction.Action.Unit.Name,
-                                locationDesciption: latestAction.Action.Unit.LocationDesciption,
-
-                                latestActionTimeUTC: new TimeConverter().ConvertToUnixTime(latestAction.Time),
-
-                                latestSetActionType: latestAction.Action.ActionType.ActionTypeOption.ToString()
-                            )
-                        );
-                    }
-
-                    return latestTellstickActions;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error("Could not retrieve latest performed actions from database!", ex);
-                throw ex;
-            }
-
         }
 
     }
