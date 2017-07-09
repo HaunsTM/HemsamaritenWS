@@ -7,13 +7,14 @@ namespace WCF.ServiceLibrary.Interfaces
     [ServiceContract(CallbackContract = typeof(ITellstickDuplexCallback))]
     public interface ITellstickDuplexService
     {
-
         [OperationContract(IsOneWay = true)]
         [WebInvoke(Method = "POST",
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json,
                     UriTemplate = "DumpCurrentlyExecutingTellstickJobsNamesToLog")]
         void DumpCurrentlyExecutingTellstickJobsNamesToLog();
+
+        #region Scheduler
 
         [OperationContract(IsOneWay = true)]
         [WebInvoke(Method = "GET",
@@ -24,10 +25,19 @@ namespace WCF.ServiceLibrary.Interfaces
 
         [OperationContract(IsOneWay = true)]
         [WebInvoke(Method = "GET",
-                    RequestFormat = WebMessageFormat.Json,
-                    ResponseFormat = WebMessageFormat.Json,
-                    UriTemplate = "StopTellstickScheduler")]
+                   RequestFormat = WebMessageFormat.Json,
+                   ResponseFormat = WebMessageFormat.Json,
+                   UriTemplate = "StopTellstickScheduler")]
         void StopTellstickScheduler();
+
+        [OperationContract(IsOneWay = false)]
+        [WebInvoke(Method = "GET",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "UnitsWithSchedulers")]
+        string UnitsWithSchedulers();
+
+        #endregion
 
         [OperationContract(IsOneWay = true)]
         [WebInvoke(Method = "POST",
@@ -35,6 +45,8 @@ namespace WCF.ServiceLibrary.Interfaces
                     ResponseFormat = WebMessageFormat.Json,
                     UriTemplate = "CreateAndInitializeTellstickDB")]
         void CreateAndInitializeTellstickDB();
+
+        #region Add/remove device
         
         /// <summary>
         /// Register a Tellstick device to native Tellstick system AND database
@@ -53,6 +65,10 @@ namespace WCF.ServiceLibrary.Interfaces
          
         [OperationContract(IsOneWay = true)]
         void RemoveTellstickDevice(int nativeDeviceId);
+
+        #endregion
+
+        #region Turn on/off device
 
         [OperationContract(IsOneWay = true)]
         [WebInvoke(Method = "GET",
@@ -79,5 +95,7 @@ namespace WCF.ServiceLibrary.Interfaces
                     RequestFormat = WebMessageFormat.Json,
                     ResponseFormat = WebMessageFormat.Json)]
         string TurnOffTellstickDevice(int unitId);
+        
+        #endregion
     }
 }

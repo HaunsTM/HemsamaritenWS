@@ -202,6 +202,8 @@ namespace WCF.ServiceLibrary
                 log.Error(String.Format("Failed in getting running Tellstick jobs."), ex);
             }
         }
+        
+        #region Scheduler
 
         public void StartTellstickScheduler()
         {
@@ -239,6 +241,8 @@ namespace WCF.ServiceLibrary
             }
         }
 
+        #endregion
+
         /// <summary>
         /// Creates and initializes a database
         /// </summary>
@@ -266,7 +270,9 @@ namespace WCF.ServiceLibrary
                 log.Error(String.Format("Failed in creating and initializing TellstickDB."), ex);
             }
         }
-        
+
+        #region Add/remove device
+
         public Tellstick.Model.Unit RegisterTellstickDevice(
             string name,
             string locationDesciption,
@@ -298,6 +304,10 @@ namespace WCF.ServiceLibrary
                 log.Error(String.Format("Failed in removing Tellstick nativeDeviceId = {0}", nativeDeviceId), ex);
             }
         }
+
+        #endregion 
+
+        #region Turn on/off device
 
         public void TurnOnTellstickDeviceNative(int nativeDeviceId)
         {
@@ -380,5 +390,7 @@ namespace WCF.ServiceLibrary
         }
 
         #endregion
+
+    #endregion
     }
 }
