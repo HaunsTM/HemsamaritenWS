@@ -241,6 +241,12 @@ namespace WCF.ServiceLibrary
             }
         }
 
+        public string UnitsWithSchedulers()
+        {
+            //TODO: return a list of registered devices with their list of (CronExpression + Action) 
+            return null;
+        }
+
         #endregion
 
         /// <summary>
