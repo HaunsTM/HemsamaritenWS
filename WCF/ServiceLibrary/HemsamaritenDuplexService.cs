@@ -241,10 +241,43 @@ namespace WCF.ServiceLibrary
             }
         }
 
-        public string UnitsWithSchedulers()
+        #endregion
+
+        #region Actions
+
+        public IEnumerable<Tellstick.Model.Action> Actions()
         {
-            //TODO: return a list of registered devices with their list of (CronExpression + Action) 
-            return null;
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var actionsDealer = new Tellstick.BLL.ActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    return actionsDealer.Actions();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Failed in returning Actions-list for all devices"), ex);
+                return null;
+            }
+        }
+
+
+        public IEnumerable<Tellstick.Model.Action> ActionsBy(string unitId)
+        {
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var actionsDealer = new Tellstick.BLL.ActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    return actionsDealer.ActionsBy(int.Parse(unitId));
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Failed in returning Actions-list for all devices"), ex);
+                return null;
+            }
         }
 
         #endregion

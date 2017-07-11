@@ -1,4 +1,6 @@
-﻿namespace Tellstick.BLL
+﻿using System.Collections.Generic;
+
+namespace Tellstick.BLL
 {
     using System;
     using System.Linq;
@@ -102,6 +104,31 @@
             {
                 log.Error("Could not save a new (manual) Action to database!", ex);
                 throw ex;
+            }
+        }
+
+        public IEnumerable<Tellstick.Model.Action> Actions()
+        {
+            using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+            {
+                var actions = (from a in db.Actions
+                               where a.Active == true
+                               orderby a.Unit_Id
+                               select a).ToList();
+
+                return actions;
+            }
+        }
+
+        public IEnumerable<Tellstick.Model.Action> ActionsBy(int unitId)
+        {
+            using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+            {
+                var actions = (from a in db.Actions
+                               where a.Active == true && a.Unit_Id == unitId
+                               select a).ToList();
+
+                return actions;
             }
         }
 
