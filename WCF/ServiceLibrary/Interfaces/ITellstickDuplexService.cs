@@ -1,4 +1,5 @@
-﻿using System.ServiceModel.Web;
+﻿using System.Collections.Generic;
+using System.ServiceModel.Web;
 
 namespace WCF.ServiceLibrary.Interfaces
 {
@@ -30,12 +31,23 @@ namespace WCF.ServiceLibrary.Interfaces
                    UriTemplate = "StopTellstickScheduler")]
         void StopTellstickScheduler();
 
+        #endregion
+
+        #region Actions
+
         [OperationContract(IsOneWay = false)]
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "UnitsWithSchedulers")]
-        string UnitsWithSchedulers();
+            UriTemplate = "Actions")]
+        IEnumerable<Tellstick.Model.Action> Actions();
+
+        [OperationContract(IsOneWay = false)]
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.Bare,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "ActionsBy/{unitId}")]
+        IEnumerable<Tellstick.Model.Action> ActionsBy(string unitId);
 
         #endregion
 
