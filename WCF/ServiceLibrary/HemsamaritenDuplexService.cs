@@ -1,4 +1,7 @@
 ﻿//Here is the once-per-application setup information
+
+using Newtonsoft.Json;
+
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace WCF.ServiceLibrary
@@ -245,14 +248,19 @@ namespace WCF.ServiceLibrary
 
         #region Actions
 
-        public IEnumerable<Tellstick.Model.Action> Actions()
+        public string Actions()
         {
             try
             {
                 lock (_syncRoot)
                 {
                     var actionsDealer = new Tellstick.BLL.ActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    return actionsDealer.Actions();
+                    var actions = actionsDealer.Actions();
+
+                    string jsonActions = JsonConvert.SerializeObject(actions,
+                        new JsonSerializerSettings { });
+
+                    return jsonActions;
                 }
             }
             catch (Exception ex)
@@ -263,14 +271,19 @@ namespace WCF.ServiceLibrary
         }
 
 
-        public IEnumerable<Tellstick.Model.Action> ActionsBy(string unitId)
+        public string ActionsBy(string unitId)
         {
             try
             {
                 lock (_syncRoot)
                 {
                     var actionsDealer = new Tellstick.BLL.ActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    return actionsDealer.ActionsBy(int.Parse(unitId));
+                    
+                    var actions = actionsDealer.ActionsBy(int.Parse(unitId));
+
+                    string jsonActions = JsonConvert.SerializeObject(actions,
+                        new JsonSerializerSettings { });
+                    return jsonActions;
                 }
             }
             catch (Exception ex)

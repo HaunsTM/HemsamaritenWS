@@ -107,7 +107,7 @@ namespace Tellstick.BLL
             }
         }
 
-        public IEnumerable<Tellstick.Model.Action> Actions()
+        public List<Tellstick.Model.Action> Actions()
         {
             using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
             {
@@ -115,12 +115,11 @@ namespace Tellstick.BLL
                                where a.Active == true
                                orderby a.Unit_Id
                                select a).ToList();
-
                 return actions;
             }
         }
 
-        public IEnumerable<Tellstick.Model.Action> ActionsBy(int unitId)
+        public List<Tellstick.Model.Action> ActionsBy(int unitId)
         {
             using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
             {
