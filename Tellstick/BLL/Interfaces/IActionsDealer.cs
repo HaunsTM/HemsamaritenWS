@@ -13,8 +13,8 @@ namespace Tellstick.BLL.Interfaces
 
         Tellstick.Model.Action RegisterNewManualAction(int nativeDeviceId, Tellstick.Model.Enums.ActionTypeOption actionTypeOption);
 
-        List<Tellstick.Model.Action> Actions();
+        List<Tellstick.Model.Action> GetAllActions();
 
-        List<Tellstick.Model.Action> ActionsBy(int unitId);
+        List<Tellstick.Model.Action> GetActionsBy(int unitId);
     }
 }

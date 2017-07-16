@@ -42,14 +42,14 @@ namespace WCF.ServiceLibrary.Interfaces
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "Actions")]
-        string Actions();
+        string GetAllActions();
 
         [OperationContract(IsOneWay = false)]
         [WebInvoke(Method = "POST",
             BodyStyle = WebMessageBodyStyle.Wrapped,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "ActionsBy")]
-        string ActionsBy(string unitId);
+        string GetActionsBy(string unitId);
 
         #endregion
 

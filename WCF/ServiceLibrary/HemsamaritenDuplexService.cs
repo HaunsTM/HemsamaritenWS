@@ -248,14 +248,14 @@ namespace WCF.ServiceLibrary
 
         #region Actions
 
-        public string Actions()
+        public string GetAllActions()
         {
             try
             {
                 lock (_syncRoot)
                 {
                     var actionsDealer = new Tellstick.BLL.ActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    var actions = actionsDealer.Actions();
+                    var actions = actionsDealer.GetAllActions();
 
                     string jsonActions = JsonConvert.SerializeObject(actions,
                         new JsonSerializerSettings { });
@@ -270,8 +270,7 @@ namespace WCF.ServiceLibrary
             }
         }
 
-
-        public string ActionsBy(string unitId)
+        public string GetActionsBy(string unitId)
         {
             try
             {
@@ -279,7 +278,7 @@ namespace WCF.ServiceLibrary
                 {
                     var actionsDealer = new Tellstick.BLL.ActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
                     
-                    var actions = actionsDealer.ActionsBy(int.Parse(unitId));
+                    var actions = actionsDealer.GetActionsBy(int.Parse(unitId));
 
                     string jsonActions = JsonConvert.SerializeObject(actions,
                         new JsonSerializerSettings { });
