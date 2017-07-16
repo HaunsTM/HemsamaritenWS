@@ -107,7 +107,7 @@ namespace Tellstick.BLL
             }
         }
 
-        public List<Tellstick.Model.Action> Actions()
+        public List<Tellstick.Model.Action> GetAllActions()
         {
             using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
             {
@@ -119,7 +119,7 @@ namespace Tellstick.BLL
             }
         }
 
-        public List<Tellstick.Model.Action> ActionsBy(int unitId)
+        public List<Tellstick.Model.Action> GetActionsBy(int unitId)
         {
             using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
             {
