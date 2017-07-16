@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Messaging;
 using System.ServiceModel.Web;
 
 namespace WCF.ServiceLibrary.Interfaces
@@ -35,19 +36,20 @@ namespace WCF.ServiceLibrary.Interfaces
 
         #region Actions
 
-        [OperationContract(IsOneWay = false)]
+        [OperationContract]
         [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.Wrapped,
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "Actions")]
-        IEnumerable<Tellstick.Model.Action> Actions();
+        string Actions();
 
         [OperationContract(IsOneWay = false)]
-        [WebInvoke(Method = "GET",
-            BodyStyle = WebMessageBodyStyle.Bare,
+        [WebInvoke(Method = "POST",
+            BodyStyle = WebMessageBodyStyle.Wrapped,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "ActionsBy/{unitId}")]
-        IEnumerable<Tellstick.Model.Action> ActionsBy(string unitId);
+            UriTemplate = "ActionsBy")]
+        string ActionsBy(string unitId);
 
         #endregion
 
