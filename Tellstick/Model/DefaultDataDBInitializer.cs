@@ -7,9 +7,9 @@
 
     public class DefaultDataDbInitializer : DropCreateDatabaseIfModelChanges<TellstickDBContext>
     {
-        private List<ActionType> TellstickActionTypes()
+        private ActionType[] TellstickActionTypes()
         {
-            var tellstickActionTypes = new List<ActionType>
+            var tellstickActionTypes = new ActionType[]
             {
                 new ActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.TurnOn},
                 new ActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.TurnOff}
@@ -17,9 +17,9 @@
             return tellstickActionTypes;
         }
 
-        private List<Protocol> TellstickProtocols()
+        private Protocol[] TellstickProtocols()
         {
-            var tellstickProtocols = new List<Protocol>
+            var tellstickProtocols = new Protocol[]
             {
                 new Protocol { Active = true, Type = Enums.ProtocolOption.arctech },
                 new Protocol { Active = true, Type = Enums.ProtocolOption.brateck },
@@ -40,9 +40,9 @@
             return tellstickProtocols;
         }
 
-        private List<Model> TellstickModels()
+        private Model[] TellstickModels()
         {
-            var tellstickModels = new List<Model>
+            var tellstickModels = new Model[]
             {
                 new Model { Active = true, TypeOption = Enums.ModelTypeOption.codeswitch, ManufacturerOption = ModelManufacturerOption.Anslut },
                 new Model { Active = true, TypeOption = Enums.ModelTypeOption.bell, ManufacturerOption = ModelManufacturerOption.Anslut },
@@ -114,11 +114,10 @@
             return tellstickModels;
         }
 
-        private List<Scheduler> TellstickSchedulers()
+        private Scheduler[] TellstickSchedulers()
         {
-            var tellstickSchedulers = new List<Scheduler>
+            var tellstickSchedulers = new Scheduler[]
             {
-              
                 #region Triggers baserade på aktuell veckodag
                 new Scheduler { Active = true,CronDescription = "Triggar kl 00:00 varje måndag",CronExpression = "0 0 0 * * MON"},
                 new Scheduler { Active = true,CronDescription = "Triggar kl 00:01 varje måndag",CronExpression = "0 1 0 * * MON"},
@@ -11832,9 +11831,9 @@
             return tellstickSchedulers;
         }
 
-        private List<Parameter> TellstickParameters()
+        private Parameter[] TellstickParameters()
         {
-            var tellstickParameters = new List<Parameter>
+            var tellstickParameters = new Parameter[]
             {
                 new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.A },
                 new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.A },
