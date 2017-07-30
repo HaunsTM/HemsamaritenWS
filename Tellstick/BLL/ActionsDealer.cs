@@ -1,13 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System.Diagnostics;
+using Tellstick.Model;
+using Tellstick.Model.Enums;
 
 namespace Tellstick.BLL
 {
+    using System.Collections.Generic;
     using System;
     using System.Linq;
 
     using log4net;
 
     using Tellstick.BLL.Interfaces;
+
+    public class ActionSearchParameters : IActionSearchParameters
+    {
+        public string unitId { get; set; }
+        public string actionTypeOption { get; set; }
+        public string[] cronExpressions { get; set; }
+    }
 
     public class ActionsDealer : IActionsDealer
     {
@@ -78,8 +88,7 @@ namespace Tellstick.BLL
                 {
                     //which ActionType are we dealing with?
                     var currentActionType = (from actionType in db.ActionTypes
-                                             where
-                                                 actionType.ActionTypeOption == actionTypeOption
+                                             where actionType.ActionTypeOption == actionTypeOption
                                              select actionType).First();
 
                     //which tellstick Unit are we dealing with?
@@ -112,24 +121,118 @@ namespace Tellstick.BLL
             using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
             {
                 var actions = (from a in db.Actions
-                               where a.Active == true
                                orderby a.Unit_Id
                                select a).ToList();
                 return actions;
             }
         }
 
-        public List<Tellstick.Model.Action> GetActionsBy(int unitId)
+        public IQueryable<Tellstick.Model.Action> GetActionsBy(int unitId)
         {
             using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
             {
-                var actions = (from a in db.Actions
-                               where a.Active == true && a.Unit_Id == unitId
-                               select a).ToList();
+                var actions = from a in db.Actions
+                               where a.Unit_Id == unitId
+                               select a;
 
                 return actions;
             }
         }
 
+        private IQueryable<Tellstick.Model.Action> GetActionsBy(int unitId, bool activeStatus)
+        {
+            using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+            {
+                var actions = from a in db.Actions
+                    where a.Unit_Id == unitId && a.Active == activeStatus
+                    select a;
+                return actions;
+            }
+
+        }
+
+
+
+
+
+
+        public List<Tellstick.Model.Action> ActivateActionsFor(IActionSearchParameters searchParameters)
+        {
+            using (var db = new Tellstick.Model.TellstickDBContext( DbConnectionStringName ) )
+            {
+                try
+                {
+                    var sD = new SchedulerDealer(DbConnectionStringName);
+                    var aTD = new ActionTypesDealer(DbConnectionStringName);
+                    var uD = new UnitDealer(DbConnectionStringName);
+
+                    var schedulersThatShouldBeUsed = sD.GetSchedulersBy(searchParameters.cronExpressions.ToList());
+                    var unitIdToUse = int.Parse(searchParameters.unitId);
+                    var currentUnit = uD.UnitBy(unitIdToUse);
+                    var actionTypeOption = aTD.ActionTypeOptionBy(searchParameters.actionTypeOption);
+                    var currentActionType = aTD.GetActionTypeBy(actionTypeOption);
+                    
+                    var schedulersIdsList = (from s in schedulersThatShouldBeUsed
+                                             select s.Id).ToList();
+                    var availableActionsThatCanBeUsed = (from a in db.Actions
+                                                        where a.Unit_Id == unitIdToUse && schedulersIdsList.Contains((int)a.Scheduler_Id) && a.ActionType.ActionTypeOption == actionTypeOption
+                                                        select a).ToList();
+
+                    var availableActionsSchedulers = new List<Scheduler>();
+
+                    foreach (var action in availableActionsThatCanBeUsed)
+                    {
+                        //make sure to activate possible inactive actions
+                        action.Active = true;
+                        availableActionsSchedulers.Add(action.Scheduler);
+                    }
+
+                    //missing actions, which do we need to create?
+                    var schedulersWeNeedToCreateActionsFor = (from needed in schedulersThatShouldBeUsed
+                                                             where !(
+                                                                 from available in availableActionsSchedulers
+                                                                 select available.CronExpression
+                                                             ).Contains(needed.CronExpression)
+                                                             select needed).ToList();
+
+                    //create new actions which we miss
+                    foreach (var scheduler in schedulersWeNeedToCreateActionsFor)
+                    {
+                        var newAction = new Tellstick.Model.Action
+                        {
+                            Active = true,
+                            ActionType_Id = currentActionType.Id,
+                            Scheduler_Id = scheduler.Id,
+                            Unit_Id = currentUnit.Id
+                        };
+
+                        db.Actions.Add(newAction);
+
+                    }
+
+                    // Submit the changes to the database.
+                    try
+                    {
+                        db.SaveChanges();
+                        var allActionsForCurrentUnit = (from action in db.Actions
+                            where action.Unit.Id == unitIdToUse
+                            select action).ToList();
+                        return allActionsForCurrentUnit;
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Cold not ActivateActionsFor ", ex);
+                        return null;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                
+
+            }
+        }
     }
 }

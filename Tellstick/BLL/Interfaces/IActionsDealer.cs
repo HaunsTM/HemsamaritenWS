@@ -1,7 +1,15 @@
-using System.Collections.Generic;
-
 namespace Tellstick.BLL.Interfaces
 {
+    using System.Collections.Generic;
+    using Tellstick.Model;
+
+    public interface IActionSearchParameters
+    {
+        string unitId { get; set; }
+        string actionTypeOption { get; set; }
+        string[] cronExpressions { get; set; }
+    }
+
     public interface IActionsDealer
     {
         string DbConnectionStringName { get; }
@@ -13,8 +21,7 @@ namespace Tellstick.BLL.Interfaces
 
         Tellstick.Model.Action RegisterNewManualAction(int nativeDeviceId, Tellstick.Model.Enums.ActionTypeOption actionTypeOption);
 
-        List<Tellstick.Model.Action> GetAllActions();
-
-        List<Tellstick.Model.Action> GetActionsBy(int unitId);
+        List<Tellstick.Model.Action> ActivateActionsFor(IActionSearchParameters searchParameters);
+        
     }
 }

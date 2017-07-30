@@ -14,7 +14,6 @@
 
     public class TellstickUnitDealer : ITellstickUnitDealer
     {
-        
         public string DbConnectionStringName { get; private set; }
         private INativeTellstickCommander NativeCommander { get; set; }
         private IActionsDealer ActionsDealer { get; set; }

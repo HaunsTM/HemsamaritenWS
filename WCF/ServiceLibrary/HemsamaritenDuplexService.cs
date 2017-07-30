@@ -1,6 +1,8 @@
 ﻿//Here is the once-per-application setup information
 
 using Newtonsoft.Json;
+using Tellstick.BLL;
+using Tellstick.BLL.Interfaces;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -279,6 +281,28 @@ namespace WCF.ServiceLibrary
                     var actionsDealer = new Tellstick.BLL.ActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
                     
                     var actions = actionsDealer.GetActionsBy(int.Parse(unitId));
+
+                    string jsonActions = JsonConvert.SerializeObject(actions,
+                        new JsonSerializerSettings { });
+                    return jsonActions;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Failed in returning Actions-list for device unitId={0}", unitId.ToString()), ex);
+                return null;
+            }
+        }
+
+        public string SetActionFor(string unitId, string actionTypeOption, string[] cronExpressions)
+        {
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var actionsDealer = new Tellstick.BLL.ActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    var searchParameters = new ActionSearchParameters { unitId = unitId, actionTypeOption = actionTypeOption, cronExpressions = cronExpressions };
+                    var actions = actionsDealer.ActivateActionsFor(searchParameters);
 
                     string jsonActions = JsonConvert.SerializeObject(actions,
                         new JsonSerializerSettings { });

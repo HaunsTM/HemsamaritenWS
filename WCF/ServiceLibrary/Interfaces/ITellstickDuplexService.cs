@@ -41,15 +41,22 @@ namespace WCF.ServiceLibrary.Interfaces
             BodyStyle = WebMessageBodyStyle.Wrapped,
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "Actions")]
+            UriTemplate = "GetAllActions")]
         string GetAllActions();
 
         [OperationContract(IsOneWay = false)]
         [WebInvoke(Method = "POST",
             BodyStyle = WebMessageBodyStyle.Wrapped,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "ActionsBy")]
+            UriTemplate = "GetActionsBy")]
         string GetActionsBy(string unitId);
+
+        [OperationContract(IsOneWay = false)]
+        [WebInvoke(Method = "POST",
+            BodyStyle = WebMessageBodyStyle.Wrapped,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "SetActionFor")]
+        string SetActionFor(string unitId, string actionType, string[] cronExpressions);
 
         #endregion
 

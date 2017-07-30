@@ -103,13 +103,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionsDealer.cs" />
+    <Compile Include="ActionTypesDealer.cs" />
     <Compile Include="DatabaseDealer.cs" />
     <Compile Include="Interfaces\IActionsDealer.cs" />
+    <Compile Include="Interfaces\IActionTypesDealer.cs" />
     <Compile Include="Interfaces\IDatabaseDealer.cs" />
     <Compile Include="Interfaces\IJobScheduler.cs" />
     <Compile Include="Interfaces\INativeTellstickCommander.cs" />
     <Compile Include="Interfaces\IPerformedActionsDealer.cs" />
+    <Compile Include="Interfaces\ISchedulerDealer.cs" />
     <Compile Include="Interfaces\ITellstickUnitDealer.cs" />
+    <Compile Include="Interfaces\IUnitDealer.cs" />
+    <Compile Include="UnitDealer.cs" />
+    <Compile Include="SchedulerDealer.cs" />
     <Compile Include="TellstickJob.cs" />
     <Compile Include="JobScheduler.cs" />
     <Compile Include="PerformedActionsDealer.cs" />
