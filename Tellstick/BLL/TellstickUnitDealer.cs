@@ -201,16 +201,16 @@
             return turnedOffMessageSent;
         }
 
-        private Unit UnitBy(int id)
+        private Unit UnitBy(string name)
         {
             Unit dbUnit = null;
             try
             {
                 using (var db = new Tellstick.Model.TellstickDBContext(this.DbConnectionStringName))
                 {
-                    dbUnit = (from tellstickUnit in db.Units
-                              where tellstickUnit.Active == true && tellstickUnit.Id == id
-                              select tellstickUnit).First();
+                    dbUnit = (from u in db.Units
+                              where u.Active == true && u.Name == name
+                              select u).First();
                     return dbUnit;
                 }
             }
@@ -226,12 +226,12 @@
         /// </summary>
         /// <param name="nativeDeviceId">Id of device to turn on</param>
         /// <returns>If turn on message were sent</returns>
-        public bool ManualTurnOnAndRegisterPerformedAction(int unitId)
+        public bool ManualTurnOnAndRegisterPerformedAction(string name)
         {
             var turnedOnMessageSent = false;
             try
             {
-                var currentUnit = UnitBy(unitId);
+                var currentUnit = UnitBy(name);
                 this.TurnOnDevice(nativeDeviceId: currentUnit.NativeDeviceId);
                 turnedOnMessageSent = true;
                 this.RegisterManualPerformedAction_TurnOnNative(nativeDeviceId: currentUnit.NativeDeviceId, time: DateTime.Now);
@@ -249,14 +249,14 @@
         /// </summary>
         /// <param name="nativeDeviceId">Id of device to turn off</param>
         /// <returns>If turn off message were sent</returns>
-        public bool ManualTurnOffAndRegisterPerformedAction(int unitId)
+        public bool ManualTurnOffAndRegisterPerformedAction(string name)
         {
 
             var turnedOffMessageSent = false;
 
             try
             {
-                var currentUnit = UnitBy(unitId);
+                var currentUnit = UnitBy(name);
                 this.TurnOffDevice(nativeDeviceId: currentUnit.NativeDeviceId);
                 turnedOffMessageSent = true;
                 this.RegisterManualPerformedAction_TurnOffNative(nativeDeviceId: currentUnit.NativeDeviceId, time: DateTime.Now);

@@ -147,76 +147,7 @@ namespace WCF.ServiceLibrary
         }
 
         #endregion
-
-        #region Actions
-
-        public string GetAllActions()
-        {
-            try
-            {
-                lock (_syncRoot)
-                {
-                    var actionsDealer = new Tellstick.BLL.ActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    var actions = actionsDealer.GetAllActions();
-
-                    string jsonActions = JsonConvert.SerializeObject(actions,
-                        new JsonSerializerSettings { });
-
-                    return jsonActions;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Failed in returning Actions-list for all devices"), ex);
-                return null;
-            }
-        }
-
-        public string GetActionsBy(string unitId)
-        {
-            try
-            {
-                lock (_syncRoot)
-                {
-                    var actionsDealer = new Tellstick.BLL.ActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    
-                    var actions = actionsDealer.GetActionsBy(int.Parse(unitId));
-
-                    string jsonActions = JsonConvert.SerializeObject(actions,
-                        new JsonSerializerSettings { });
-                    return jsonActions;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Failed in returning Actions-list for device unitId={0}", unitId.ToString()), ex);
-                return null;
-            }
-        }
-
-        public string SetActionFor(string unitId, string actionTypeOption, string[] cronExpressions)
-        {
-            try
-            {
-                lock (_syncRoot)
-                {
-                    var actionsDealer = new Tellstick.BLL.ActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    var searchParameters = new ActionSearchParameters { unitId = unitId, actionTypeOption = actionTypeOption, cronExpressions = cronExpressions };
-                    var actions = actionsDealer.ActivateActionsFor(searchParameters);
-
-                    string jsonActions = JsonConvert.SerializeObject(actions,
-                        new JsonSerializerSettings { });
-                    return jsonActions;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Failed in returning Actions-list for all devices"), ex);
-                return null;
-            }
-        }
-
-        #endregion
+        
 
         /// <summary>
         /// Creates and initializes a database
@@ -248,43 +179,7 @@ namespace WCF.ServiceLibrary
         
         #region Turn on/off device
 
-        public void TurnOnTellstickDeviceNative(int nativeDeviceId)
-        {
-            try
-            {
-                lock (_syncRoot)
-                {
-                    var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    tellstickUnitDealer.ManualTurnOnAndRegisterPerformedActionNative(nativeDeviceId);
-
-                    log.Debug(String.Format("Turned on Tellstick nativeDeviceId = {0}", nativeDeviceId));
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Failed in turning off Tellstick nativeDeviceId = {0}", nativeDeviceId), ex);
-            }
-        }
-
-        public void TurnOffTellstickDeviceNative(int nativeDeviceId)
-        {
-            try
-            {
-                lock (_syncRoot)
-                {
-                    var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    tellstickUnitDealer.ManualTurnOffAndRegisterPerformedActionNative(nativeDeviceId);
-
-                    log.Debug(String.Format("Turned off Tellstick nativeDeviceId = {0}", nativeDeviceId));
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Failed in turning off Tellstick nativeDeviceId = {0}", nativeDeviceId), ex);
-            }
-        }
-
-        public string TurnOnTellstickDevice(int unitId)
+        public string TurnOnTellstickDevice(string name)
         {
             var returnMessage = "";
             try
@@ -292,21 +187,21 @@ namespace WCF.ServiceLibrary
                 lock (_syncRoot)
                 {
                     var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    tellstickUnitDealer.ManualTurnOnAndRegisterPerformedAction(unitId);
+                    tellstickUnitDealer.ManualTurnOnAndRegisterPerformedAction(name);
 
-                    returnMessage = String.Format("Turned on Tellstick unitId = {0}", unitId);
+                    returnMessage = String.Format("Turned on Tellstick unitId = {0}", name);
                     log.Debug(returnMessage);
                 }
             }
             catch (Exception ex)
             {
-                returnMessage = String.Format("Failed in turning on Tellstick unitId = {0}. Reason: {1}", unitId, ex.Message);
-                log.Error(String.Format("Failed in turning on Tellstick unitId = {0}", unitId), ex);
+                returnMessage = String.Format("Failed in turning on Tellstick unitId = {0}. Reason: {1}", name, ex.Message);
+                log.Error(String.Format("Failed in turning on Tellstick unitId = {0}", name), ex);
             }
             return returnMessage;
         }
 
-        public string TurnOffTellstickDevice(int unitId)
+        public string TurnOffTellstickDevice(string name)
         {
             var returnMessage = "";
             try
@@ -314,16 +209,16 @@ namespace WCF.ServiceLibrary
                 lock (_syncRoot)
                 {
                     var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    tellstickUnitDealer.ManualTurnOffAndRegisterPerformedAction(unitId);
+                    tellstickUnitDealer.ManualTurnOffAndRegisterPerformedAction(name);
 
-                    returnMessage = String.Format("Turned off Tellstick unitId = {0}", unitId);
+                    returnMessage = String.Format("Turned off Tellstick unitId = {0}", name);
                     log.Debug(returnMessage);
                 }
             }
             catch (Exception ex)
             {
-                returnMessage = String.Format("Failed in turning off Tellstick unitId = {0}. Reason: {1}", unitId, ex.Message);
-                log.Error(String.Format("Failed in turning off Tellstick unitId = {0}", unitId), ex);
+                returnMessage = String.Format("Failed in turning off Tellstick unitId = {0}. Reason: {1}", name, ex.Message);
+                log.Error(String.Format("Failed in turning off Tellstick unitId = {0}", name), ex);
             }
             return returnMessage;
         }
