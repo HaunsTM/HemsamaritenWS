@@ -1,28 +1,14 @@
-namespace Tellstick.BLL
+namespace Tellstick.BLL.Interfaces
 {
-    using Tellstick.Model;
-    using Tellstick.Model.Enums;
-    using Tellstick.Model.Interfaces;
-
-    public interface ITellstickUnitDealer
+    public interface ITellStickZNetCommander
     {
-        string DbConnectionStringName { get; }
-
-        bool TurnOnDevice(IUnit unit);
-
-        bool TurnOnDevice(int nativeDeviceId);
-
-        bool TurnOffDevice(IUnit unit);
-
-        bool TurnOffDevice(int nativeDeviceId);
-
         /// <summary>
         /// Turns a device on.
         /// Make sure the device supports this by calling TelldusNETWrapper.tdMethods() before any calls to this function.
         /// </summary>
         /// <param name="nativeDeviceId">Id of device to turn on</param>
         /// <returns>If turn on message were sent</returns>
-        bool ManualTurnOnAndRegisterPerformedActionNative(int nativeDeviceId);
+        void TurnOn(int nativeDeviceId);
 
         /// <summary>
         /// Turns a device off.
@@ -30,6 +16,6 @@ namespace Tellstick.BLL
         /// </summary>
         /// <param name="nativeDeviceId">Id of device to turn off</param>
         /// <returns>If turn off message were sent</returns>
-        bool ManualTurnOffAndRegisterPerformedActionNative(int nativeDeviceId);
+        void TurnOff(int nativeDeviceId);
     }
 }

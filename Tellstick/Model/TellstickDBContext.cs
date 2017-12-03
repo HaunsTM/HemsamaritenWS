@@ -14,15 +14,14 @@
         {
         }
 
-        public DbSet<Protocol> Protocols { get; set; }
-        public DbSet<Model> Models { get; set; }
+        public DbSet<Authentication> Authentications { get; set; }
+        public DbSet<TellstickZNetLiteV2> TellstickZNetLiteV2s { get; set; }
         public DbSet<ActionType> ActionTypes { get; set; }
 
         public DbSet<Unit> Units { get; set; }
         public DbSet<Action> Actions { get; set; }
         public DbSet<Scheduler> Schedulers { get; set; }
-
-        public DbSet<Parameter> Parameters { get; set; }
+        
         public DbSet<PerformedAction> PerformedActions { get; set; }
 
     }

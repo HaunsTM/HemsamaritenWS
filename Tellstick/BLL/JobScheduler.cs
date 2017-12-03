@@ -179,9 +179,7 @@
                                       where activeAction.Active == true &&
                                             activeAction.Scheduler.Active == true &&
                                             activeAction.ActionType.Active == true &&
-                                            activeAction.Unit.Active == true &&
-                                            activeAction.Unit.Protocol.Active == true &&
-                                            activeAction.Unit.Parameter.Active == true
+                                            activeAction.Unit.Active == true
                                       select
                                           new TellstickUnitWithAction
                                           {

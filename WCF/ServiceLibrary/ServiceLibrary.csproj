@@ -78,10 +78,6 @@
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ImageProcessor, Version=2.3.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ImageProcessor.2.3.3.0\lib\net45\ImageProcessor.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -115,10 +111,8 @@
     </Compile>
     <Compile Include="Interfaces\IHemsamaritenDuplexCallback.cs" />
     <Compile Include="Interfaces\IHemsamaritenDuplexService.cs" />
-    <Compile Include="Interfaces\ISurveillanceCam2DBDuplexCallback.cs" />
     <Compile Include="Interfaces\ITellstickDuplexCallback.cs" />
     <Compile Include="Interfaces\ITellstickDuplexService.cs" />
-    <Compile Include="Interfaces\ISurveillanceCam2DBDuplexService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -129,14 +123,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\SurveillanceCam2DB\BLL\BLL.csproj">
-      <Project>{28442c3d-5366-451e-9e97-b1d0c6cefd4d}</Project>
-      <Name>SurveillanceCam2DB.BLL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SurveillanceCam2DB\Model\Model.csproj">
-      <Project>{d7fca33d-2cf8-404f-b866-33df756c9b3a}</Project>
-      <Name>SurveillanceCam2DB.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Tellstick\BLL\BLL.csproj">
       <Project>{2c3f2178-d1af-4d0e-a2e7-b64e69440fb7}</Project>
       <Name>Tellstick.BLL</Name>

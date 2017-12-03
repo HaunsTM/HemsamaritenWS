@@ -1,4 +1,7 @@
-﻿namespace Tellstick.Model
+﻿using System;
+using System.Linq;
+
+namespace Tellstick.Model
 {
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -7,6 +10,46 @@
 
     public class DefaultDataDbInitializer : DropCreateDatabaseIfModelChanges<TellstickDBContext>
     {
+        private Authentication Authenticated20171203
+        {
+            get
+            {
+                return new Authentication
+                {
+                    Active = true,
+                    Expires = 1543826561,
+                    Token =                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImF1ZCI6IkhlbXNhbWFyaXRlbkFwcCIsImV4cCI6MTU0MzgyNjU2MX0.eyJyZW5ldyI6dHJ1ZSwidHRsIjozMTUzNjAwMH0.K-pAl9gNbMSZEYkYYdzDrntUQRkgg9CPCOT3imr6qm0",
+                    Received = new DateTime(year: 2017, month: 12, day: 03 )
+                };
+            }
+        }
+
+        private Authentication[] Authentications()
+        {
+            var authentications = new Authentication[]
+            {
+                Authenticated20171203
+            };
+            return authentications;
+        }
+
+        private TellstickZNetLiteV2 BaseDevice20171203
+        {
+            get
+            {
+                return new TellstickZNetLiteV2 {BaseIP = "http://10.0.0.100"};
+            }
+        }
+
+        private TellstickZNetLiteV2[] TellstickZNetLiteV2s()
+        {
+            var tellstickZNetLiteV2s = new TellstickZNetLiteV2[]
+            {
+                BaseDevice20171203
+            };
+            return tellstickZNetLiteV2s;
+        }
+
         private ActionType[] TellstickActionTypes()
         {
             var tellstickActionTypes = new ActionType[]
@@ -15,103 +58,6 @@
                 new ActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.TurnOff}
             };
             return tellstickActionTypes;
-        }
-
-        private Protocol[] TellstickProtocols()
-        {
-            var tellstickProtocols = new Protocol[]
-            {
-                new Protocol { Active = true, Type = Enums.ProtocolOption.arctech },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.brateck },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.everflourish },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.fuhaote },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.hasta },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.ikea },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.kangtai },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.risingsun },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.sartano },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.silvanchip },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.upm },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.waveman },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.x10 },
-                new Protocol { Active = true, Type = Enums.ProtocolOption.yidong }
-            };
-
-            return tellstickProtocols;
-        }
-
-        private Model[] TellstickModels()
-        {
-            var tellstickModels = new Model[]
-            {
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.codeswitch, ManufacturerOption = ModelManufacturerOption.Anslut },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.bell, ManufacturerOption = ModelManufacturerOption.Anslut },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearning, ManufacturerOption = ModelManufacturerOption.Anslut },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningDimmer, ManufacturerOption = ModelManufacturerOption.Anslut },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningSwitch, ManufacturerOption = ModelManufacturerOption.Anslut },
-
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.codeswitch, ManufacturerOption = ModelManufacturerOption.Brennenstuhl },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.bell, ManufacturerOption = ModelManufacturerOption.Brennenstuhl },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearning, ManufacturerOption = ModelManufacturerOption.Brennenstuhl },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningDimmer, ManufacturerOption = ModelManufacturerOption.Brennenstuhl },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningSwitch, ManufacturerOption = ModelManufacturerOption.Brennenstuhl },
-
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.codeswitch, ManufacturerOption = ModelManufacturerOption.Chacon },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.bell, ManufacturerOption = ModelManufacturerOption.Chacon },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearning, ManufacturerOption = ModelManufacturerOption.Chacon },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningDimmer, ManufacturerOption = ModelManufacturerOption.Chacon },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningSwitch, ManufacturerOption = ModelManufacturerOption.Chacon },
-
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.codeswitch, ManufacturerOption = ModelManufacturerOption.Hasta },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.bell, ManufacturerOption = ModelManufacturerOption.Hasta },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearning, ManufacturerOption = ModelManufacturerOption.Hasta },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningDimmer, ManufacturerOption = ModelManufacturerOption.Hasta },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningSwitch, ManufacturerOption = ModelManufacturerOption.Hasta },
-
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.codeswitch, ManufacturerOption = ModelManufacturerOption.Intertechno },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.bell, ManufacturerOption = ModelManufacturerOption.Intertechno },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearning, ManufacturerOption = ModelManufacturerOption.Intertechno },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningDimmer, ManufacturerOption = ModelManufacturerOption.Intertechno },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningSwitch, ManufacturerOption = ModelManufacturerOption.Intertechno },
-
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.codeswitch, ManufacturerOption = ModelManufacturerOption.Kappa },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.bell, ManufacturerOption = ModelManufacturerOption.Kappa },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearning, ManufacturerOption = ModelManufacturerOption.Kappa },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningDimmer, ManufacturerOption = ModelManufacturerOption.Kappa },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningSwitch, ManufacturerOption = ModelManufacturerOption.Kappa },
-
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.codeswitch, ManufacturerOption = ModelManufacturerOption.Nexa },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.bell, ManufacturerOption = ModelManufacturerOption.Nexa },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearning, ManufacturerOption = ModelManufacturerOption.Nexa },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningDimmer, ManufacturerOption = ModelManufacturerOption.Nexa },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningSwitch, ManufacturerOption = ModelManufacturerOption.Nexa },
-
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.codeswitch, ManufacturerOption = ModelManufacturerOption.Proove },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.bell, ManufacturerOption = ModelManufacturerOption.Proove },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearning, ManufacturerOption = ModelManufacturerOption.Proove },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningDimmer, ManufacturerOption = ModelManufacturerOption.Proove },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningSwitch, ManufacturerOption = ModelManufacturerOption.Proove },
-
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.codeswitch, ManufacturerOption = ModelManufacturerOption.Rusta },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.bell, ManufacturerOption = ModelManufacturerOption.Rusta },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearning, ManufacturerOption = ModelManufacturerOption.Rusta },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningDimmer, ManufacturerOption = ModelManufacturerOption.Rusta },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningSwitch, ManufacturerOption = ModelManufacturerOption.Rusta },
-
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.codeswitch, ManufacturerOption = ModelManufacturerOption.Sartano },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.bell, ManufacturerOption = ModelManufacturerOption.Sartano },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearning, ManufacturerOption = ModelManufacturerOption.Sartano },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningDimmer, ManufacturerOption = ModelManufacturerOption.Sartano },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningSwitch, ManufacturerOption = ModelManufacturerOption.Sartano },
-
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.codeswitch, ManufacturerOption = ModelManufacturerOption.Waveman },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.bell, ManufacturerOption = ModelManufacturerOption.Waveman },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearning, ManufacturerOption = ModelManufacturerOption.Waveman },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningDimmer, ManufacturerOption = ModelManufacturerOption.Waveman },
-                new Model { Active = true, TypeOption = Enums.ModelTypeOption.selflearningSwitch, ManufacturerOption = ModelManufacturerOption.Waveman }
-            };
-
-            return tellstickModels;
         }
 
         private Scheduler[] TellstickSchedulers()
@@ -11831,284 +11777,59 @@
             return tellstickSchedulers;
         }
 
-        private Parameter[] TellstickParameters()
+        private void AddAndSaveDummyDataWithoutConstraints(TellstickDBContext context)
         {
-            var tellstickParameters = new Parameter[]
-            {
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.A },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.B },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.C },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.D },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.E },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.F },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.G },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.H },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.I },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.J },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.K },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.L },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.M },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.N },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.O },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._1, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._2, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._3, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._4, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._5, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._6, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._7, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._8, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._9, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._10, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._11, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._12, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._13, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._14, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._15, HouseOption = Parameter_HouseOption.P },
-                new Parameter { Active = true, UnitOption = Parameter_UnitOption._16, HouseOption = Parameter_HouseOption.P }
-            };
-
-            return tellstickParameters;
-        }
-
-        protected override void Seed(TellstickDBContext context)
-        {
+            context.Authentications.AddRange(this.Authentications());
+            context.TellstickZNetLiteV2s.AddRange(this.TellstickZNetLiteV2s());
             context.ActionTypes.AddRange(this.TellstickActionTypes());
-
-            context.Protocols.AddRange(this.TellstickProtocols());
-
-            context.Models.AddRange(this.TellstickModels());
-
             context.Schedulers.AddRange(this.TellstickSchedulers());
 
-            context.Parameters.AddRange(this.TellstickParameters());
-
             context.SaveChanges();
+        }
+
+        private void InitiallyConnectAuthentication_TellstickZNetLiteV2(TellstickDBContext context)
+        {
+            //get references from db
+            var tellstickZNetLiteV2 = (from t in context.TellstickZNetLiteV2s.ToList()
+                                        where t.BaseIP == BaseDevice20171203.BaseIP
+                                        select t).First();
+            var authentication = (from t in context.Authentications.ToList()
+                                  where t.Token == Authenticated20171203.Token
+                                  select t).First();
+
+            authentication.TellstickZNetLiteV2_Id = tellstickZNetLiteV2.Id;
+
+            context.Authentications.Attach(authentication);
+            var entry = context.Entry(authentication);
+            entry.Property(e => e.TellstickZNetLiteV2_Id).IsModified = true;
+            // other changed properties
+            context.SaveChanges();
+        }
+
+        private void InitiallyConnectActionTypes_TellstickZNetLiteV2(TellstickDBContext context)
+        {
+            //get references from db
+            var tellstickZNetLiteV2 = (from t in context.TellstickZNetLiteV2s
+                where t.BaseIP == BaseDevice20171203.BaseIP
+                select t).First();
+            
+            var actionTypes = from at in context.ActionTypes
+                where at.TellstickZNetLiteV2_Id == null
+                select at;
+
+            foreach (var actionType in actionTypes)
+            {
+                actionType.TellstickZNetLiteV2_Id = tellstickZNetLiteV2.Id;
+            }
+
+            // other changed properties
+            context.SaveChanges();
+        }
+        protected override void Seed(TellstickDBContext context)
+        {
+            AddAndSaveDummyDataWithoutConstraints(context);
+            InitiallyConnectAuthentication_TellstickZNetLiteV2(context);
+            InitiallyConnectActionTypes_TellstickZNetLiteV2(context);
         }
     }
 }

@@ -32,19 +32,6 @@
 
         [JsonIgnore]
         public virtual List<Action> Actions { get; set; }
-        [JsonIgnore]
-        public virtual Parameter Parameter { get; set; }
-        [JsonIgnore]
-        public virtual Protocol Protocol { get; set; }
-        [JsonIgnore]
-        public virtual Model Model { get; set; }
-
-        [ForeignKey("Parameter")]
-        public int Parameter_Id { get; set; }
-        [ForeignKey("Protocol")]
-        public int Protocol_Id { get; set; }
-        [ForeignKey("Model")]
-        public int Model_Id { get; set; }
 
         #endregion
 
