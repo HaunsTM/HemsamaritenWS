@@ -66,29 +66,7 @@ namespace WCF.ServiceLibrary.Interfaces
                     ResponseFormat = WebMessageFormat.Json,
                     UriTemplate = "CreateAndInitializeTellstickDB")]
         void CreateAndInitializeTellstickDB();
-
-        #region Add/remove device
         
-        /// <summary>
-        /// Register a Tellstick device to native Tellstick system AND database
-        /// </summary>
-        /// <param name="name">Example: Kitchen lamp switch</param>
-        /// <param name="locationDesciption">Example: Over the table in the kitchen</param>
-        /// <param name="protocolOption">Example: "arctech"</param>
-        /// <param name="modelTypeOption">Example: "codeswitch"</param>
-        /// <param name="modelManufacturerOption">Example: "nexa"</param> 
-        /// <param name="unitOption">Example: "1"</param>
-        /// <param name="houseOption">Example: "F"</param>
-        /// <returns>Registered device id</returns>
-        [OperationContract(IsOneWay = false)]
-        [WebInvoke(Method = "POST", UriTemplate = "RegisterTellstickDevice", BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        Tellstick.Model.Unit RegisterTellstickDevice(string name, string locationDesciption, Tellstick.Model.Enums.ProtocolOption protocolOption, Tellstick.Model.Enums.ModelTypeOption modelTypeOption, Tellstick.Model.Enums.ModelManufacturerOption modelManufacturerOption, Tellstick.Model.Enums.Parameter_UnitOption unitOption, Tellstick.Model.Enums.Parameter_HouseOption houseOption);
-         
-        [OperationContract(IsOneWay = true)]
-        void RemoveTellstickDevice(int nativeDeviceId);
-
-        #endregion
-
         #region Turn on/off device
 
         [OperationContract(IsOneWay = true)]

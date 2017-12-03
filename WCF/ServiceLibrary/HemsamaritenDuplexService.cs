@@ -38,7 +38,6 @@ namespace WCF.ServiceLibrary
         public HemsamaritenDuplexService()
         {
             log.Debug("HemsamaritenDuplexService started!");
-            this.SurveillanceCam2DBJobScheduler = null;
             this.TellstickJobScheduler = null;
         }
 
@@ -73,106 +72,7 @@ namespace WCF.ServiceLibrary
         }
 
         #endregion
-
-        #region ISurveillanceCam2DBDuplexService
         
-        private SurveillanceCam2DB.BLL.JobScheduler SurveillanceCam2DBJobScheduler { get; set; }
-
-        public void DumpCurrentlyExecutingSurveillanceCam2DBJobsNamesToLog()
-        {
-            try
-            {
-                lock (_syncRoot)
-                {
-                    if (this.SurveillanceCam2DBJobScheduler != null)
-                    {
-                        var currentlyExecutingSurveillanceCam2DBJobsNamesList = this.SurveillanceCam2DBJobScheduler.CurrentlyExecutingJobsNames;
-                        if (currentlyExecutingSurveillanceCam2DBJobsNamesList.Count > 0)
-                        {
-                            var currentlyExecutingSurveillanceCam2DBJobsNames = string.Join("; ", currentlyExecutingSurveillanceCam2DBJobsNamesList);
-                            log.Debug(String.Format("Currently executing SurveillanceCam2DB jobs: {0}", currentlyExecutingSurveillanceCam2DBJobsNames));
-                        }
-                        else
-                        {
-                            log.Debug(String.Format("No SurveillanceCam2DB jobs executing currently!"));
-                        }
-                    }
-                    else
-                    {
-                        log.Debug(String.Format("Class SurveillanceCam2DBJobScheduler is not instantiated! Run StartSurveillanceCam2DBScheduler() first!"));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Failed in getting running Tellstick jobs."), ex);
-            }
-        }
-
-        public void StartSurveillanceCam2DBScheduler()
-        {
-            try
-            {
-                lock (_syncRoot)
-                {
-                    this.SurveillanceCam2DBJobScheduler = new SurveillanceCam2DB.BLL.JobScheduler(DB_CONNECTION_STRING_NAME__SURVEILLANCE_CAM_2_DB);
-                    this.SurveillanceCam2DBJobScheduler.Start();
-                    log.Debug(String.Format("Started SurveillanceCam2DBScheduler."));
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Failed in starting SurveillanceCam2DBScheduler."), ex);
-            }
-        }
-
-        public void StopSurveillanceCam2DBScheduler()
-        {
-            try
-            {
-                lock (_syncRoot)
-                {
-                    this.SurveillanceCam2DBJobScheduler.Stop();
-                    this.SurveillanceCam2DBJobScheduler = null;
-                    log.Debug(String.Format("Stopped SurveillanceCam2DBScheduler."));
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Failed in stopping SurveillanceCam2DBScheduler."), ex);
-            }
-        }
-
-        /// <summary>
-        /// Creates and initializes a database
-        /// </summary>
-        public void CreateAndInitializeSurveillanceCam2DB()
-        {
-            try
-            {
-                lock (_syncRoot)
-                {
-                    var databaseDealer = new SurveillanceCam2DB.BLL.DatabaseDealer(DB_CONNECTION_STRING_NAME__SURVEILLANCE_CAM_2_DB);
-
-                    var databaseCreated = databaseDealer.CreateAndInitializeSurveillanceCam2DBDB();
-                    if (databaseCreated)
-                    {
-                        log.Debug(String.Format("Created and initialized SurveillanceCam2DB!"));
-                    }
-                    else
-                    {
-                        throw new Exception(String.Format("Failed in creating and initializing SurveillanceCam2DB."));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Failed in creating and initializing SurveillanceCam2DB."), ex);
-            }
-        }
-
-        #endregion
-
         #region Tellstick
 
         private Tellstick.BLL.JobScheduler TellstickJobScheduler { get; set; }
@@ -345,43 +245,7 @@ namespace WCF.ServiceLibrary
                 log.Error(String.Format("Failed in creating and initializing TellstickDB."), ex);
             }
         }
-
-        #region Add/remove device
-
-        public Tellstick.Model.Unit RegisterTellstickDevice(
-            string name,
-            string locationDesciption,
-            Tellstick.Model.Enums.ProtocolOption protocolOption,
-            Tellstick.Model.Enums.ModelTypeOption modelTypeOption,
-            Tellstick.Model.Enums.ModelManufacturerOption modelManufacturerOption,
-            Tellstick.Model.Enums.Parameter_UnitOption unitOption,
-            Tellstick.Model.Enums.Parameter_HouseOption houseOption)
-        {
-            var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-            var addedUnit = tellstickUnitDealer.AddDevice(name, locationDesciption, protocolOption, modelTypeOption, modelManufacturerOption, unitOption, houseOption);
-            return addedUnit;
-        }
-
-        public void RemoveTellstickDevice(int nativeDeviceId)
-        {
-            try
-            {
-                lock (_syncRoot)
-                {
-                    var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    tellstickUnitDealer.RemoveDevice(nativeDeviceId);
-
-                    log.Debug(String.Format("Removed Tellstick nativeDeviceId = {0}", nativeDeviceId));
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Failed in removing Tellstick nativeDeviceId = {0}", nativeDeviceId), ex);
-            }
-        }
-
-        #endregion 
-
+        
         #region Turn on/off device
 
         public void TurnOnTellstickDeviceNative(int nativeDeviceId)
