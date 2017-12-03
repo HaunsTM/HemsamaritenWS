@@ -107,8 +107,7 @@ namespace Tellstick.BLL
     {
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        private TellstickZNetLiteV2 _defaultTellstickZNetLiteV2s = null;
+        
         private Authentication _bearerToken = null;
 
         public string TellstickURL { get; set; }
@@ -118,29 +117,16 @@ namespace Tellstick.BLL
         public TellStickZNetCommander(string dbConnectionStringName)
         {
             DbConnectionStringName = dbConnectionStringName;
-        }
 
-        private TellstickZNetLiteV2 DefaultTellstickZNetLiteV2s
-        {
-            get
+            using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
             {
-                if (_defaultTellstickZNetLiteV2s != null)
-                {
-                    return _defaultTellstickZNetLiteV2s;
-                }
-                else
-                {
-                    using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
-                    {
-                        _defaultTellstickZNetLiteV2s = (from s in db.TellstickZNetLiteV2s
-                            orderby s.Id ascending
-                            select s).First();
-
-                        return _defaultTellstickZNetLiteV2s;
-                    }
-                }
+                DefaultTellstickZNetLiteV2s = (from s in db.TellstickZNetLiteV2s
+                    orderby s.Id ascending
+                    select s).First();
             }
         }
+
+        private TellstickZNetLiteV2 DefaultTellstickZNetLiteV2s { get; set; }
 
         private RestClient Client
         {
@@ -148,7 +134,7 @@ namespace Tellstick.BLL
             {
                 using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
                 {
-                    var client = new RestClient(TellstickURL);
+                    var client = new RestClient(DefaultTellstickZNetLiteV2s.BaseIP);
                     client.AddDefaultHeader("Authorization", " Bearer " + TellstickAuthentication.Token);
                     return client;
                 }
