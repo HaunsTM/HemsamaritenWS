@@ -340,5 +340,23 @@
         }
 
         #endregion
+
+        /// <summary>
+        /// Refreshes the bearer token for communication with the tellstick 
+        /// </summary>
+        public bool RefreshBearerToken()
+        {
+            var refreshed = false;
+            try
+            {
+                refreshed =
+                    this.NativeCommander.RefreshBearerToken(); 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Couldn't refresh the bearer token for communication with the tellstick.", ex);
+            }
+            return refreshed;
+        }
     }
 }

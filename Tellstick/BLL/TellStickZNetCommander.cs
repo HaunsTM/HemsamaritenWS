@@ -298,8 +298,6 @@ namespace Tellstick.BLL
                 throw e;
             }
         }
-        
 
-       
     }
 }

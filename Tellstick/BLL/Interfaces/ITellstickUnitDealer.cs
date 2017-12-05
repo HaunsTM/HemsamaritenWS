@@ -16,6 +16,8 @@ namespace Tellstick.BLL
 
         bool TurnOffDevice(int nativeDeviceId);
 
+        bool RefreshBearerToken();
+
         /// <summary>
         /// Turns a device on.
         /// Make sure the device supports this by calling TelldusNETWrapper.tdMethods() before any calls to this function.

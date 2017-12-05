@@ -7,6 +7,8 @@
         [Description("Turn on")]
         TurnOn,
         [Description("Turn off")]
-        TurnOff
+        TurnOff,
+        [Description("Refresh bearer token")]
+        RefreshBearerToken
     }
 }
