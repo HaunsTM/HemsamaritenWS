@@ -32,7 +32,7 @@
         public virtual Scheduler Scheduler { get; set; }
         
         [ForeignKey("Unit")]
-        public int Unit_Id { get; set; }
+        public int? Unit_Id { get; set; }
         [ForeignKey("ActionType")]
         public int ActionType_Id { get; set; }
         [ForeignKey("Scheduler")]
