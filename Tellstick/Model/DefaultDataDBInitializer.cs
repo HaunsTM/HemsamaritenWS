@@ -55,7 +55,8 @@ namespace Tellstick.Model
             var tellstickActionTypes = new ActionType[]
             {
                 new ActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.TurnOn},
-                new ActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.TurnOff}
+                new ActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.TurnOff},
+                new ActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.RefreshBearerToken}
             };
             return tellstickActionTypes;
         }
