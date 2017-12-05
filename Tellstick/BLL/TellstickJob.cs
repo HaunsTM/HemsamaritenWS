@@ -76,6 +76,10 @@
                     commander.TurnOffDevice(nativeDeviceId);
                     workPerformed = true;
                     break;
+                case ActionTypeOption.RefreshBearerToken:
+                    commander.RefreshBearerToken();
+                    workPerformed = true;
+                    break;
                 default:
                     workPerformed = false;
                     throw new ArgumentOutOfRangeException();

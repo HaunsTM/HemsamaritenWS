@@ -17,5 +17,11 @@ namespace Tellstick.BLL.Interfaces
         /// <param name="nativeDeviceId">Id of device to turn off</param>
         /// <returns>If turn off message were sent</returns>
         void TurnOff(int nativeDeviceId);
+
+        /// <summary>
+        /// Refresh bearer token for communication with the Tellstick
+        /// </summary>
+        /// <returns></returns>
+        bool RefreshBearerToken();
     }
 }
