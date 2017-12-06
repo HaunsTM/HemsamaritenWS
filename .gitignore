@@ -15,3 +15,13 @@ Tellstick/Model/obj/
 Tellstick/TelldusNETWrapper/obj/
 Tellstick/TelldusNETWrapper/bin/
 WCF/Model/bin/
+HemsamaritenWindowsService/bin/
+packages/
+Tellstick/BLL/bin/
+Tellstick/ConsoleForTestingPurpose/bin/
+Tellstick/ConsoleForTestingPurpose/obj/
+WCF/BLL/bin/
+WCF/ConsoleForTestingPurpose/bin/
+WCF/Model/obj/
+WCF/
+HemsamaritenWindowsService/obj/
