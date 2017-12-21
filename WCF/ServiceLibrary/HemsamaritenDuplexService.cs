@@ -107,7 +107,29 @@ namespace WCF.ServiceLibrary
                 log.Error(String.Format("Failed in getting running Tellstick jobs."), ex);
             }
         }
-        
+
+        public bool RefreshBearerToken()
+        {
+            bool refreshed = false;
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    refreshed = tellstickUnitDealer.RefreshBearerToken();
+
+                    var refreshMessage = "Refreshed bearer token to Tellstick Live";
+                    log.Debug(refreshMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                var refreshMessage = "Failed in refreshing bearer token to Tellstick Live";
+                log.Error(refreshMessage, ex);
+            }
+            return refreshed;
+        }
+
         #region Scheduler
 
         public void StartTellstickScheduler()

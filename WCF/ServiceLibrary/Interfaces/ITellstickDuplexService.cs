@@ -16,6 +16,13 @@ namespace WCF.ServiceLibrary.Interfaces
                     UriTemplate = "DumpCurrentlyExecutingTellstickJobsNamesToLog")]
         void DumpCurrentlyExecutingTellstickJobsNamesToLog();
 
+        [OperationContract(IsOneWay = false)]
+        [WebInvoke(Method = "POST",
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json,
+                    UriTemplate = "RefreshBearerToken")]
+        bool RefreshBearerToken();
+
         #region Scheduler
 
         [OperationContract(IsOneWay = true)]

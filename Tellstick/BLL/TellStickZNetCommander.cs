@@ -188,13 +188,13 @@ namespace Tellstick.BLL
                 var authentication = new Authentication { Active = true, Expires = refreshedBearerToken.expires, Received = DateTime.Now, Token = refreshedBearerToken.token, TellstickZNetLiteV2_Id = DefaultTellstickZNetLiteV2s.Id };
 
                 TellstickAuthentication = authentication;
-
-                return refreshed;
+                refreshed = true;
             }
             catch (Exception e)
             {
                 throw e;
             }
+            return refreshed;
         }
 
         public DeviceRootObject GetListOfDevices()
