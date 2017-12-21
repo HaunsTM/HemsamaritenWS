@@ -102,8 +102,8 @@
             {
                 try
                 {
-                    var jobName = "Job for: " + task.Unit.Name;
-                    var triggerName = "Trigger for: " + task.Unit.Name;
+                    var jobName = task.Unit != null ? $"Job for: {task.Unit.Name}" : $"Internal job for Hemsamariten";
+                    var triggerName = task.Unit != null ? $"Trigger for: {task.Unit.Name}" : $"Trigger for ActionType: {task.ActionType.ActionTypeOption.ToString()}";
                     var jobAndTriggerGroup = "Cron expression: " + task.Scheduler.CronExpression;
 
                     var jobId = new JobKey(name: jobName, group: jobAndTriggerGroup);
@@ -117,7 +117,8 @@
                     var jsonSerializedTellstickActionType_Key = "jsonSerializedTellstickActionType";
                     var jsonSerializedTellstickActionType_Value = jsonSerializedTellstickActionType;
 
-                    var jsonSerializedCurrentNativeDeviceId = Newtonsoft.Json.JsonConvert.SerializeObject(task.Unit.NativeDeviceId);
+                    const int NO_NATIVE_DEVICE_ID = -1;
+                    var jsonSerializedCurrentNativeDeviceId = Newtonsoft.Json.JsonConvert.SerializeObject(task.Unit != null ? task.Unit.NativeDeviceId : NO_NATIVE_DEVICE_ID);
                     var jsonSerializedCurrentNativeDeviceId_Key = "jsonSerializedCurrentNativeDeviceId";
                     var jsonSerializedCurrentNativeDeviceId_Value = jsonSerializedCurrentNativeDeviceId;
 
@@ -167,21 +168,21 @@
         /// Fetches a list of active tellstick job
         /// </summary>
         /// <returns>A list of stuff to do ()</returns>
-        private List<TellstickUnitWithAction> TellstickUnitsWithActions()
+        private List<RegisteredActions> TellstickUnitsWithActions()
         {
-            var tellstickUnitsWithActions = new List<TellstickUnitWithAction>();
+            var tellstickUnitsWithActions = new List<RegisteredActions>();
 
             try
             {
                 using (var db = new Model.TellstickDBContext(this.DbConnectionStringName))
                 {
                     var queryResult = from activeAction in db.Actions
-                                      where activeAction.Active == true &&
-                                            activeAction.Scheduler.Active == true &&
-                                            activeAction.ActionType.Active == true &&
-                                            activeAction.Unit.Active == true
+                                      where (activeAction.Active == true) &&
+                                            (activeAction.Scheduler != null ? activeAction.Scheduler.Active == true : false) &&
+                                            (activeAction.ActionType.Active == true) &&
+                                            (activeAction.Unit != null ? activeAction.Unit.Active == true : true)
                                       select
-                                          new TellstickUnitWithAction
+                                          new RegisteredActions
                                           {
                                               Scheduler = activeAction.Scheduler,
                                               Action = activeAction,
@@ -212,10 +213,10 @@
             public ITrigger Trigger { get; private set; }
         }
 
-        private class TellstickUnitWithAction
+        private class RegisteredActions
         {
-            public TellstickUnitWithAction() { }
-            public TellstickUnitWithAction(IScheduler currentScheduler, IAction currentAction, IActionType currentActionType, IUnit currentUnit)
+            public RegisteredActions() { }
+            public RegisteredActions(IScheduler currentScheduler, IAction currentAction, IActionType currentActionType, IUnit currentUnit = null)
             {
                 this.Scheduler = currentScheduler;
                 this.Action = currentAction;
