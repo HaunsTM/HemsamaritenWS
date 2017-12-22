@@ -1,4 +1,6 @@
-﻿namespace Tellstick.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Tellstick.Model
 {
     using Tellstick.Model.Interfaces;
 
@@ -20,6 +22,11 @@
 
         #region Navigation properties
 
+        [ForeignKey("TellstickZNetLiteV2")]
+        public int? TellstickZNetLiteV2_Id { get; set; }
+
+        [JsonIgnore]
+        public virtual TellstickZNetLiteV2 TellstickZNetLiteV2 { get; set; }
         [JsonIgnore]
         public virtual List<Action> Actions { get; set; }
 
