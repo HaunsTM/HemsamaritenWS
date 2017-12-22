@@ -25,7 +25,6 @@
             ActionsDealer = new ActionsDealer(dbConnectionStringName: dbConnectionStringName);
         }
         
-
         #region TurnOnDevice (without registration to PerformedAction table)
 
         public bool TurnOnDevice(IUnit unit)

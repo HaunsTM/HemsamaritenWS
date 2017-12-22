@@ -116,5 +116,34 @@
             return occurredTellstickActions;
         }
 
+        public Tellstick.Model.ViewModel.LastPerformedTellstickAction LastPerformedAction(string name)
+        {
+            var lastPerformedAction = new Model.ViewModel.LastPerformedTellstickAction();
+
+            try
+            {
+                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                {
+                    var performedAction = (from performedAct in db.PerformedActions
+                        where performedAct.Action.Unit.Name == name
+                        orderby performedAct.Time descending
+                        select performedAct).FirstOrDefault();
+
+                    lastPerformedAction.Performed = performedAction.Time;
+                    lastPerformedAction.NameOfPerfomee = name;
+
+                    lastPerformedAction.NameOfPerformedAction =
+                        "HELLO WORLD";  //performedAction.Action.ActionType.ActionTypeOption; 
+
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Could not retrieve performed actions from database!", ex);
+                throw ex;
+            }
+            return lastPerformedAction;
+        }
+
     }
 }

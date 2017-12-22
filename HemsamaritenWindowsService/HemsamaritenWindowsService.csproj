@@ -121,6 +121,7 @@
     <None Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="deployScript.ps1" />
     <None Include="DeployScripts\0. Connection to HEMSAMARITEN is possible.ps1" />
     <None Include="DeployScripts\1. Stop existing service.ps1" />
     <None Include="DeployScripts\2. Uninstall existing service.ps1" />

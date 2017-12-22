@@ -3,6 +3,7 @@
 using Newtonsoft.Json;
 using Tellstick.BLL;
 using Tellstick.BLL.Interfaces;
+using Tellstick.Model.ViewModel;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -247,6 +248,26 @@ namespace WCF.ServiceLibrary
 
         #endregion
 
-    #endregion
+        public LastPerformedTellstickAction LastPerformedAction(string name)
+        {
+            var lastPerformedAction = new LastPerformedTellstickAction();
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    lastPerformedAction = performedActionsDealer.LastPerformedAction(name);
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Failed in turning off Tellstick unitId = {0}", name), ex);
+            }
+            return lastPerformedAction;
+
+        }
+
+        #endregion
     }
 }
