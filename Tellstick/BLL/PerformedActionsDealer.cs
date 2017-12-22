@@ -1,4 +1,6 @@
-﻿namespace Tellstick.BLL
+﻿using Tellstick.Model.Enums;
+
+namespace Tellstick.BLL
 {
     using System;
     using System.Collections.Generic;
@@ -131,10 +133,7 @@
 
                     lastPerformedAction.Performed = performedAction.Time;
                     lastPerformedAction.NameOfPerfomee = name;
-
-                    lastPerformedAction.NameOfPerformedAction =
-                        "HELLO WORLD";  //performedAction.Action.ActionType.ActionTypeOption; 
-
+                    lastPerformedAction.NameOfPerformedAction = performedAction.Action.ActionType.ActionTypeOption;
                 }
             }
             catch (Exception ex)
@@ -145,5 +144,35 @@
             return lastPerformedAction;
         }
 
+
+        public List<Model.ViewModel.LastPerformedTellstickAction> LastPerformedActionsForAllUnits()
+        {
+            var lastPerformedActions = new List<Model.ViewModel.LastPerformedTellstickAction>();
+
+            try
+            {
+                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                {
+                    var query = db.PerformedActions
+                        .GroupBy(element => element.Action.Unit_Id)
+                        .Select(groups => groups.OrderByDescending(p => p.Time)
+                        .FirstOrDefault())
+                        .Select( x => new Model.ViewModel.LastPerformedTellstickAction
+                        {
+                            Performed = x.Time,
+                            NameOfPerfomee = x.Action.Unit.Name,
+                            NameOfPerformedAction = x.Action.ActionType.ActionTypeOption
+                        });
+
+                    lastPerformedActions = query.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Could not retrieve performed actions from database!", ex);
+                throw ex;
+            }
+            return lastPerformedActions;
+        }
     }
 }

@@ -257,14 +257,32 @@ namespace WCF.ServiceLibrary
                 {
                     var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
                     lastPerformedAction = performedActionsDealer.LastPerformedAction(name);
-                    
                 }
             }
             catch (Exception ex)
             {
-                log.Error(String.Format("Failed in turning off Tellstick unitId = {0}", name), ex);
+                log.Error($"Failed in getting LastPerformedAction for {name}", ex);
             }
             return lastPerformedAction;
+
+        }
+
+        public List<LastPerformedTellstickAction> LastPerformedActionsForAllUnits()
+        {
+            var lastPerformedActions = new List<LastPerformedTellstickAction>();
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    lastPerformedActions = performedActionsDealer.LastPerformedActionsForAllUnits();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error($"Failed in getting LastPerformedActionsForAllDevices", ex);
+            }
+            return lastPerformedActions;
 
         }
 

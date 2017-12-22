@@ -71,5 +71,11 @@ namespace WCF.ServiceLibrary.Interfaces
         ResponseFormat = WebMessageFormat.Json)]
         LastPerformedTellstickAction LastPerformedAction(string Name);
 
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        List<LastPerformedTellstickAction> LastPerformedActionsForAllUnits();
+
     }
 }
