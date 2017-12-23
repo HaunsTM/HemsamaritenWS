@@ -2,8 +2,8 @@
 {
     public class LastPerformedTellstickAction : Tellstick.Model.ViewModel.ILastPerformedTellstickAction
     {
-        public System.DateTime Performed { get; set; }
-        public string NameOfPerfomee { get; set; }
-        public Enums.ActionTypeOption  NameOfPerformedAction { get; set; }
+        public System.DateTime Time { get; set; }
+        public string Name{ get; set; }
+        public string PerformedActionDescription { get; set; }
     }   
 }

@@ -179,19 +179,16 @@ namespace WCF.ServiceLibrary
         {
             try
             {
-                lock (_syncRoot)
-                {
-                    var databaseDealer = new Tellstick.BLL.DatabaseDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                var databaseDealer = new Tellstick.BLL.DatabaseDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
 
-                    var databaseCreated = databaseDealer.CreateAndInitializeTellstickDB();
-                    if (databaseCreated)
-                    {
-                        log.Debug(String.Format("Created and initialized TellstickDB!"));
-                    }
-                    else
-                    {
-                        throw new Exception(String.Format("Failed in creating and initializing TellstickDB."));
-                    }
+                var databaseCreated = databaseDealer.CreateAndInitializeTellstickDB();
+                if (databaseCreated)
+                {
+                    log.Debug(String.Format("Created and initialized TellstickDB!"));
+                }
+                else
+                {
+                    throw new Exception(String.Format("Failed in creating and initializing TellstickDB."));
                 }
             }
             catch (Exception ex)
@@ -207,14 +204,11 @@ namespace WCF.ServiceLibrary
             var returnMessage = "";
             try
             {
-                lock (_syncRoot)
-                {
-                    var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    tellstickUnitDealer.ManualTurnOnAndRegisterPerformedAction(name);
+                var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                tellstickUnitDealer.ManualTurnOnAndRegisterPerformedAction(name);
 
-                    returnMessage = String.Format("Turned on Tellstick unitId = {0}", name);
-                    log.Debug(returnMessage);
-                }
+                returnMessage = String.Format("Turned on Tellstick unitId = {0}", name);
+                log.Debug(returnMessage);
             }
             catch (Exception ex)
             {
@@ -229,14 +223,12 @@ namespace WCF.ServiceLibrary
             var returnMessage = "";
             try
             {
-                lock (_syncRoot)
-                {
-                    var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    tellstickUnitDealer.ManualTurnOffAndRegisterPerformedAction(name);
+                var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                tellstickUnitDealer.ManualTurnOffAndRegisterPerformedAction(name);
 
-                    returnMessage = String.Format("Turned off Tellstick unitId = {0}", name);
-                    log.Debug(returnMessage);
-                }
+                returnMessage = String.Format("Turned off Tellstick unitId = {0}", name);
+                log.Debug(returnMessage);
+                
             }
             catch (Exception ex)
             {
@@ -253,11 +245,8 @@ namespace WCF.ServiceLibrary
             var lastPerformedAction = new LastPerformedTellstickAction();
             try
             {
-                lock (_syncRoot)
-                {
-                    var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    lastPerformedAction = performedActionsDealer.LastPerformedAction(name);
-                }
+                var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                lastPerformedAction = performedActionsDealer.LastPerformedAction(name);
             }
             catch (Exception ex)
             {
@@ -272,11 +261,8 @@ namespace WCF.ServiceLibrary
             var lastPerformedActions = new List<LastPerformedTellstickAction>();
             try
             {
-                lock (_syncRoot)
-                {
-                    var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
-                    lastPerformedActions = performedActionsDealer.LastPerformedActionsForAllUnits();
-                }
+                var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                lastPerformedActions = performedActionsDealer.LastPerformedActionsForAllUnits();
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using Tellstick.Model.Enums;
+﻿using System.ComponentModel;
+using Tellstick.Model.Enums;
 
 namespace Tellstick.BLL
 {
@@ -131,9 +132,9 @@ namespace Tellstick.BLL
                         orderby performedAct.Time descending
                         select performedAct).FirstOrDefault();
 
-                    lastPerformedAction.Performed = performedAction.Time;
-                    lastPerformedAction.NameOfPerfomee = name;
-                    lastPerformedAction.NameOfPerformedAction = performedAction.Action.ActionType.ActionTypeOption;
+                    lastPerformedAction.Time = performedAction.Time;
+                    lastPerformedAction.Name = name;
+                    lastPerformedAction.PerformedActionDescription = performedAction.Action.ActionType.ActionTypeOption.GetAttributeOfType<DescriptionAttribute>().Description;
                 }
             }
             catch (Exception ex)
@@ -157,14 +158,25 @@ namespace Tellstick.BLL
                         .GroupBy(element => element.Action.Unit_Id)
                         .Select(groups => groups.OrderByDescending(p => p.Time)
                         .FirstOrDefault())
-                        .Select( x => new Model.ViewModel.LastPerformedTellstickAction
+                        .Select( x => new
                         {
-                            Performed = x.Time,
-                            NameOfPerfomee = x.Action.Unit.Name,
-                            NameOfPerformedAction = x.Action.ActionType.ActionTypeOption
+                            Time = x.Time,
+                            Name = x.Action.Unit.Name,
+                            PerformedActionTypeOption = x.Action.ActionType.ActionTypeOption
                         });
 
-                    lastPerformedActions = query.ToList();
+                    var allLastPerformedActions = query.ToList();
+
+                    var allLastPerformedActionsWithDescription = allLastPerformedActions
+                        .Select( x => new Model.ViewModel.LastPerformedTellstickAction
+                            {
+                                Time = x.Time,
+                                Name = x.Name,
+                                PerformedActionDescription = x.PerformedActionTypeOption.GetAttributeOfType<DescriptionAttribute>().Description
+                        })
+                        .ToList();
+
+                    lastPerformedActions = allLastPerformedActionsWithDescription;
                 }
             }
             catch (Exception ex)

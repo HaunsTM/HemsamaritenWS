@@ -4,8 +4,8 @@ namespace Tellstick.Model.ViewModel
 {
     public interface ILastPerformedTellstickAction
     {
-        DateTime Performed { get; set; }
-        string NameOfPerfomee { get; set; }
-        Enums.ActionTypeOption NameOfPerformedAction { get; set; }
+        DateTime Time { get; set; }
+        string Name { get; set; }
+        string PerformedActionDescription { get; set; }
     }
 }
