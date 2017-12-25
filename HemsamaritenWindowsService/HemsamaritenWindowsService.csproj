@@ -158,6 +158,20 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>SET solutionDir= '$(SolutionDir)'
+SET projectDir=  '$(ProjectDir)'
+
+SET hemsamaritenIP= "10.0.0.2"
+SET remoteShare= "\\hemsamariten\hemsamaritenWS"
+SET remoteWindowsServiceName= "HemsamaritenWindowsService"
+
+"c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -file "$(ProjectDir)deployScript.ps1" -solutionDir  "%25solutionDir%25" -projectDir "%25projectDir%25" -hemsamaritenIP "%25hemsamaritenIP%25" -remoteShare "%25remoteShare%25"  -remoteWindowsServiceName "%25remoteWindowsServiceName%25"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
