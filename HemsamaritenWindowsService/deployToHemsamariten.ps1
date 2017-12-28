@@ -5,9 +5,6 @@ $solutionDir = $solutionDir -replace '\\\s$', '';
 $targetDir = $targetDir -replace '\\\s$', '';
 $targetFileName = $targetFileName -replace '\\\s$', '';
 
-
-Write-Host "*** ...$targetFileName...";
-
 Write-Host "*** Trying to establish connection to $remoteShare";
 $canConnectToRemoteShare = [System.IO.Directory]::Exists($remoteShare);
  
@@ -22,39 +19,30 @@ if ($canConnectToRemoteShare) {
         Write-host "*** Stopping service $remoteWindowsServiceName on $hemsamaritenIP" -ForegroundColor Green
         sc.exe \\$hemsamaritenIP stop $currentService #Stop Service
         Start-Sleep -s 10 #Pause 10 seconds to wait for service stopped
-
-        Write-host "*** Removing Service $currentService from $hemsamaritenIP" -ForegroundColor Green
-        sc.exe \\$hemsamaritenIP delete $currentService #Delete Service
-
+		
         #copy     
 		Write-Host "*** Begin publishing $remoteWindowsServiceName"
 		Write-Host "*** Copying files..."
-		robocopy "$targetDir" "$remoteShare\bin\Deploy" /is /mir
+		robocopy "$targetDir" "$remoteShare\bin" /is /mir
 
 		if ($lastexitcode -eq 0 -or $lastexitcode -eq 1)
 		{
-			write-host "*** Robocopy succeeded"
-			write-host "*** Installing "
+			Write-Host "*** Robocopy succeeded"
+			Write-Host "*** Installing "
         
-			Write-host "*** $remoteShare\bin\Deploy\$targetFileName" -ForegroundColor Green
-		
-			Invoke-Command -ComputerName "HEMSAMARITEN" -Credential $hemsamaritenAdministratorCreds -ScriptBlock {sc.exe create newservice $remoteWindowsServiceName binpath= "$remoteShare\bin\Deploy\$targetFileName" start= auto}
-        
+			Write-Host "*** $remoteShare\bin\$targetFileName" -ForegroundColor Green
 			$deployedService = Get-Service -Name $remoteWindowsServiceName -ComputerName $hemsamaritenIP
+			sc.exe \\$hemsamaritenIP start $deployedService #Stop Service
 		}
 		else
 		{
-			  write-host "Robocopy failed with exit code:" $lastexitcode
+			  Write-Host "Robocopy failed with exit code:" $lastexitcode
 		}
 
     } else {
     
-        $remoteWindowsServiceName + " was not installed on computer answering at " + $hemsamaritenIP + "."
+        Write-Host "*** Unable to reference $remoteWindowsServiceName on $hemsamaritenIP. Build project locally on $hemsamaritenIP with profile 'Run locally on Hemsamariten' and try this again!"		
     }
-
-
-
-
 } else {
     
     Write-Host "Couldn't establish connection to $remoteShare";
