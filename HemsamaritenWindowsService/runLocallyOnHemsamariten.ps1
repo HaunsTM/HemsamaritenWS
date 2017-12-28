@@ -28,9 +28,9 @@ Write-Host "*** Trying to establish connection to $remoteShare";
 
     #copy     
     Write-Host "*** Begin publishing $remoteWindowsServiceName"
-    robocopy "$targetDir" "$remoteShare\bin\Deploy" /is /mir
+    robocopy "$targetDir" "$remoteShare\bin" /is /mir
 	
-	sc.exe create $remoteWindowsServiceName binpath= "$remoteShare\bin\Deploy\$targetFileName" start= auto
+	sc.exe create $remoteWindowsServiceName binpath= "$remoteShare\bin\$targetFileName" start= auto
 	
     $deployedService = Get-Service -Name $remoteWindowsServiceName -ComputerName $hemsamaritenIP
 	sc.exe \\$hemsamaritenIP start $currentService #Start service
