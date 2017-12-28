@@ -26,34 +26,33 @@ if ($canConnectToRemoteShare) {
         Write-host "*** Removing Service $currentService from $hemsamaritenIP" -ForegroundColor Green
         sc.exe \\$hemsamaritenIP delete $currentService #Delete Service
 
-        #Write-host "*** Querying Service $currentService from $hemsamaritenIP" -ForegroundColor Green
-        #sc.exe \\$hemsamaritenIP qc $currentService #Query Service agai
+        #copy     
+		Write-Host "*** Begin publishing $remoteWindowsServiceName"
+		Write-Host "*** Copying files..."
+		robocopy "$targetDir" "$remoteShare\bin\Deploy" /is /mir
+
+		if ($lastexitcode -eq 0 -or $lastexitcode -eq 1)
+		{
+			write-host "*** Robocopy succeeded"
+			write-host "*** Installing "
+        
+			Write-host "*** $remoteShare\bin\Deploy\$targetFileName" -ForegroundColor Green
+		
+			Invoke-Command -ComputerName "HEMSAMARITEN" -Credential $hemsamaritenAdministratorCreds -ScriptBlock {sc.exe create newservice $remoteWindowsServiceName binpath= "$remoteShare\bin\Deploy\$targetFileName" start= auto}
+        
+			$deployedService = Get-Service -Name $remoteWindowsServiceName -ComputerName $hemsamaritenIP
+		}
+		else
+		{
+			  write-host "Robocopy failed with exit code:" $lastexitcode
+		}
 
     } else {
     
         $remoteWindowsServiceName + " was not installed on computer answering at " + $hemsamaritenIP + "."
     }
 
-    #copy     
-    Write-Host "*** Begin publishing $remoteWindowsServiceName"
-    Write-Host "*** Copying files..."
-    robocopy "$targetDir" "$remoteShare\bin\Deploy" /is /mir
 
-    if ($lastexitcode -eq 0 -or $lastexitcode -eq 1)
-    {
-        write-host "*** Robocopy succeeded"
-        write-host "*** Installing "
-        
-        Write-host "*** $remoteShare\bin\Deploy\$targetFileName" -ForegroundColor Green
-		
-		Invoke-Command -ComputerName "HEMSAMARITEN" -Credential $hemsamaritenAdministratorCreds -ScriptBlock {sc.exe create newservice $remoteWindowsServiceName binpath= "$remoteShare\bin\Deploy\$targetFileName" start= auto}
-        
-        $deployedService = Get-Service -Name $remoteWindowsServiceName -ComputerName $hemsamaritenIP
-    }
-    else
-    {
-          write-host "Robocopy failed with exit code:" $lastexitcode
-    }
 
 
 } else {

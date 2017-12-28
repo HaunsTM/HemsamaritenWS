@@ -125,7 +125,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="runLocallyOnHemsamariten.ps1" />
-    <None Include="deployScript.ps1" />
+    <None Include="deployToHemsamariten.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +165,7 @@ SET hemsamaritenIP=10.0.0.2
 SET remoteShare=\\hemsamariten\hemsamaritenWS
 SET remoteWindowsServiceName=HemsamaritenWindowsService
 
-if "$(ConfigurationName)" == "Deploy to Hemsamariten" (  c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -file "$(ProjectDir)deployScript.ps1" -solutionDir  "%25solutionDir%25 " -targetDir "%25targetDir%25 " -targetFileName "%25targetFileName%25 " -hemsamaritenIP "%25hemsamaritenIP%25" -remoteShare "%25remoteShare%25"  -remoteWindowsServiceName "%25remoteWindowsServiceName%25" )
+if "$(ConfigurationName)" == "Deploy to Hemsamariten" (  c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -file "$(ProjectDir)deployToHemsamariten.ps1" -solutionDir  "%25solutionDir%25 " -targetDir "%25targetDir%25 " -targetFileName "%25targetFileName%25 " -hemsamaritenIP "%25hemsamaritenIP%25" -remoteShare "%25remoteShare%25"  -remoteWindowsServiceName "%25remoteWindowsServiceName%25" )
 
 if "$(ConfigurationName)" == "Run locally on Hemsamariten"  (  c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -file "$(ProjectDir)runLocallyOnHemsamariten.ps1" -solutionDir  "%25solutionDir%25 " -targetDir "%25targetDir%25 " -targetFileName "%25targetFileName%25 " -hemsamaritenIP "%25hemsamaritenIP%25" -remoteShare "%25remoteShare%25"  -remoteWindowsServiceName "%25remoteWindowsServiceName%25" )</PostBuildEvent>
   </PropertyGroup>
