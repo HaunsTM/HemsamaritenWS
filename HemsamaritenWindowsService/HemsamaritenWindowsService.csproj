@@ -121,6 +121,7 @@
     <None Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="installLocally.ps1" />
     <None Include="deployScript.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -154,13 +155,14 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>SET solutionDir=$(SolutionDir)
-SET projectDir=$(ProjectDir)
+SET targetDir=$(TargetDir)
+SET targetFileName=$(TargetFileName)
 
 SET hemsamaritenIP=10.0.0.2
 SET remoteShare=\\hemsamariten\hemsamaritenWS
 SET remoteWindowsServiceName=HemsamaritenWindowsService
 
-"c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -file "$(ProjectDir)deployScript.ps1" -solutionDir  "%25solutionDir%25" -projectDir "%25projectDir%25" -hemsamaritenIP "%25hemsamaritenIP%25" -remoteShare "%25remoteShare%25"  -remoteWindowsServiceName "%25remoteWindowsServiceName%25"</PostBuildEvent>
+c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -file "$(ProjectDir)deployScript.ps1" -solutionDir  "%25solutionDir%25 " -targetDir "%25targetDir%25 " -targetFileName "%25targetFileName%25 " -hemsamaritenIP "%25hemsamaritenIP%25" -remoteShare "%25remoteShare%25"  -remoteWindowsServiceName "%25remoteWindowsServiceName%25"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
