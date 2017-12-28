@@ -1,5 +1,5 @@
 param ([string]$solutionDir, [string]$targetDir, [string]$targetFileName, [string]$hemsamaritenIP, [string]$remoteShare, [string]$remoteWindowsServiceName)
-
+[console]::beep(500,300)
 #remove possible trailing spaces and \
 $solutionDir = $solutionDir -replace '\\\s$', '';
 $targetDir = $targetDir -replace '\\\s$', '';
@@ -30,4 +30,7 @@ Write-Host "*** Trying to establish connection to $remoteShare";
     Write-Host "*** Begin publishing $remoteWindowsServiceName"
     robocopy "$targetDir" "$remoteShare\bin\Deploy" /is /mir
 	
-	sc.exe create newservice $remoteWindowsServiceName binpath= "$remoteShare\bin\Deploy\$targetFileName" start= auto
+	sc.exe create $remoteWindowsServiceName binpath= "$remoteShare\bin\Deploy\$targetFileName" start= auto
+	
+    $deployedService = Get-Service -Name $remoteWindowsServiceName -ComputerName $hemsamaritenIP
+	sc.exe \\$hemsamaritenIP start $currentService #Start service
