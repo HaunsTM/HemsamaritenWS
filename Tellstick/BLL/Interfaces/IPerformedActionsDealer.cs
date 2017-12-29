@@ -30,5 +30,8 @@ namespace Tellstick.BLL.Interfaces
         /// <param name="startTime">A time stamp that indicates search start time</param>
         /// <param name="endTime">A time stamp that indicates search end time</param>
         List<Model.Action> OccurredTellstickActions(bool active, DateTime startTime, DateTime endTime);
+
+        Tellstick.Model.ViewModel.LastPerformedTellstickAction LastPerformedAction(string name);
+        List<Model.ViewModel.LastPerformedTellstickAction> LastPerformedActionsForAllUnits();
     }
 }

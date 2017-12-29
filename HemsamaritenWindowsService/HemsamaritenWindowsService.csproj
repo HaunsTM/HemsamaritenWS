@@ -48,8 +48,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Deploy|AnyCPU'">
-    <OutputPath>bin\Deploy\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Deploy to Hemsamariten|AnyCPU'">
+    <OutputPath>bin\Deploy to Hemsamariten\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -57,6 +57,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Run locally on Hemsamariten|AnyCPU'">
+    <OutputPath>bin\Run locally on Hemsamariten\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
@@ -121,12 +124,8 @@
     <None Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="DeployScripts\0. Connection to HEMSAMARITEN is possible.ps1" />
-    <None Include="DeployScripts\1. Stop existing service.ps1" />
-    <None Include="DeployScripts\2. Uninstall existing service.ps1" />
-    <None Include="DeployScripts\3. Replace executables on destination server.ps1" />
-    <None Include="DeployScripts\4. Install service on destination server.ps1" />
-    <None Include="DeployScripts\5. Start service on destination server.ps1" />
+    <None Include="runLocallyOnHemsamariten.ps1" />
+    <None Include="deployToHemsamariten.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +156,23 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>SET solutionDir=$(SolutionDir)
+SET targetDir=$(TargetDir)
+SET targetFileName=$(TargetFileName)
+
+SET hemsamaritenIP=10.0.0.2
+SET remoteShare=\\hemsamariten\hemsamaritenWS
+SET remoteWindowsServiceName=HemsamaritenWindowsService
+
+if "$(ConfigurationName)" == "Deploy to Hemsamariten" (  c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -file "$(ProjectDir)deployToHemsamariten.ps1" -solutionDir  "%25solutionDir%25 " -targetDir "%25targetDir%25 " -targetFileName "%25targetFileName%25 " -hemsamaritenIP "%25hemsamaritenIP%25" -remoteShare "%25remoteShare%25"  -remoteWindowsServiceName "%25remoteWindowsServiceName%25" )
+
+if "$(ConfigurationName)" == "Run locally on Hemsamariten"  (  c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -file "$(ProjectDir)runLocallyOnHemsamariten.ps1" -solutionDir  "%25solutionDir%25 " -targetDir "%25targetDir%25 " -targetFileName "%25targetFileName%25 " -hemsamaritenIP "%25hemsamaritenIP%25" -remoteShare "%25remoteShare%25"  -remoteWindowsServiceName "%25remoteWindowsServiceName%25" )</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

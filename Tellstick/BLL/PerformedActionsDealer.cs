@@ -1,4 +1,7 @@
-﻿namespace Tellstick.BLL
+﻿using System.ComponentModel;
+using Tellstick.Model.Enums;
+
+namespace Tellstick.BLL
 {
     using System;
     using System.Collections.Generic;
@@ -116,5 +119,72 @@
             return occurredTellstickActions;
         }
 
+        public Tellstick.Model.ViewModel.LastPerformedTellstickAction LastPerformedAction(string name)
+        {
+            var lastPerformedAction = new Model.ViewModel.LastPerformedTellstickAction();
+
+            try
+            {
+                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                {
+                    var performedAction = (from performedAct in db.PerformedActions
+                        where performedAct.Action.Unit.Name == name
+                        orderby performedAct.Time descending
+                        select performedAct).FirstOrDefault();
+
+                    lastPerformedAction.Time = performedAction.Time;
+                    lastPerformedAction.Name = name;
+                    lastPerformedAction.PerformedActionDescription = performedAction.Action.ActionType.ActionTypeOption.GetAttributeOfType<DescriptionAttribute>().Description;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Could not retrieve performed actions from database!", ex);
+                throw ex;
+            }
+            return lastPerformedAction;
+        }
+
+
+        public List<Model.ViewModel.LastPerformedTellstickAction> LastPerformedActionsForAllUnits()
+        {
+            var lastPerformedActions = new List<Model.ViewModel.LastPerformedTellstickAction>();
+
+            try
+            {
+                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                {
+                    var query = db.PerformedActions
+                        .GroupBy(element => element.Action.Unit_Id)
+                        .Select(groups => groups.OrderByDescending(p => p.Time)
+                        .FirstOrDefault())
+                        .Select( x => new
+                        {
+                            Time = x.Time,
+                            Name = x.Action.Unit.Name,
+                            PerformedActionTypeOption = x.Action.ActionType.ActionTypeOption
+                        });
+
+                    var allLastPerformedActions = query.ToList();
+
+                    var allLastPerformedActionsWithDescription = allLastPerformedActions
+                        .Select( x => new Model.ViewModel.LastPerformedTellstickAction
+                            {
+                                Time = x.Time,
+                                Name = x.Name,
+                                PerformedActionDescription = x.PerformedActionTypeOption.GetAttributeOfType<DescriptionAttribute>().Description
+                        })
+                        .ToList();
+
+                    lastPerformedActions = allLastPerformedActionsWithDescription;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Could not retrieve performed actions from database!", ex);
+                throw ex;
+            }
+            return lastPerformedActions;
+        }
     }
 }

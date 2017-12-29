@@ -25,7 +25,6 @@
             ActionsDealer = new ActionsDealer(dbConnectionStringName: dbConnectionStringName);
         }
         
-
         #region TurnOnDevice (without registration to PerformedAction table)
 
         public bool TurnOnDevice(IUnit unit)
@@ -211,12 +210,11 @@
                     dbUnit = (from u in db.Units
                               where u.Active == true && u.Name == name
                               select u).First();
-                    return dbUnit;
                 }
             }
             catch (Exception e)
             {
-                throw;
+                throw e;
             }
             return dbUnit;
         }
