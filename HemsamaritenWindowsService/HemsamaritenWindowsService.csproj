@@ -124,6 +124,7 @@
     <None Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="preBuildEventCommands.ps1" />
     <None Include="runLocallyOnHemsamariten.ps1" />
     <None Include="deployToHemsamariten.ps1" />
     <None Include="packages.config" />
@@ -169,8 +170,8 @@ if "$(ConfigurationName)" == "Deploy to Hemsamariten"  (  c:\Windows\System32\Wi
 if "$(ConfigurationName)" == "Run locally on Hemsamariten"  (  c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; '$(ProjectDir)runLocallyOnHemsamariten.ps1' -solutionDir  '%25solutionDir%25 ' -targetDir '%25targetDir%25 ' -targetFileName '%25targetFileName%25 ' -hemsamaritenIP '%25hemsamaritenIP%25' -remoteShare '%25remoteShare%25' -remoteWindowsServiceName '%25remoteWindowsServiceName%25'";)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>set configurationName=$(ConfigurationName)
+c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; '$(ProjectDir)preBuildEventCommands.ps1' -configurationName '%25configurationName%25'"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
