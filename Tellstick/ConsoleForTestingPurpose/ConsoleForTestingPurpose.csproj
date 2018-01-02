@@ -130,6 +130,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Audio\Audio.csproj">
+      <Project>{967d0ab3-9684-4472-9070-7029ac18eb32}</Project>
+      <Name>Audio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{2c3f2178-d1af-4d0e-a2e7-b64e69440fb7}</Project>
       <Name>BLL</Name>
@@ -140,6 +144,12 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>robocopy "$(SolutionDir)Audio\Dependencies" "$(TargetDir)Dependencies" /is /mir /e
+if %25errorlevel%25 gtr 1 exit %25errorlevel%25
+robocopy "$(SolutionDir)Audio\Media" "$(TargetDir)Media" /is /mir /e
+if %25errorlevel%25 leq 1 exit 0 else exit %25errorlevel%25</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
