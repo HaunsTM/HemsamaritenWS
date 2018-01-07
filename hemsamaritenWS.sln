@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{A5763304-BC22-4E93-9670-287584DEA459}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,9 +24,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Tellstick\Model\Model.csproj", "{80E3F2E7-77C9-4E92-8794-21CEE5A51263}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "Tellstick\BLL\BLL.csproj", "{2C3F2178-D1AF-4D0E-A2E7-B64E69440FB7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{967D0AB3-9684-4472-9070-7029AC18EB32} = {967D0AB3-9684-4472-9070-7029AC18EB32}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WCF", "WCF", "{EBB55FB4-B7BD-4CC9-90AD-7E8F1C9A2AE8}"
 EndProject
@@ -40,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLibrary", "WCF\Servi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HemsamaritenWindowsService", "HemsamaritenWindowsService\HemsamaritenWindowsService.csproj", "{DAC9E94E-E2C8-417B-A899-9CF177860B1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audio", "Audio\Audio.csproj", "{967D0AB3-9684-4472-9070-7029AC18EB32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audio", "Tellstick\Audio\Audio.csproj", "{CF036B7B-DB65-49CE-9CE6-B8139378A21C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -250,30 +247,30 @@ Global
 		{DAC9E94E-E2C8-417B-A899-9CF177860B1C}.Run locally on Hemsamariten|x64.Build.0 = Run locally on Hemsamariten|Any CPU
 		{DAC9E94E-E2C8-417B-A899-9CF177860B1C}.Run locally on Hemsamariten|x86.ActiveCfg = Run locally on Hemsamariten|Any CPU
 		{DAC9E94E-E2C8-417B-A899-9CF177860B1C}.Run locally on Hemsamariten|x86.Build.0 = Run locally on Hemsamariten|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Debug|x64.Build.0 = Debug|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Debug|x86.Build.0 = Debug|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Deploy to Hemsamariten|Any CPU.ActiveCfg = Debug|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Deploy to Hemsamariten|Any CPU.Build.0 = Debug|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Deploy to Hemsamariten|x64.ActiveCfg = Debug|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Deploy to Hemsamariten|x64.Build.0 = Debug|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Deploy to Hemsamariten|x86.ActiveCfg = Debug|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Deploy to Hemsamariten|x86.Build.0 = Debug|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Release|Any CPU.Build.0 = Release|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Release|x64.ActiveCfg = Release|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Release|x64.Build.0 = Release|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Release|x86.ActiveCfg = Release|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Release|x86.Build.0 = Release|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Run locally on Hemsamariten|Any CPU.ActiveCfg = Release|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Run locally on Hemsamariten|Any CPU.Build.0 = Release|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Run locally on Hemsamariten|x64.ActiveCfg = Release|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Run locally on Hemsamariten|x64.Build.0 = Release|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Run locally on Hemsamariten|x86.ActiveCfg = Release|Any CPU
-		{967D0AB3-9684-4472-9070-7029AC18EB32}.Run locally on Hemsamariten|x86.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Debug|x64.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Debug|x86.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy to Hemsamariten|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy to Hemsamariten|Any CPU.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy to Hemsamariten|x64.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy to Hemsamariten|x64.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy to Hemsamariten|x86.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy to Hemsamariten|x86.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Release|x64.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Release|x64.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Release|x86.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Release|x86.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Run locally on Hemsamariten|Any CPU.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Run locally on Hemsamariten|Any CPU.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Run locally on Hemsamariten|x64.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Run locally on Hemsamariten|x64.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Run locally on Hemsamariten|x86.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Run locally on Hemsamariten|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -286,7 +283,7 @@ Global
 		{CEA67569-1214-4543-B26B-E5507795685C} = {EBB55FB4-B7BD-4CC9-90AD-7E8F1C9A2AE8}
 		{F786866E-69C3-45DB-A1E4-0F10BF1DEBDC} = {EBB55FB4-B7BD-4CC9-90AD-7E8F1C9A2AE8}
 		{5848B052-DCBE-422A-A1F5-8D8F10D2A50C} = {EBB55FB4-B7BD-4CC9-90AD-7E8F1C9A2AE8}
-		{967D0AB3-9684-4472-9070-7029AC18EB32} = {5E88F7F0-F7A3-49C1-8E1D-25579C654736}
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C} = {5E88F7F0-F7A3-49C1-8E1D-25579C654736}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {35BE4980-9923-4AFC-8803-31FCACC6CCC2}

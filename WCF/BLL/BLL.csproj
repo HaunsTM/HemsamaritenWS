@@ -72,7 +72,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{f786866e-69c3-45db-a1e4-0f10bf1debdc}</Project>
-      <Name>WCF.Model</Name>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -166,9 +166,7 @@ SET remoteShare=\\hemsamariten\hemsamaritenWS
 SET remoteWindowsServiceName=HemsamaritenWindowsService
 
 REM Special copy logic for Audio project
-robocopy "$(SolutionDir)Audio\Dependencies" "$(TargetDir)Dependencies" /is /mir /e
-if %25errorlevel%25 gtr 1 exit %25errorlevel%25
-robocopy "$(SolutionDir)Audio\Media" "$(TargetDir)Media" /is /mir /e
+robocopy "$(SolutionDir)Tellstick\Audio\Media" "$(TargetDir)Media" /is /mir /e
 if %25errorlevel%25 leq 1 exit 0 else exit %25errorlevel%25
 
 if "$(ConfigurationName)" == "Deploy to Hemsamariten"  (  c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; '$(ProjectDir)deployToHemsamariten.ps1' -solutionDir  '%25solutionDir%25 ' -targetDir '%25targetDir%25 ' -targetFileName '%25targetFileName%25 ' -hemsamaritenIP '%25hemsamaritenIP%25' -remoteShare '%25remoteShare%25' -remoteWindowsServiceName '%25remoteWindowsServiceName%25'";)

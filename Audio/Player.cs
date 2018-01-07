@@ -1,39 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using WMPLib;
 
 namespace Audio
 {
     public class Player
     {
-        private Vlc.DotNet.Core.VlcMediaPlayer _mediaPlayer;
-
-        private string LibDirectory
-        {
-            get
-            {
-                string libDirectory = string.Empty;
-
-                // Use 64 bits library
-                libDirectory = Path.Combine(Environment.CurrentDirectory, @"Dependencies\","vlc-2.2.8x64");
-
-                return libDirectory;
-            }
-        }
+        //https://msdn.microsoft.com/en-us/library/windows/desktop/dd562692(v=vs.85).aspx
+        private WMPLib.WindowsMediaPlayer _mediaPlayer;
 
         public Player()
         {
-            _mediaPlayer = new Vlc.DotNet.Core.VlcMediaPlayer(new DirectoryInfo(this.LibDirectory));
-            int i = 7;
+            _mediaPlayer = new WMPLib.WindowsMediaPlayer();
+        }
+
+        private void PlayFile(string url)
+        {
+            _mediaPlayer.URL = url;
+            _mediaPlayer.controls.play();
+        }
+        private void Player_PlayStateChange(int NewState)
+        {
+
+            if ((WMPLib.WMPPlayState)NewState == WMPLib.WMPPlayState.wmppsStopped)
+            {
+            }
+        }
+
+        private void Player_MediaError(object pMediaObject)
+        {
         }
 
         public void Bark()
         {
-            int i = 0;
+            this.PlayFile(@"https://www.youtube.com/watch/v/XXZ9sohobTk");
         }
     }
 }
+ 
