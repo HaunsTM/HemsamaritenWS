@@ -151,14 +151,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\Tellstick\BLL\BLL.csproj">
-      <Project>{2c3f2178-d1af-4d0e-a2e7-b64e69440fb7}</Project>
-      <Name>BLL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Tellstick\Model\Model.csproj">
-      <Project>{80E3F2E7-77C9-4E92-8794-21CEE5A51263}</Project>
-      <Name>Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{4aa68220-6993-4931-8702-e7b51fcc888e}</Project>
       <Name>BLL</Name>
