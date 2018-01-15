@@ -9,10 +9,10 @@ namespace Tellstick.ConsoleForTestingPurpose
 
     using log4net;
 
-    using Tellstick.BLL;
-    using Tellstick.BLL.Interfaces;
-    using Tellstick.Model.Enums;
-    using Tellstick.Model.Interfaces;
+    using Core.BLL;
+    using Core.BLL.Interfaces;
+    using Core.Model.Enums;
+    using Core.Model.Interfaces;
 
     class Program
     {
@@ -36,8 +36,8 @@ namespace Tellstick.ConsoleForTestingPurpose
 
         private static void CreateDBTest(string dbConnectionStringName)
         {
-            System.Data.Entity.Database.SetInitializer(new Tellstick.Model.DefaultDataDbInitializer());
-            using (var db = new Model.TellstickDBContext(dbConnectionStringName))
+            System.Data.Entity.Database.SetInitializer(new Core.Model.DefaultDataDbInitializer());
+            using (var db = new Core.Model.TellstickDBContext(dbConnectionStringName))
             {
 #if DEBUG
                 db.Database.Initialize(true);
@@ -62,8 +62,9 @@ namespace Tellstick.ConsoleForTestingPurpose
 
         private static void PlaySound()
         {
-            var player = new Audio.Player();
+            var player = new Core.Audio.Player();
             player.Bark();
+            int i = 0;
         }
         
     }
