@@ -29,8 +29,7 @@ namespace WCF.ServiceLibrary
         private static readonly object _syncRoot = new object();
 
         #region DB connection strings
-
-        private const string DB_CONNECTION_STRING_NAME__SURVEILLANCE_CAM_2_DB = "name=SurveillanceCamerasDBConnection";
+        
         private const string DB_CONNECTION_STRING_NAME__TELLSTICK_DB = "name=TellstickDBConnection";
         private const string DB_CONNECTION_STRING_NAME__HEMSAMARITEN_DB = "name=HemsamaritenDBConnection";
 
