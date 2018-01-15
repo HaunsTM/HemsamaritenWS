@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
-using Tellstick.Model;
-using Tellstick.Model.Enums;
+using Core.Model;
+using Core.Model.Enums;
 
-namespace Tellstick.BLL
+namespace Core.BLL
 {
     using System.Collections.Generic;
     using System;
@@ -10,7 +10,7 @@ namespace Tellstick.BLL
 
     using log4net;
 
-    using Tellstick.BLL.Interfaces;
+    using Core.BLL.Interfaces;
 
     public class ActionSearchParameters : IActionSearchParameters
     {
@@ -39,9 +39,9 @@ namespace Tellstick.BLL
         /// <param name="actionTypeOption"></param>
         /// <param name="scheduler"></param>
         /// <returns>An Action if it is found, NULL if it is not found</returns>
-        public Tellstick.Model.Action ActionExists(int nativeDeviceId, Tellstick.Model.Enums.ActionTypeOption actionTypeOption, Tellstick.Model.Interfaces.IScheduler scheduler)
+        public Core.Model.Action ActionExists(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption, Core.Model.Interfaces.IScheduler scheduler)
         {
-            using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
                 Model.Action actionToSearchFor = null;
                 //which ActionType are we dealing with?
@@ -80,11 +80,11 @@ namespace Tellstick.BLL
             }
         }
 
-        public Tellstick.Model.Action RegisterNewManualAction(int nativeDeviceId, Tellstick.Model.Enums.ActionTypeOption actionTypeOption)
+        public Core.Model.Action RegisterNewManualAction(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption)
         {
             try
             {
-                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     //which ActionType are we dealing with?
                     var currentActionType = (from actionType in db.ActionTypes
@@ -94,7 +94,7 @@ namespace Tellstick.BLL
                     //which tellstick Unit are we dealing with?
                     var currentUnit = (from unit in db.Units where unit.NativeDeviceId == nativeDeviceId select unit).First();
 
-                    var newManualAction = new Tellstick.Model.Action
+                    var newManualAction = new Core.Model.Action
                                                 {
                                                     Active = true,
                                                     ActionType = currentActionType,
@@ -116,9 +116,9 @@ namespace Tellstick.BLL
             }
         }
 
-        public List<Tellstick.Model.Action> GetAllActions()
+        public List<Core.Model.Action> GetAllActions()
         {
-            using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
                 var actions = (from a in db.Actions
                                orderby a.Unit_Id
@@ -127,9 +127,9 @@ namespace Tellstick.BLL
             }
         }
 
-        public IQueryable<Tellstick.Model.Action> GetActionsBy(int unitId)
+        public IQueryable<Core.Model.Action> GetActionsBy(int unitId)
         {
-            using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
                 var actions = from a in db.Actions
                                where a.Unit_Id == unitId
@@ -139,9 +139,9 @@ namespace Tellstick.BLL
             }
         }
 
-        private IQueryable<Tellstick.Model.Action> GetActionsBy(int unitId, bool activeStatus)
+        private IQueryable<Core.Model.Action> GetActionsBy(int unitId, bool activeStatus)
         {
-            using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
                 var actions = from a in db.Actions
                     where a.Unit_Id == unitId && a.Active == activeStatus
@@ -156,9 +156,9 @@ namespace Tellstick.BLL
 
 
 
-        public List<Tellstick.Model.Action> ActivateActionsFor(IActionSearchParameters searchParameters)
+        public List<Core.Model.Action> ActivateActionsFor(IActionSearchParameters searchParameters)
         {
-            using (var db = new Tellstick.Model.TellstickDBContext( DbConnectionStringName ) )
+            using (var db = new Core.Model.TellstickDBContext( DbConnectionStringName ) )
             {
                 try
                 {
@@ -198,7 +198,7 @@ namespace Tellstick.BLL
                     //create new actions which we miss
                     foreach (var scheduler in schedulersWeNeedToCreateActionsFor)
                     {
-                        var newAction = new Tellstick.Model.Action
+                        var newAction = new Core.Model.Action
                         {
                             Active = true,
                             ActionType_Id = currentActionType.Id,

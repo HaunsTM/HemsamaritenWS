@@ -1,4 +1,4 @@
-﻿namespace Tellstick.Model.Interfaces
+﻿namespace Core.Model.Interfaces
 {
     using System;
 

@@ -1,9 +1,9 @@
 ﻿//Here is the once-per-application setup information
 
 using Newtonsoft.Json;
-using Tellstick.BLL;
-using Tellstick.BLL.Interfaces;
-using Tellstick.Model.ViewModel;
+using Core.BLL;
+using Core.BLL.Interfaces;
+using Core.Model.ViewModel;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -76,7 +76,7 @@ namespace WCF.ServiceLibrary
         
         #region Tellstick
 
-        private Tellstick.BLL.JobScheduler TellstickJobScheduler { get; set; }
+        private Core.BLL.JobScheduler TellstickJobScheduler { get; set; }
 
         public void DumpCurrentlyExecutingTellstickJobsNamesToLog()
         {
@@ -116,7 +116,7 @@ namespace WCF.ServiceLibrary
             {
                 lock (_syncRoot)
                 {
-                    var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    var tellstickUnitDealer = new Core.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
                     refreshed = tellstickUnitDealer.RefreshBearerToken();
 
                     var refreshMessage = "Refreshed bearer token to Tellstick Live";
@@ -139,7 +139,7 @@ namespace WCF.ServiceLibrary
             {
                 lock (_syncRoot)
                 {
-                    this.TellstickJobScheduler = new Tellstick.BLL.JobScheduler(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    this.TellstickJobScheduler = new Core.BLL.JobScheduler(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
                     this.TellstickJobScheduler.Start();
 
                     log.Debug(String.Format("Started TellstickScheduler."));
@@ -179,7 +179,7 @@ namespace WCF.ServiceLibrary
         {
             try
             {
-                var databaseDealer = new Tellstick.BLL.DatabaseDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                var databaseDealer = new Core.BLL.DatabaseDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
 
                 var databaseCreated = databaseDealer.CreateAndInitializeTellstickDB();
                 if (databaseCreated)
@@ -204,7 +204,7 @@ namespace WCF.ServiceLibrary
             var returnMessage = "";
             try
             {
-                var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                var tellstickUnitDealer = new Core.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
                 tellstickUnitDealer.ManualTurnOnAndRegisterPerformedAction(name);
 
                 returnMessage = String.Format("Turned on Tellstick unitId = {0}", name);
@@ -223,7 +223,7 @@ namespace WCF.ServiceLibrary
             var returnMessage = "";
             try
             {
-                var tellstickUnitDealer = new Tellstick.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                var tellstickUnitDealer = new Core.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
                 tellstickUnitDealer.ManualTurnOffAndRegisterPerformedAction(name);
 
                 returnMessage = String.Format("Turned off Tellstick unitId = {0}", name);
@@ -245,7 +245,7 @@ namespace WCF.ServiceLibrary
             var lastPerformedAction = new LastPerformedTellstickAction();
             try
             {
-                var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                var performedActionsDealer = new Core.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
                 lastPerformedAction = performedActionsDealer.LastPerformedAction(name);
             }
             catch (Exception ex)
@@ -261,7 +261,7 @@ namespace WCF.ServiceLibrary
             var lastPerformedActions = new List<LastPerformedTellstickAction>();
             try
             {
-                var performedActionsDealer = new Tellstick.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                var performedActionsDealer = new Core.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
                 lastPerformedActions = performedActionsDealer.LastPerformedActionsForAllUnits();
             }
             catch (Exception ex)

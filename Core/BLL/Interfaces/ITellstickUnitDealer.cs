@@ -1,8 +1,8 @@
-namespace Tellstick.BLL
+namespace Core.BLL
 {
-    using Tellstick.Model;
-    using Tellstick.Model.Enums;
-    using Tellstick.Model.Interfaces;
+    using Core.Model;
+    using Core.Model.Enums;
+    using Core.Model.Interfaces;
 
     public interface ITellstickUnitDealer
     {

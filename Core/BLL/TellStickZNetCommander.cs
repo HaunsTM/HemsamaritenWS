@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Tellstick.Model;
+using Core.Model;
 
-namespace Tellstick.BLL
+namespace Core.BLL
 {
-    using Tellstick.BLL.Interfaces;
+    using Core.BLL.Interfaces;
 
     using RestSharp;
     using Newtonsoft.Json;
@@ -118,7 +118,7 @@ namespace Tellstick.BLL
         {
             DbConnectionStringName = dbConnectionStringName;
 
-            using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
                 DefaultTellstickZNetLiteV2s = (from s in db.TellstickZNetLiteV2s
                     orderby s.Id ascending
@@ -132,7 +132,7 @@ namespace Tellstick.BLL
         {
             get
             {
-                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     var client = new RestClient(DefaultTellstickZNetLiteV2s.BaseIP);
                     client.AddDefaultHeader("Authorization", " Bearer " + TellstickAuthentication.Token);
@@ -145,7 +145,7 @@ namespace Tellstick.BLL
         {
             set
             {
-                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     value.Received = DateTime.Now;
                     db.Authentications.Add(value);
@@ -157,7 +157,7 @@ namespace Tellstick.BLL
             {
                 if (_bearerToken == null)
                 {
-                    using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                    using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                     {
                         var bearerToken = (from a in db.Authentications
                             where a.Active == true && a.TellstickZNetLiteV2_Id == DefaultTellstickZNetLiteV2s.Id

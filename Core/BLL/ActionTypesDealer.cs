@@ -1,12 +1,12 @@
 ﻿
-using Tellstick.Model.Enums;
+using Core.Model.Enums;
 
-namespace Tellstick.BLL
+namespace Core.BLL
 {
     using System.Linq;
     using log4net;
 
-    using Tellstick.BLL.Interfaces;
+    using Core.BLL.Interfaces;
 
     public class ActionTypesDealer : IActionTypesDealer
     {
@@ -21,9 +21,9 @@ namespace Tellstick.BLL
             DbConnectionStringName = dbConnectionStringName;
         }
 
-        public Tellstick.Model.ActionType GetActionTypeBy(ActionTypeOption actionTypeOption)
+        public Core.Model.ActionType GetActionTypeBy(ActionTypeOption actionTypeOption)
         {
-            using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
                 var actionType = from a in db.ActionTypes
                     where a.ActionTypeOption == actionTypeOption

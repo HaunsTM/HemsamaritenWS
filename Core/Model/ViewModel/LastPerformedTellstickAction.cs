@@ -1,6 +1,6 @@
-﻿namespace Tellstick.Model.ViewModel
+﻿namespace Core.Model.ViewModel
 {
-    public class LastPerformedTellstickAction : Tellstick.Model.ViewModel.ILastPerformedTellstickAction
+    public class LastPerformedTellstickAction : Core.Model.ViewModel.ILastPerformedTellstickAction
     {
         public System.DateTime Time { get; set; }
         public string Name{ get; set; }

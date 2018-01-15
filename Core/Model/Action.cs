@@ -1,8 +1,8 @@
-﻿namespace Tellstick.Model
+﻿namespace Core.Model
 {
     using System.Collections.Generic;
 
-    using Tellstick.Model.Interfaces;
+    using Core.Model.Interfaces;
 
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;

@@ -1,6 +1,6 @@
-﻿namespace Tellstick.BLL
+﻿namespace Core.BLL
 {
-    using Tellstick.BLL.Interfaces;
+    using Core.BLL.Interfaces;
     using System.Linq;
 
     public class DatabaseDealer : IDatabaseDealer
@@ -20,9 +20,9 @@
         {
             var databaseCreated = false;
 
-            System.Data.Entity.Database.SetInitializer(new Tellstick.Model.DefaultDataDbInitializer());
+            System.Data.Entity.Database.SetInitializer(new Core.Model.DefaultDataDbInitializer());
 
-            using (var db = new Tellstick.Model.TellstickDBContext(this.DbConnectionStringName))
+            using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
             {
                 db.Database.Initialize(true);
 

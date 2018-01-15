@@ -1,4 +1,4 @@
-﻿namespace Tellstick.BLL.Interfaces
+﻿namespace Core.BLL.Interfaces
 {
     using System.Collections.Generic;
 

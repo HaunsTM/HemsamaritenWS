@@ -1,11 +1,11 @@
-﻿namespace Tellstick.BLL
+﻿namespace Core.BLL
 {
     using System;
 
     using Quartz;
 
-    using Tellstick.BLL.Interfaces;
-    using Tellstick.Model.Enums;
+    using Core.BLL.Interfaces;
+    using Core.Model.Enums;
 
     [DisallowConcurrentExecution]
     public class TellstickJob : IJob

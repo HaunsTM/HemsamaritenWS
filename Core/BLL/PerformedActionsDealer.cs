@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using Tellstick.Model.Enums;
+using Core.Model.Enums;
 
-namespace Tellstick.BLL
+namespace Core.BLL
 {
     using System;
     using System.Collections.Generic;
@@ -9,10 +9,10 @@ namespace Tellstick.BLL
 
     using log4net;
 
-    using Tellstick.BLL.Interfaces;
-    using Tellstick.Model;
+    using Core.BLL.Interfaces;
+    using Core.Model;
 
-    using Action = Tellstick.Model.Action;
+    using Action = Core.Model.Action;
 
     public class PerformedActionsDealer : IPerformedActionsDealer
     {
@@ -33,13 +33,13 @@ namespace Tellstick.BLL
         /// <param name="occurredAction"></param>
         /// <param name="timeOfOccurrence"></param>
         /// <returns></returns>
-        public bool Register(Tellstick.Model.Action occurredAction, DateTime timeOfOccurrence)
+        public bool Register(Core.Model.Action occurredAction, DateTime timeOfOccurrence)
         {
             var registered = false;
 
             try
             {
-                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     var pa = new PerformedAction() { Active = true, Action = occurredAction, Time = timeOfOccurrence };
                     db.PerformedActions.Add(pa);
@@ -68,7 +68,7 @@ namespace Tellstick.BLL
 
             try
             {
-                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     var pa = new PerformedAction() { Active = true, Action_Id = occurredAction_Id, Time = timeOfOccurrence };
                     db.PerformedActions.Add(pa);
@@ -91,13 +91,13 @@ namespace Tellstick.BLL
         /// <param name="active">A flag that indicates if we should search for active items</param>
         /// <param name="startTime">A time stamp that indicates search start time</param>
         /// <param name="endTime">A time stamp that indicates search end time</param>
-        public List<Tellstick.Model.Action> OccurredTellstickActions(bool active, DateTime startTime, DateTime endTime)
+        public List<Core.Model.Action> OccurredTellstickActions(bool active, DateTime startTime, DateTime endTime)
         {
             var occurredTellstickActions = new List<Action>();
 
             try
             {
-                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     var queryResult = from performedAct in db.PerformedActions
                                       where (performedAct.Time >= startTime && performedAct.Time <= endTime && performedAct.Active == active)
@@ -119,13 +119,13 @@ namespace Tellstick.BLL
             return occurredTellstickActions;
         }
 
-        public Tellstick.Model.ViewModel.LastPerformedTellstickAction LastPerformedAction(string name)
+        public Core.Model.ViewModel.LastPerformedTellstickAction LastPerformedAction(string name)
         {
             var lastPerformedAction = new Model.ViewModel.LastPerformedTellstickAction();
 
             try
             {
-                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     var performedAction = (from performedAct in db.PerformedActions
                         where performedAct.Action.Unit.Name == name
@@ -152,7 +152,7 @@ namespace Tellstick.BLL
 
             try
             {
-                using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     var query = db.PerformedActions
                         .GroupBy(element => element.Action.Unit_Id)

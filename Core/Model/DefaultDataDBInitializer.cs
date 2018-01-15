@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 
-namespace Tellstick.Model
+namespace Core.Model
 {
     using System.Collections.Generic;
     using System.Data.Entity;
 
-    using Tellstick.Model.Enums;
+    using Core.Model.Enums;
 
     public class DefaultDataDbInitializer : DropCreateDatabaseIfModelChanges<TellstickDBContext>
     {

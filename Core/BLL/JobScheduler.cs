@@ -1,6 +1,6 @@
-﻿namespace Tellstick.BLL
+﻿namespace Core.BLL
 {
-    using Tellstick.Model.Interfaces;
+    using Core.Model.Interfaces;
 
     using System;
     using System.Collections.Generic;
@@ -12,9 +12,9 @@
     using Quartz;
     using Quartz.Impl;
 
-    using Tellstick.BLL.Interfaces;
+    using Core.BLL.Interfaces;
 
-    using IScheduler = Tellstick.Model.Interfaces.IScheduler;
+    using IScheduler = Core.Model.Interfaces.IScheduler;
 
     public class JobScheduler : IJobScheduler
     {

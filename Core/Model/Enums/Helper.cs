@@ -1,4 +1,4 @@
-﻿namespace Tellstick.Model.Enums
+﻿namespace Core.Model.Enums
 {
     using System;
 

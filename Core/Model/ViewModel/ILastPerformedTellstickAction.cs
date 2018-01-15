@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tellstick.Model.ViewModel
+namespace Core.Model.ViewModel
 {
     public interface ILastPerformedTellstickAction
     {

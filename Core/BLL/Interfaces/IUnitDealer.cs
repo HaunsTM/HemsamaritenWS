@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 
-namespace Tellstick.BLL.Interfaces
+namespace Core.BLL.Interfaces
 {
-    using Tellstick.Model;
+    using Core.Model;
 
     public interface IUnitDealer
     {

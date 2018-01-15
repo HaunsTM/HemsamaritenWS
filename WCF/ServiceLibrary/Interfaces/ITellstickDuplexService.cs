@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Messaging;
 using System.ServiceModel.Web;
-using Tellstick.Model.ViewModel;
+using Core.Model.ViewModel;
 
 namespace WCF.ServiceLibrary.Interfaces
 {

@@ -1,4 +1,4 @@
-﻿namespace Tellstick.Model
+﻿namespace Core.Model
 {
     
     using System.Data.Entity;

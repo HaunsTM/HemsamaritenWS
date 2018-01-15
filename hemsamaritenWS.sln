@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Core\Model\Model.c
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleForTestingPurpose", "Core\ConsoleForTestingPurpose\ConsoleForTestingPurpose.csproj", "{3E4601DE-D8EA-48A5-AE2D-E471E4BDCA3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audio", "Core\Audio\Audio.csproj", "{CF036B7B-DB65-49CE-9CE6-B8139378A21C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -344,6 +346,42 @@ Global
 		{3E4601DE-D8EA-48A5-AE2D-E471E4BDCA3C}.Run locally on Hemsamariten|x64.Build.0 = Release|x64
 		{3E4601DE-D8EA-48A5-AE2D-E471E4BDCA3C}.Run locally on Hemsamariten|x86.ActiveCfg = Release|x86
 		{3E4601DE-D8EA-48A5-AE2D-E471E4BDCA3C}.Run locally on Hemsamariten|x86.Build.0 = Release|x86
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Debug|x64.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Debug|x86.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy to Hemsamariten|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy to Hemsamariten|Any CPU.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy to Hemsamariten|x64.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy to Hemsamariten|x64.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy to Hemsamariten|x86.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy to Hemsamariten|x86.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy|Any CPU.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy|x64.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy|x64.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy|x86.ActiveCfg = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Deploy|x86.Build.0 = Debug|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Locally Hemsamariten|Any CPU.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Locally Hemsamariten|Any CPU.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Locally Hemsamariten|x64.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Locally Hemsamariten|x64.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Locally Hemsamariten|x86.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Locally Hemsamariten|x86.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Release|x64.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Release|x64.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Release|x86.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Release|x86.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Run locally on Hemsamariten|Any CPU.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Run locally on Hemsamariten|Any CPU.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Run locally on Hemsamariten|x64.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Run locally on Hemsamariten|x64.Build.0 = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Run locally on Hemsamariten|x86.ActiveCfg = Release|Any CPU
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C}.Run locally on Hemsamariten|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -356,6 +394,7 @@ Global
 		{2C3F2178-D1AF-4D0E-A2E7-B64E69440FB7} = {5E88F7F0-F7A3-49C1-8E1D-25579C654736}
 		{80E3F2E7-77C9-4E92-8794-21CEE5A51263} = {5E88F7F0-F7A3-49C1-8E1D-25579C654736}
 		{3E4601DE-D8EA-48A5-AE2D-E471E4BDCA3C} = {5E88F7F0-F7A3-49C1-8E1D-25579C654736}
+		{CF036B7B-DB65-49CE-9CE6-B8139378A21C} = {5E88F7F0-F7A3-49C1-8E1D-25579C654736}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {35BE4980-9923-4AFC-8803-31FCACC6CCC2}

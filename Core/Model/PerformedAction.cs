@@ -1,6 +1,6 @@
-﻿namespace Tellstick.Model
+﻿namespace Core.Model
 {
-    using Tellstick.Model.Interfaces;
+    using Core.Model.Interfaces;
 
     using System;
     using System.Collections.Generic;

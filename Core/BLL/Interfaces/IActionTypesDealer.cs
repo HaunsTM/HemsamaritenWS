@@ -1,6 +1,6 @@
-﻿using Tellstick.Model.Enums;
+﻿using Core.Model.Enums;
 
-namespace Tellstick.BLL.Interfaces
+namespace Core.BLL.Interfaces
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace Tellstick.BLL.Interfaces
 
     interface IActionTypesDealer
     {
-        Tellstick.Model.ActionType GetActionTypeBy(ActionTypeOption actionTypeOption);
+        Core.Model.ActionType GetActionTypeBy(ActionTypeOption actionTypeOption);
 
         ActionTypeOption ActionTypeOptionBy(string name);
     }

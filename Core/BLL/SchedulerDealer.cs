@@ -1,12 +1,12 @@
-﻿namespace Tellstick.BLL
+﻿namespace Core.BLL
 {
     using System.Collections.Generic;
     using System.Linq;
 
     using log4net;
 
-    using Tellstick.BLL.Interfaces;
-    using Tellstick.Model;
+    using Core.BLL.Interfaces;
+    using Core.Model;
 
     public class SchedulerDealer : ISchedulerDealer
     {
@@ -23,7 +23,7 @@
 
         public Scheduler GetSchedulerBy(string cronExpression)
         {
-            using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
                 var scheduler = from s in db.Schedulers
                                  where s.CronExpression == cronExpression
@@ -35,7 +35,7 @@
 
         public IEnumerable<Scheduler> GetSchedulersBy(List<string> cronExpressions)
         {
-            using (var db = new Tellstick.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
                 var schedulers =  from s in db.Schedulers
                                   where cronExpressions.Contains(s.CronExpression)

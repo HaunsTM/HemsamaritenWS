@@ -1,7 +1,7 @@
-namespace Tellstick.BLL.Interfaces
+namespace Core.BLL.Interfaces
 {
     using System.Collections.Generic;
-    using Tellstick.Model;
+    using Core.Model;
 
     public interface IActionSearchParameters
     {
@@ -14,14 +14,14 @@ namespace Tellstick.BLL.Interfaces
     {
         string DbConnectionStringName { get; }
 
-        Tellstick.Model.Action ActionExists(
+        Core.Model.Action ActionExists(
             int nativeDeviceId,
-            Tellstick.Model.Enums.ActionTypeOption actionTypeOption,
-            Tellstick.Model.Interfaces.IScheduler scheduler);
+            Core.Model.Enums.ActionTypeOption actionTypeOption,
+            Core.Model.Interfaces.IScheduler scheduler);
 
-        Tellstick.Model.Action RegisterNewManualAction(int nativeDeviceId, Tellstick.Model.Enums.ActionTypeOption actionTypeOption);
+        Core.Model.Action RegisterNewManualAction(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption);
 
-        List<Tellstick.Model.Action> ActivateActionsFor(IActionSearchParameters searchParameters);
+        List<Core.Model.Action> ActivateActionsFor(IActionSearchParameters searchParameters);
         
     }
 }

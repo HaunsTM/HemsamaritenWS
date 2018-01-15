@@ -1,8 +1,8 @@
-﻿namespace Tellstick.BLL
+﻿namespace Core.BLL
 {
-    using Tellstick.BLL.Interfaces;
-    using Tellstick.Model;
-    using Tellstick.Model.Enums;
+    using Core.BLL.Interfaces;
+    using Core.Model;
+    using Core.Model.Enums;
 
     using System;
     using System.ComponentModel;
@@ -10,7 +10,7 @@
 
     using log4net;
 
-    using Tellstick.Model.Interfaces;
+    using Core.Model.Interfaces;
 
     public class TellstickUnitDealer : ITellstickUnitDealer
     {
@@ -36,7 +36,7 @@
                 Unit dbUnit = null;
 
                 //Which Unit are we talking about? Get Unit from DB
-                using (var db = new Tellstick.Model.TellstickDBContext(this.DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
                 {
                     dbUnit = (from tU in db.Units
                                        where tU.Active == true && tU.NativeDeviceId == unit.NativeDeviceId
@@ -99,7 +99,7 @@
                 Unit dbUnit = null;
 
                 //Which TellstickUnit are we talking about? Get TellstickUnit from DB
-                using (var db = new Tellstick.Model.TellstickDBContext(this.DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
                 {
                     dbUnit = (from tU in db.Units
                                        where tU.Active == true && tU.NativeDeviceId == unit.NativeDeviceId
@@ -205,7 +205,7 @@
             Unit dbUnit = null;
             try
             {
-                using (var db = new Tellstick.Model.TellstickDBContext(this.DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
                 {
                     dbUnit = (from u in db.Units
                               where u.Active == true && u.Name == name
@@ -272,7 +272,7 @@
             var registered = false;
             try
             {
-                Tellstick.Model.Action usedAction = null;
+                Core.Model.Action usedAction = null;
 
                 //do we have an Action in db for this event already?
                 var possibleRegisteredAction = ActionsDealer.ActionExists(nativeDeviceId: nativeDeviceId, actionTypeOption: ActionTypeOption.TurnOn, scheduler: null);
@@ -285,7 +285,7 @@
                     usedAction = ActionsDealer.RegisterNewManualAction(nativeDeviceId: nativeDeviceId, actionTypeOption: ActionTypeOption.TurnOn);
                 }
 
-                using (var db = new Tellstick.Model.TellstickDBContext(this.DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
                 {
                     var performedAction = new PerformedAction { Active = true, Action_Id = usedAction.Id, Time = time };
                     db.PerformedActions.Add(performedAction);
@@ -307,7 +307,7 @@
             var registered = false;
             try
             {
-                Tellstick.Model.Action usedAction = null;
+                Core.Model.Action usedAction = null;
 
                 //do we have an Action in db for this event already?
                 var possibleRegisteredAction = ActionsDealer.ActionExists(nativeDeviceId: nativeDeviceId, actionTypeOption: ActionTypeOption.TurnOff, scheduler: null);
@@ -320,7 +320,7 @@
                     usedAction = ActionsDealer.RegisterNewManualAction(nativeDeviceId: nativeDeviceId, actionTypeOption: ActionTypeOption.TurnOff);
                 }
 
-                using (var db = new Tellstick.Model.TellstickDBContext(this.DbConnectionStringName))
+                using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
                 {
                     var performedAction = new PerformedAction { Active = true, Action_Id = usedAction.Id, Time = time };
                     db.PerformedActions.Add(performedAction);

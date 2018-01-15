@@ -1,4 +1,4 @@
-﻿namespace Tellstick.BLL.Interfaces
+﻿namespace Core.BLL.Interfaces
 {
     interface IDatabaseDealer
     {   

@@ -1,4 +1,4 @@
-namespace Tellstick.BLL.Interfaces
+namespace Core.BLL.Interfaces
 {
     using System;
     using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace Tellstick.BLL.Interfaces
         /// <param name="occurredAction"></param>
         /// <param name="timeOfOccurrence"></param>
         /// <returns></returns>
-        bool Register(Tellstick.Model.Action occurredAction, DateTime timeOfOccurrence);
+        bool Register(Core.Model.Action occurredAction, DateTime timeOfOccurrence);
 
         /// <summary>
         /// Registers an occurred TellstickAction to database
@@ -31,7 +31,7 @@ namespace Tellstick.BLL.Interfaces
         /// <param name="endTime">A time stamp that indicates search end time</param>
         List<Model.Action> OccurredTellstickActions(bool active, DateTime startTime, DateTime endTime);
 
-        Tellstick.Model.ViewModel.LastPerformedTellstickAction LastPerformedAction(string name);
+        Core.Model.ViewModel.LastPerformedTellstickAction LastPerformedAction(string name);
         List<Model.ViewModel.LastPerformedTellstickAction> LastPerformedActionsForAllUnits();
     }
 }

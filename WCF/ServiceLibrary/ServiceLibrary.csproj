@@ -153,15 +153,15 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\BLL\BLL.csproj">
       <Project>{2c3f2178-d1af-4d0e-a2e7-b64e69440fb7}</Project>
-      <Name>Core.BLL</Name>
+      <Name>BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Model\Model.csproj">
       <Project>{80e3f2e7-77c9-4e92-8794-21cee5a51263}</Project>
-      <Name>Core.Model</Name>
+      <Name>Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{4aa68220-6993-4931-8702-e7b51fcc888e}</Project>
-      <Name>WCF.BLL</Name>
+      <Name>BLL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
