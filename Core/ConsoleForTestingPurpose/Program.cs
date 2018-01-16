@@ -20,7 +20,7 @@ namespace Tellstick.ConsoleForTestingPurpose
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private const string DB_CONNECTION_STRING_NAME = "name=TellstickDBConnection";
+        private const string DB_CONNECTION_STRING_NAME = "name=HemsamaritenWindowsServiceDBConnection";
         static void Main(string[] args)
         {
             //TestScheduler();

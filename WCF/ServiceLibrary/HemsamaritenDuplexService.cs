@@ -30,8 +30,8 @@ namespace WCF.ServiceLibrary
 
         #region DB connection strings
         
-        private const string DB_CONNECTION_STRING_NAME__TELLSTICK_DB = "name=TellstickDBConnection";
-        private const string DB_CONNECTION_STRING_NAME__HEMSAMARITEN_DB = "name=HemsamaritenDBConnection";
+        private const string DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE = "name=HemsamaritenWindowsServiceDBConnection";
+        private const string DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE_DEBUG_LOG = "name=HemsamaritenWindowsServiceDebugLogDBConnection";
 
         #endregion
 
@@ -52,7 +52,7 @@ namespace WCF.ServiceLibrary
             {
                 lock (_syncRoot)
                 {
-                    var databaseDealer = new WCF.BLL.DatabaseDealer(DB_CONNECTION_STRING_NAME__HEMSAMARITEN_DB);
+                    var databaseDealer = new WCF.BLL.DatabaseDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE_DEBUG_LOG);
 
                     var databaseCreated = databaseDealer.CreateAndInitializeHemsamaritenDB();
                     if (databaseCreated)
@@ -115,7 +115,7 @@ namespace WCF.ServiceLibrary
             {
                 lock (_syncRoot)
                 {
-                    var tellstickUnitDealer = new Core.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    var tellstickUnitDealer = new Core.BLL.TellstickUnitDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
                     refreshed = tellstickUnitDealer.RefreshBearerToken();
 
                     var refreshMessage = "Refreshed bearer token to Tellstick Live";
@@ -138,7 +138,7 @@ namespace WCF.ServiceLibrary
             {
                 lock (_syncRoot)
                 {
-                    this.TellstickJobScheduler = new Core.BLL.JobScheduler(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                    this.TellstickJobScheduler = new Core.BLL.JobScheduler(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
                     this.TellstickJobScheduler.Start();
 
                     log.Debug(String.Format("Started TellstickScheduler."));
@@ -178,7 +178,7 @@ namespace WCF.ServiceLibrary
         {
             try
             {
-                var databaseDealer = new Core.BLL.DatabaseDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                var databaseDealer = new Core.BLL.DatabaseDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
 
                 var databaseCreated = databaseDealer.CreateAndInitializeTellstickDB();
                 if (databaseCreated)
@@ -203,7 +203,7 @@ namespace WCF.ServiceLibrary
             var returnMessage = "";
             try
             {
-                var tellstickUnitDealer = new Core.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                var tellstickUnitDealer = new Core.BLL.TellstickUnitDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
                 tellstickUnitDealer.ManualTurnOnAndRegisterPerformedAction(name);
 
                 returnMessage = String.Format("Turned on Tellstick unitId = {0}", name);
@@ -222,7 +222,7 @@ namespace WCF.ServiceLibrary
             var returnMessage = "";
             try
             {
-                var tellstickUnitDealer = new Core.BLL.TellstickUnitDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                var tellstickUnitDealer = new Core.BLL.TellstickUnitDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
                 tellstickUnitDealer.ManualTurnOffAndRegisterPerformedAction(name);
 
                 returnMessage = String.Format("Turned off Tellstick unitId = {0}", name);
@@ -244,7 +244,7 @@ namespace WCF.ServiceLibrary
             var lastPerformedAction = new LastPerformedTellstickAction();
             try
             {
-                var performedActionsDealer = new Core.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                var performedActionsDealer = new Core.BLL.PerformedActionsDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
                 lastPerformedAction = performedActionsDealer.LastPerformedAction(name);
             }
             catch (Exception ex)
@@ -260,7 +260,7 @@ namespace WCF.ServiceLibrary
             var lastPerformedActions = new List<LastPerformedTellstickAction>();
             try
             {
-                var performedActionsDealer = new Core.BLL.PerformedActionsDealer(DB_CONNECTION_STRING_NAME__TELLSTICK_DB);
+                var performedActionsDealer = new Core.BLL.PerformedActionsDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
                 lastPerformedActions = performedActionsDealer.LastPerformedActionsForAllUnits();
             }
             catch (Exception ex)
