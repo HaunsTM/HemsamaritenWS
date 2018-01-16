@@ -1,12 +1,11 @@
-﻿namespace Core.Model
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Core.Model.Interfaces;
+using Newtonsoft.Json;
+
+namespace Core.Model
 {
-    using Core.Model.Interfaces;
-
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using Newtonsoft.Json;
-
-    public class Scheduler : IEntity, IScheduler
+    public class Scheduler : IScheduler
     {
         #region IEntity members
 

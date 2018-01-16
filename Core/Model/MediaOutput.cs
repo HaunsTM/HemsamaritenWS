@@ -18,14 +18,13 @@ namespace Core.Model
         #region Navigation properties
 
         [JsonIgnore]
-        public virtual List<MediaActionType> MediaActionTypes { get; set; }
+        public virtual List<MediaAction> MediaActions { get; set; }
 
         #endregion
 
         public MediaOutput()
         {
-            this.MediaActionTypes = new List<MediaActionType>();
+            this.MediaActions = new List<MediaAction>();
         }
-
     }
 }

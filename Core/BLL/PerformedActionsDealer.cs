@@ -126,13 +126,13 @@ namespace Core.BLL
                 using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     var performedAction = (from performedAct in db.PerformedActions
-                        where performedAct.Action.Unit.Name == name
+                        where performedAct.Action.TellstickUnit.Name == name
                         orderby performedAct.Time descending
                         select performedAct).FirstOrDefault();
 
                     lastPerformedAction.Time = performedAction.Time;
                     lastPerformedAction.Name = name;
-                    lastPerformedAction.PerformedActionDescription = performedAction.Action.ActionType.ActionTypeOption.GetAttributeOfType<DescriptionAttribute>().Description;
+                    lastPerformedAction.PerformedActionDescription = performedAction.Action.TellstickActionType.ActionTypeOption.GetAttributeOfType<DescriptionAttribute>().Description;
                 }
             }
             catch (Exception ex)
@@ -153,14 +153,14 @@ namespace Core.BLL
                 using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     var query = db.PerformedActions
-                        .GroupBy(element => element.Action.Unit_Id)
+                        .GroupBy(element => element.Action.TellstickUnit_Id)
                         .Select(groups => groups.OrderByDescending(p => p.Time)
                         .FirstOrDefault())
                         .Select( x => new
                         {
                             Time = x.Time,
-                            Name = x.Action.Unit.Name,
-                            PerformedActionTypeOption = x.Action.ActionType.ActionTypeOption
+                            Name = x.Action.TellstickUnit.Name,
+                            PerformedActionTypeOption = x.Action.TellstickActionType.ActionTypeOption
                         });
 
                     var allLastPerformedActions = query.ToList();

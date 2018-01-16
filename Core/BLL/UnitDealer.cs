@@ -22,7 +22,7 @@
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
-                var unit = from u in db.Units
+                var unit = from u in db.TellstickUnits
                             where u.Id == id
                             select u;
 
@@ -34,7 +34,7 @@
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
-                var unit = (from u in db.Units
+                var unit = (from u in db.TellstickUnits
                             where u.NativeDeviceId == nativeDeviceId
                             select u).FirstOrDefault();
 

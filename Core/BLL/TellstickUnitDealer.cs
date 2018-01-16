@@ -38,7 +38,7 @@
                 //Which Unit are we talking about? Get Unit from DB
                 using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
                 {
-                    dbUnit = (from tU in db.Units
+                    dbUnit = (from tU in db.TellstickUnits
                                        where tU.Active == true && tU.NativeDeviceId == unit.NativeDeviceId
                                        select tU).First();
                 }
@@ -101,7 +101,7 @@
                 //Which TellstickUnit are we talking about? Get TellstickUnit from DB
                 using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
                 {
-                    dbUnit = (from tU in db.Units
+                    dbUnit = (from tU in db.TellstickUnits
                                        where tU.Active == true && tU.NativeDeviceId == unit.NativeDeviceId
                                        select tU).First();
                 }
@@ -207,7 +207,7 @@
             {
                 using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
                 {
-                    dbUnit = (from u in db.Units
+                    dbUnit = (from u in db.TellstickUnits
                               where u.Active == true && u.Name == name
                               select u).First();
                 }

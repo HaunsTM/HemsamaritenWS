@@ -113,6 +113,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action.cs" />
     <Compile Include="DefaultDataDBInitializer.cs" />
     <Compile Include="Enums\Helper.cs" />
     <Compile Include="Enums\ActionTypeOption.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Interfaces\IMediaOutput.cs" />
     <Compile Include="Interfaces\IMediaOutputSetting.cs" />
     <Compile Include="Interfaces\IMediaSource.cs" />
+    <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Interfaces\ITellstickActionType.cs" />
     <Compile Include="Interfaces\ITellstickAction.cs" />
     <Compile Include="Interfaces\IScheduler.cs" />

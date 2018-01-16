@@ -1,10 +1,10 @@
-﻿namespace Core.Model
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Core.Model.Interfaces;
+using Newtonsoft.Json;
+
+namespace Core.Model
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using Newtonsoft.Json;
-    using Core.Model.Interfaces;
 
     public class TellstickZNetLiteV2 : ITellstickZNetLiteV2
     {

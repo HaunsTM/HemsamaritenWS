@@ -1,12 +1,11 @@
-﻿namespace Core.Model
-{
-    using System;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using Newtonsoft.Json;
-    using Core.Model.Interfaces;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Core.Model.Interfaces;
+using Newtonsoft.Json;
 
+namespace Core.Model
+{
     public class TellstickAuthentication : ITellstickAuthentication
     {
 

@@ -1,14 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Core.Model.Interfaces;
+using Newtonsoft.Json;
 
 namespace Core.Model
 {
-    using Core.Model.Interfaces;
-
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using Newtonsoft.Json;
-
-    public class TellstickActionType : IEntity, ITellstickActionType
+    public class TellstickActionType : ITellstickActionType
     {
         #region IEntity members
 

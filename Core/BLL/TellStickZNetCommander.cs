@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Script.Serialization;
+using Core.BLL.Interfaces;
 using Newtonsoft.Json;
 using Core.Model;
+using log4net;
+using RestSharp;
 
 namespace Core.BLL
 {
-    using Core.BLL.Interfaces;
-
-    using RestSharp;
-    using Newtonsoft.Json;
-    using System.Web;
-    using System.Net.Http.Headers;
-    using System.Web.Util;
-    using System.Web.Script.Serialization;
-
-    using log4net;
     public class LoginStep1
     {
         public string authUrl { get; set; }
@@ -148,7 +142,7 @@ namespace Core.BLL
                 using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     value.Received = DateTime.Now;
-                    db.Authentications.Add(value);
+                    db.TellstickAuthentications.Add(value);
                     db.SaveChanges();
                     _bearerToken = value;
                 }
@@ -159,7 +153,7 @@ namespace Core.BLL
                 {
                     using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                     {
-                        var bearerToken = (from a in db.Authentications
+                        var bearerToken = (from a in db.TellstickAuthentications
                             where a.Active == true && a.TellstickZNetLiteV2_Id == DefaultTellstickZNetLiteV2s.Id
                             orderby a.Received descending
                             select a).First();

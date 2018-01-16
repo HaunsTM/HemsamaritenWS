@@ -1,13 +1,9 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Core.Model
 {
-    using System.Collections.Generic;
-    using System.Data.Entity;
-
-    using Core.Model.Enums;
-
     public class DefaultDataDbInitializer : DropCreateDatabaseIfModelChanges<TellstickDBContext>
     {
         private TellstickAuthentication Authenticated20171203
@@ -11780,9 +11776,9 @@ namespace Core.Model
 
         private void AddAndSaveDummyDataWithoutConstraints(TellstickDBContext context)
         {
-            context.Authentications.AddRange(this.Authentications());
+            context.TellstickAuthentications.AddRange(this.Authentications());
             context.TellstickZNetLiteV2s.AddRange(this.TellstickZNetLiteV2s());
-            context.ActionTypes.AddRange(this.TellstickActionTypes());
+            context.TellstickActionTypes.AddRange(this.TellstickActionTypes());
             context.Schedulers.AddRange(this.TellstickSchedulers());
 
             context.SaveChanges();
@@ -11794,13 +11790,13 @@ namespace Core.Model
             var tellstickZNetLiteV2 = (from t in context.TellstickZNetLiteV2s.ToList()
                                         where t.BaseIP == BaseDevice20171203.BaseIP
                                         select t).First();
-            var authentication = (from t in context.Authentications.ToList()
+            var authentication = (from t in context.TellstickAuthentications.ToList()
                                   where t.Token == Authenticated20171203.Token
                                   select t).First();
 
             authentication.TellstickZNetLiteV2_Id = tellstickZNetLiteV2.Id;
 
-            context.Authentications.Attach(authentication);
+            context.TellstickAuthentications.Attach(authentication);
             var entry = context.Entry(authentication);
             entry.Property(e => e.TellstickZNetLiteV2_Id).IsModified = true;
             // other changed properties
@@ -11814,7 +11810,7 @@ namespace Core.Model
                 where t.BaseIP == BaseDevice20171203.BaseIP
                 select t).First();
             
-            var actionTypes = from at in context.ActionTypes
+            var actionTypes = from at in context.TellstickActionTypes
                 where at.TellstickZNetLiteV2_Id == null
                 select at;
 

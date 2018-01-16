@@ -25,7 +25,7 @@ namespace Core.BLL
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
-                var actionType = from a in db.ActionTypes
+                var actionType = from a in db.TellstickActionTypes
                     where a.ActionTypeOption == actionTypeOption
                                   select a;
 

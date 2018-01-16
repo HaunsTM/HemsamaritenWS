@@ -1,16 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Core.BLL.Interfaces;
 using Core.Model;
-using Core.Model.Enums;
+using log4net;
 
 namespace Core.BLL
 {
-    using System.Collections.Generic;
-    using System;
-    using System.Linq;
-
-    using log4net;
-
-    using Core.BLL.Interfaces;
 
     public class ActionSearchParameters : IActionSearchParameters
     {
@@ -45,32 +41,32 @@ namespace Core.BLL
             {
                 Model.TellstickAction actionToSearchFor = null;
                 //which ActionType are we dealing with?
-                var currentActionType = (from actionType in db.ActionTypes
+                var currentActionType = (from actionType in db.TellstickActionTypes
                                          where actionType.ActionTypeOption == actionTypeOption
                                          select actionType).FirstOrDefault();
 
                 //which tellstick Unit are we dealing with?
-                var currentUnit = (from unit in db.Units
+                var currentUnit = (from unit in db.TellstickUnits
                                    where unit.NativeDeviceId == nativeDeviceId
                                    select unit).FirstOrDefault();
 
                 switch (scheduler == null)
                 {
                     case true:
-                        actionToSearchFor = (from existingAction in db.Actions
+                        actionToSearchFor = (from existingAction in db.TellstickActions
                                              where
                                                  existingAction.Active == true
-                                                 && existingAction.Unit.Id == currentUnit.Id
-                                                 && existingAction.ActionType.Id == currentActionType.Id
+                                                 && existingAction.TellstickUnit.Id == currentUnit.Id
+                                                 && existingAction.TellstickActionType.Id == currentActionType.Id
                                              select existingAction).FirstOrDefault();
                         break;
                     case false:
-                        actionToSearchFor = (from existingAction in db.Actions
+                        actionToSearchFor = (from existingAction in db.TellstickActions
                                              where
                                                  existingAction.Active == true
                                                  && existingAction.Scheduler.Id == scheduler.Id
-                                                 && existingAction.Unit.Id == currentUnit.Id
-                                                 && existingAction.ActionType.Id == currentActionType.Id
+                                                 && existingAction.TellstickUnit.Id == currentUnit.Id
+                                                 && existingAction.TellstickActionType.Id == currentActionType.Id
                                              select existingAction).FirstOrDefault();
                         break;
 
@@ -87,21 +83,21 @@ namespace Core.BLL
                 using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
                 {
                     //which ActionType are we dealing with?
-                    var currentActionType = (from actionType in db.ActionTypes
+                    var currentActionType = (from actionType in db.TellstickActionTypes
                                              where actionType.ActionTypeOption == actionTypeOption
                                              select actionType).First();
 
                     //which tellstick Unit are we dealing with?
-                    var currentUnit = (from unit in db.Units where unit.NativeDeviceId == nativeDeviceId select unit).First();
+                    var currentUnit = (from unit in db.TellstickUnits where unit.NativeDeviceId == nativeDeviceId select unit).First();
 
                     var newManualAction = new Core.Model.TellstickAction
                                                 {
                                                     Active = true,
-                                                    ActionType = currentActionType,
-                                                    Unit = currentUnit
+                                                    TellstickActionType = currentActionType,
+                                                    TellstickUnit = currentUnit
                                                 };
 
-                    db.Actions.Add(newManualAction);
+                    db.TellstickActions.Add(newManualAction);
                     db.SaveChanges();
 
                     // Return the new action from the existing entity, which was updated when the record was saved to the database
@@ -120,8 +116,8 @@ namespace Core.BLL
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
-                var actions = (from a in db.Actions
-                               orderby a.Unit_Id
+                var actions = (from a in db.TellstickActions
+                               orderby a.TellstickUnit_Id
                                select a).ToList();
                 return actions;
             }
@@ -131,8 +127,8 @@ namespace Core.BLL
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
-                var actions = from a in db.Actions
-                               where a.Unit_Id == unitId
+                var actions = from a in db.TellstickActions
+                               where a.TellstickUnit_Id == unitId
                                select a;
 
                 return actions;
@@ -143,8 +139,8 @@ namespace Core.BLL
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
-                var actions = from a in db.Actions
-                    where a.Unit_Id == unitId && a.Active == activeStatus
+                var actions = from a in db.TellstickActions
+                    where a.TellstickUnit_Id == unitId && a.Active == activeStatus
                     select a;
                 return actions;
             }
@@ -174,8 +170,8 @@ namespace Core.BLL
                     
                     var schedulersIdsList = (from s in schedulersThatShouldBeUsed
                                              select s.Id).ToList();
-                    var availableActionsThatCanBeUsed = (from a in db.Actions
-                                                        where a.Unit_Id == unitIdToUse && schedulersIdsList.Contains((int)a.Scheduler_Id) && a.ActionType.ActionTypeOption == actionTypeOption
+                    var availableActionsThatCanBeUsed = (from a in db.TellstickActions
+                                                        where a.TellstickUnit_Id == unitIdToUse && schedulersIdsList.Contains((int)a.Scheduler_Id) && a.TellstickActionType.ActionTypeOption == actionTypeOption
                                                         select a).ToList();
 
                     var availableActionsSchedulers = new List<Scheduler>();
@@ -201,12 +197,12 @@ namespace Core.BLL
                         var newAction = new Core.Model.TellstickAction
                         {
                             Active = true,
-                            ActionType_Id = currentActionType.Id,
+                            TellstickActionType_Id = currentActionType.Id,
                             Scheduler_Id = scheduler.Id,
-                            Unit_Id = currentUnit.Id
+                            TellstickUnit_Id = currentUnit.Id
                         };
 
-                        db.Actions.Add(newAction);
+                        db.TellstickActions.Add(newAction);
 
                     }
 
@@ -214,8 +210,8 @@ namespace Core.BLL
                     try
                     {
                         db.SaveChanges();
-                        var allActionsForCurrentUnit = (from action in db.Actions
-                            where action.Unit.Id == unitIdToUse
+                        var allActionsForCurrentUnit = (from action in db.TellstickActions
+                            where action.TellstickUnit.Id == unitIdToUse
                             select action).ToList();
                         return allActionsForCurrentUnit;
                     }

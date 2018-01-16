@@ -176,18 +176,18 @@
             {
                 using (var db = new Model.TellstickDBContext(this.DbConnectionStringName))
                 {
-                    var queryResult = from activeAction in db.Actions
+                    var queryResult = from activeAction in db.TellstickActions
                                       where (activeAction.Active == true) &&
                                             (activeAction.Scheduler != null ? activeAction.Scheduler.Active == true : false) &&
-                                            (activeAction.ActionType.Active == true) &&
-                                            (activeAction.Unit != null ? activeAction.Unit.Active == true : true)
+                                            (activeAction.TellstickActionType.Active == true) &&
+                                            (activeAction.TellstickUnit != null ? activeAction.TellstickUnit.Active == true : true)
                                       select
                                           new RegisteredActions
                                           {
                                               Scheduler = activeAction.Scheduler,
                                               Action = activeAction,
-                                              ActionType = activeAction.ActionType,
-                                              Unit = activeAction.Unit
+                                              ActionType = activeAction.TellstickActionType,
+                                              Unit = activeAction.TellstickUnit
                                           };
 
                     tellstickUnitsWithActions = queryResult.ToList();

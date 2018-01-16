@@ -1,14 +1,12 @@
-﻿namespace Core.Model
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using Core.Model.Interfaces;
+using Newtonsoft.Json;
+
+namespace Core.Model
 {
-    using Core.Model.Interfaces;
-
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Runtime.Serialization;
-
-    using Newtonsoft.Json;
-
     [DataContract]
     public class TellstickUnit : IEntity, ITellstickUnit
     {
