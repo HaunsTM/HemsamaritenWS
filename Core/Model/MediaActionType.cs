@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Core.Model.Interfaces;
+using Newtonsoft.Json;
 
 namespace Core.Model
 {
@@ -13,5 +15,16 @@ namespace Core.Model
 
         #endregion
 
+        #region Navigation properties
+
+        [JsonIgnore]
+        public virtual List<MediaActionType> MediaActionTypes { get; set; }
+
+        #endregion
+
+        public MediaActionType()
+        {
+            this.MediaActionTypes = new List<MediaActionType>();
+        }
     }
 }
