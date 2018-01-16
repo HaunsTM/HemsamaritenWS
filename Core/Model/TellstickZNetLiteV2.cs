@@ -21,16 +21,16 @@
         #region Navigation properties
 
         [JsonIgnore]
-        public virtual List<Authentication> Authentications { get; set; }
+        public virtual List<TellstickAuthentication> Authentications { get; set; }
         [JsonIgnore]
-        public virtual List<ActionType> ActionTypes { get; set; }
+        public virtual List<TellstickActionType> ActionTypes { get; set; }
 
         #endregion
 
         public TellstickZNetLiteV2()
         {
-            this.Authentications = new List<Authentication>();
-            this.ActionTypes = new List<ActionType>();
+            this.Authentications = new List<TellstickAuthentication>();
+            this.ActionTypes = new List<TellstickActionType>();
         }
 
     }

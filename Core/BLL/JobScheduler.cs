@@ -216,7 +216,7 @@
         private class RegisteredActions
         {
             public RegisteredActions() { }
-            public RegisteredActions(IScheduler currentScheduler, IAction currentAction, IActionType currentActionType, IUnit currentUnit = null)
+            public RegisteredActions(IScheduler currentScheduler, ITellstickAction currentAction, ITellstickActionType currentActionType, ITellstickUnit currentUnit = null)
             {
                 this.Scheduler = currentScheduler;
                 this.Action = currentAction;
@@ -225,9 +225,9 @@
             }
 
             public IScheduler Scheduler { get; set; }
-            public IAction Action { get; set; }
-            public IActionType ActionType { get; set; }
-            public IUnit Unit { get; set; }
+            public ITellstickAction Action { get; set; }
+            public ITellstickActionType ActionType { get; set; }
+            public ITellstickUnit Unit { get; set; }
         }
     }
 }

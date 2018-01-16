@@ -14,12 +14,12 @@
         {
         }
 
-        public DbSet<Authentication> Authentications { get; set; }
+        public DbSet<TellstickAuthentication> Authentications { get; set; }
         public DbSet<TellstickZNetLiteV2> TellstickZNetLiteV2s { get; set; }
-        public DbSet<ActionType> ActionTypes { get; set; }
+        public DbSet<TellstickActionType> ActionTypes { get; set; }
 
-        public DbSet<Unit> Units { get; set; }
-        public DbSet<Action> Actions { get; set; }
+        public DbSet<TellstickUnit> Units { get; set; }
+        public DbSet<TellstickAction> Actions { get; set; }
         public DbSet<Scheduler> Schedulers { get; set; }
         
         public DbSet<PerformedAction> PerformedActions { get; set; }

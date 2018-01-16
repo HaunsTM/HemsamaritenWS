@@ -21,7 +21,7 @@ namespace Core.BLL
             DbConnectionStringName = dbConnectionStringName;
         }
 
-        public Core.Model.ActionType GetActionTypeBy(ActionTypeOption actionTypeOption)
+        public Core.Model.TellstickActionType GetActionTypeBy(ActionTypeOption actionTypeOption)
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {

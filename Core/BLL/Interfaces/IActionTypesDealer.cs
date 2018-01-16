@@ -10,7 +10,7 @@ namespace Core.BLL.Interfaces
 
     interface IActionTypesDealer
     {
-        Core.Model.ActionType GetActionTypeBy(ActionTypeOption actionTypeOption);
+        Core.Model.TellstickActionType GetActionTypeBy(ActionTypeOption actionTypeOption);
 
         ActionTypeOption ActionTypeOptionBy(string name);
     }

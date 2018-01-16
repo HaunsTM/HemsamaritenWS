@@ -10,11 +10,11 @@ namespace Core.Model
 
     public class DefaultDataDbInitializer : DropCreateDatabaseIfModelChanges<TellstickDBContext>
     {
-        private Authentication Authenticated20171203
+        private TellstickAuthentication Authenticated20171203
         {
             get
             {
-                return new Authentication
+                return new TellstickAuthentication
                 {
                     Active = true,
                     Expires = 1543826561,
@@ -24,9 +24,9 @@ namespace Core.Model
             }
         }
 
-        private Authentication[] Authentications()
+        private TellstickAuthentication[] Authentications()
         {
-            var authentications = new Authentication[]
+            var authentications = new TellstickAuthentication[]
             {
                 Authenticated20171203
             };
@@ -50,13 +50,13 @@ namespace Core.Model
             return tellstickZNetLiteV2s;
         }
 
-        private ActionType[] TellstickActionTypes()
+        private TellstickActionType[] TellstickActionTypes()
         {
-            var tellstickActionTypes = new ActionType[]
+            var tellstickActionTypes = new TellstickActionType[]
             {
-                new ActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.TurnOn},
-                new ActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.TurnOff},
-                new ActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.RefreshBearerToken}
+                new TellstickActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.TurnOn},
+                new TellstickActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.TurnOff},
+                new TellstickActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.RefreshBearerToken}
             };
             return tellstickActionTypes;
         }

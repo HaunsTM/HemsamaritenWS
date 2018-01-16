@@ -8,7 +8,7 @@ namespace Core.Model
     using System.ComponentModel.DataAnnotations;
     using Newtonsoft.Json;
 
-    public class ActionType : IEntity, IActionType
+    public class TellstickActionType : IEntity, ITellstickActionType
     {
         #region IEntity members
 
@@ -28,13 +28,13 @@ namespace Core.Model
         [JsonIgnore]
         public virtual TellstickZNetLiteV2 TellstickZNetLiteV2 { get; set; }
         [JsonIgnore]
-        public virtual List<Action> Actions { get; set; }
+        public virtual List<TellstickAction> Actions { get; set; }
 
         #endregion
 
-        public ActionType()
+        public TellstickActionType()
         {
-            this.Actions = new List<Action>();
+            this.Actions = new List<TellstickAction>();
         }
     }
 }

@@ -108,7 +108,7 @@ namespace Core.BLL
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         
-        private Authentication _bearerToken = null;
+        private TellstickAuthentication _bearerToken = null;
 
         public string TellstickURL { get; set; }
 
@@ -141,7 +141,7 @@ namespace Core.BLL
             }
         }
 
-        private Authentication TellstickAuthentication
+        private TellstickAuthentication TellstickAuthentication
         {
             set
             {
@@ -185,7 +185,7 @@ namespace Core.BLL
                 var response = Client.Execute(request);
 
                 var refreshedBearerToken = JsonConvert.DeserializeObject<RefreshToken>(response.Content);
-                var authentication = new Authentication { Active = true, Expires = refreshedBearerToken.expires, Received = DateTime.Now, Token = refreshedBearerToken.token, TellstickZNetLiteV2_Id = DefaultTellstickZNetLiteV2s.Id };
+                var authentication = new TellstickAuthentication { Active = true, Expires = refreshedBearerToken.expires, Received = DateTime.Now, Token = refreshedBearerToken.token, TellstickZNetLiteV2_Id = DefaultTellstickZNetLiteV2s.Id };
 
                 TellstickAuthentication = authentication;
                 refreshed = true;

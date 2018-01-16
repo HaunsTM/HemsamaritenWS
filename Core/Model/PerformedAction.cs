@@ -27,7 +27,7 @@
         #region Navigation properties
         
         [JsonIgnore]
-        public virtual Action Action { get; set; }
+        public virtual TellstickAction Action { get; set; }
 
         [ForeignKey("Action")]
         public int Action_Id { get; set; }

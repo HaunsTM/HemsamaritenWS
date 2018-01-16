@@ -27,13 +27,13 @@
         
         #region TurnOnDevice (without registration to PerformedAction table)
 
-        public bool TurnOnDevice(IUnit unit)
+        public bool TurnOnDevice(ITellstickUnit unit)
         {
             var deviceTurnedOn = false;
             var nativeDeviceId = -1;
             try
             {
-                Unit dbUnit = null;
+                TellstickUnit dbUnit = null;
 
                 //Which Unit are we talking about? Get Unit from DB
                 using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
@@ -90,13 +90,13 @@
 
         #region TurnOffDevice (without registration to PerformedAction table)
 
-        public bool TurnOffDevice(IUnit unit)
+        public bool TurnOffDevice(ITellstickUnit unit)
         {
             var deviceTurnedOff = false;
             var nativeDeviceId = -1;
             try
             {
-                Unit dbUnit = null;
+                TellstickUnit dbUnit = null;
 
                 //Which TellstickUnit are we talking about? Get TellstickUnit from DB
                 using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
@@ -200,9 +200,9 @@
             return turnedOffMessageSent;
         }
 
-        private Unit UnitBy(string name)
+        private TellstickUnit UnitBy(string name)
         {
-            Unit dbUnit = null;
+            TellstickUnit dbUnit = null;
             try
             {
                 using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
@@ -272,7 +272,7 @@
             var registered = false;
             try
             {
-                Core.Model.Action usedAction = null;
+                Core.Model.TellstickAction usedAction = null;
 
                 //do we have an Action in db for this event already?
                 var possibleRegisteredAction = ActionsDealer.ActionExists(nativeDeviceId: nativeDeviceId, actionTypeOption: ActionTypeOption.TurnOn, scheduler: null);
@@ -307,7 +307,7 @@
             var registered = false;
             try
             {
-                Core.Model.Action usedAction = null;
+                Core.Model.TellstickAction usedAction = null;
 
                 //do we have an Action in db for this event already?
                 var possibleRegisteredAction = ActionsDealer.ActionExists(nativeDeviceId: nativeDeviceId, actionTypeOption: ActionTypeOption.TurnOff, scheduler: null);

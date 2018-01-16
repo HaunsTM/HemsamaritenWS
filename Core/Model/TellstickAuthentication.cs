@@ -7,7 +7,7 @@
     using Newtonsoft.Json;
     using Core.Model.Interfaces;
 
-    public class Authentication : IAuthentication
+    public class TellstickAuthentication : ITellstickAuthentication
     {
 
         #region IEntity members
@@ -32,7 +32,7 @@
 
         #endregion
 
-        public Authentication()
+        public TellstickAuthentication()
         {
 
         }

@@ -18,7 +18,7 @@
             DbConnectionStringName = dbConnectionStringName;
         }
 
-        public Unit UnitBy(int id)
+        public TellstickUnit UnitBy(int id)
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
@@ -30,7 +30,7 @@
             }
         }
 
-        public Unit UnitByNativeDevice(int nativeDeviceId)
+        public TellstickUnit UnitByNativeDevice(int nativeDeviceId)
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {

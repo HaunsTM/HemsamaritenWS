@@ -39,11 +39,11 @@ namespace Core.BLL
         /// <param name="actionTypeOption"></param>
         /// <param name="scheduler"></param>
         /// <returns>An Action if it is found, NULL if it is not found</returns>
-        public Core.Model.Action ActionExists(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption, Core.Model.Interfaces.IScheduler scheduler)
+        public Core.Model.TellstickAction ActionExists(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption, Core.Model.Interfaces.IScheduler scheduler)
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
-                Model.Action actionToSearchFor = null;
+                Model.TellstickAction actionToSearchFor = null;
                 //which ActionType are we dealing with?
                 var currentActionType = (from actionType in db.ActionTypes
                                          where actionType.ActionTypeOption == actionTypeOption
@@ -80,7 +80,7 @@ namespace Core.BLL
             }
         }
 
-        public Core.Model.Action RegisterNewManualAction(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption)
+        public Core.Model.TellstickAction RegisterNewManualAction(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace Core.BLL
                     //which tellstick Unit are we dealing with?
                     var currentUnit = (from unit in db.Units where unit.NativeDeviceId == nativeDeviceId select unit).First();
 
-                    var newManualAction = new Core.Model.Action
+                    var newManualAction = new Core.Model.TellstickAction
                                                 {
                                                     Active = true,
                                                     ActionType = currentActionType,
@@ -116,7 +116,7 @@ namespace Core.BLL
             }
         }
 
-        public List<Core.Model.Action> GetAllActions()
+        public List<Core.Model.TellstickAction> GetAllActions()
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
@@ -127,7 +127,7 @@ namespace Core.BLL
             }
         }
 
-        public IQueryable<Core.Model.Action> GetActionsBy(int unitId)
+        public IQueryable<Core.Model.TellstickAction> GetActionsBy(int unitId)
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
@@ -139,7 +139,7 @@ namespace Core.BLL
             }
         }
 
-        private IQueryable<Core.Model.Action> GetActionsBy(int unitId, bool activeStatus)
+        private IQueryable<Core.Model.TellstickAction> GetActionsBy(int unitId, bool activeStatus)
         {
             using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
             {
@@ -156,7 +156,7 @@ namespace Core.BLL
 
 
 
-        public List<Core.Model.Action> ActivateActionsFor(IActionSearchParameters searchParameters)
+        public List<Core.Model.TellstickAction> ActivateActionsFor(IActionSearchParameters searchParameters)
         {
             using (var db = new Core.Model.TellstickDBContext( DbConnectionStringName ) )
             {
@@ -198,7 +198,7 @@ namespace Core.BLL
                     //create new actions which we miss
                     foreach (var scheduler in schedulersWeNeedToCreateActionsFor)
                     {
-                        var newAction = new Core.Model.Action
+                        var newAction = new Core.Model.TellstickAction
                         {
                             Active = true,
                             ActionType_Id = currentActionType.Id,

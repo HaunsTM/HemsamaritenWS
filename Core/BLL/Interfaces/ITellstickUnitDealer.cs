@@ -8,11 +8,11 @@ namespace Core.BLL
     {
         string DbConnectionStringName { get; }
 
-        bool TurnOnDevice(IUnit unit);
+        bool TurnOnDevice(ITellstickUnit unit);
 
         bool TurnOnDevice(int nativeDeviceId);
 
-        bool TurnOffDevice(IUnit unit);
+        bool TurnOffDevice(ITellstickUnit unit);
 
         bool TurnOffDevice(int nativeDeviceId);
 

@@ -10,7 +10,7 @@
     using Newtonsoft.Json;
 
     [DataContract]
-    public class Unit : IEntity, IUnit
+    public class TellstickUnit : IEntity, ITellstickUnit
     {
         #region IEntity members
 
@@ -31,13 +31,13 @@
         #region Navigation properties
 
         [JsonIgnore]
-        public virtual List<Action> Actions { get; set; }
+        public virtual List<TellstickAction> Actions { get; set; }
 
         #endregion
 
-        public Unit()
+        public TellstickUnit()
         {
-            this.Actions = new List<Action>();
+            this.Actions = new List<TellstickAction>();
         }
     }
 }

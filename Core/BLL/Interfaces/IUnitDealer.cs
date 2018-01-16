@@ -6,7 +6,7 @@ namespace Core.BLL.Interfaces
 
     public interface IUnitDealer
     {
-        Unit UnitBy(int id);
-        Unit UnitByNativeDevice(int nativeDeviceId);
+        TellstickUnit UnitBy(int id);
+        TellstickUnit UnitByNativeDevice(int nativeDeviceId);
     }
 }

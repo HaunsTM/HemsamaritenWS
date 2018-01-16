@@ -29,13 +29,13 @@
         #region Navigation properties
         
         [JsonIgnore]
-        public virtual List<Action> Actions { get; set; }
+        public virtual List<TellstickAction> Actions { get; set; }
 
         #endregion
 
         public Scheduler()
         {
-            this.Actions = new List<Action>();
+            this.Actions = new List<TellstickAction>();
         }
 
     }

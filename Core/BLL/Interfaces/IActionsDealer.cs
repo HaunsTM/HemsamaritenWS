@@ -14,14 +14,14 @@ namespace Core.BLL.Interfaces
     {
         string DbConnectionStringName { get; }
 
-        Core.Model.Action ActionExists(
+        Core.Model.TellstickAction ActionExists(
             int nativeDeviceId,
             Core.Model.Enums.ActionTypeOption actionTypeOption,
             Core.Model.Interfaces.IScheduler scheduler);
 
-        Core.Model.Action RegisterNewManualAction(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption);
+        Core.Model.TellstickAction RegisterNewManualAction(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption);
 
-        List<Core.Model.Action> ActivateActionsFor(IActionSearchParameters searchParameters);
+        List<Core.Model.TellstickAction> ActivateActionsFor(IActionSearchParameters searchParameters);
         
     }
 }

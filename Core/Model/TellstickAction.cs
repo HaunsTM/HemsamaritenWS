@@ -9,7 +9,7 @@
 
     using Newtonsoft.Json;
 
-    public class Action : IEntity, IAction
+    public class TellstickAction : IEntity, ITellstickAction
     {
         #region IEntity members
 
@@ -25,9 +25,9 @@
         public virtual List<PerformedAction> PerformedActions { get; set; }
 
         [JsonIgnore]
-        public virtual Unit Unit { get; set; }
+        public virtual TellstickUnit Unit { get; set; }
         [JsonIgnore]
-        public virtual ActionType ActionType { get; set; }
+        public virtual TellstickActionType ActionType { get; set; }
         [JsonIgnore]
         public virtual Scheduler Scheduler { get; set; }
         
@@ -40,7 +40,7 @@
 
         #endregion
 
-        public Action()
+        public TellstickAction()
         {
             this.PerformedActions = new List<PerformedAction>();
         }
