@@ -1,6 +1,6 @@
 ﻿namespace Core.Model.Interfaces
 {
-    public interface IMediaSource
+    public interface IMediaSource : IEntity
     {
         
     }

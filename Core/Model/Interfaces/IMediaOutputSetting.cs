@@ -1,6 +1,6 @@
 ﻿namespace Core.Model.Interfaces
 {
-    public interface IMediaOutputSetting
+    public interface IMediaOutputSetting : IEntity
     {
         
     }
