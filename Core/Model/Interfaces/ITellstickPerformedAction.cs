@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface IPerformedAction : IEntity
+    public interface ITellstickPerformedAction : IEntity
     {
          DateTime Time { get; set; }
     }

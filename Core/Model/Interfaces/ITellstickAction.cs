@@ -1,6 +1,6 @@
 ﻿namespace Core.Model.Interfaces
 {
-    public interface IAction : IEntity
+    public interface ITellstickAction : IEntity
     {
          
     }

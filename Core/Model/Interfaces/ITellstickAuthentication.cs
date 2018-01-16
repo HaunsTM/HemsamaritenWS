@@ -1,7 +1,7 @@
 ﻿namespace Core.Model.Interfaces
 {
     using System;
-    public interface IAuthentication : IEntity
+    public interface ITellstickAuthentication : IEntity
     {
         int Expires { get; set; }
         string Token { get; set; }

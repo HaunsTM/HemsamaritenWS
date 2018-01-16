@@ -1,6 +1,6 @@
 ﻿namespace Core.Model.Interfaces
 {
-    public interface IUnit : IEntity
+    public interface ITellstickUnit : IEntity
     {
         int NativeDeviceId { get; set; }
         string Name { get; set; }
