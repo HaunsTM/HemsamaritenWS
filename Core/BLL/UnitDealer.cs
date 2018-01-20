@@ -20,7 +20,7 @@
 
         public TellstickUnit UnitBy(int id)
         {
-            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
                 var unit = from u in db.TellstickUnits
                             where u.Id == id
@@ -32,7 +32,7 @@
 
         public TellstickUnit UnitByNativeDevice(int nativeDeviceId)
         {
-            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
                 var unit = (from u in db.TellstickUnits
                             where u.NativeDeviceId == nativeDeviceId

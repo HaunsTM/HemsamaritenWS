@@ -37,7 +37,7 @@ namespace Core.BLL
         /// <returns>An Action if it is found, NULL if it is not found</returns>
         public Core.Model.TellstickAction ActionExists(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption, Core.Model.Interfaces.IScheduler scheduler)
         {
-            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
                 Model.TellstickAction actionToSearchFor = null;
                 //which ActionType are we dealing with?
@@ -80,7 +80,7 @@ namespace Core.BLL
         {
             try
             {
-                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
                 {
                     //which ActionType are we dealing with?
                     var currentActionType = (from actionType in db.TellstickActionTypes
@@ -114,7 +114,7 @@ namespace Core.BLL
 
         public List<Core.Model.TellstickAction> GetAllActions()
         {
-            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
                 var actions = (from a in db.TellstickActions
                                orderby a.TellstickUnit_Id
@@ -125,7 +125,7 @@ namespace Core.BLL
 
         public IQueryable<Core.Model.TellstickAction> GetActionsBy(int unitId)
         {
-            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
                 var actions = from a in db.TellstickActions
                                where a.TellstickUnit_Id == unitId
@@ -137,7 +137,7 @@ namespace Core.BLL
 
         private IQueryable<Core.Model.TellstickAction> GetActionsBy(int unitId, bool activeStatus)
         {
-            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
                 var actions = from a in db.TellstickActions
                     where a.TellstickUnit_Id == unitId && a.Active == activeStatus
@@ -154,7 +154,7 @@ namespace Core.BLL
 
         public List<Core.Model.TellstickAction> ActivateActionsFor(IActionSearchParameters searchParameters)
         {
-            using (var db = new Core.Model.TellstickDBContext( DbConnectionStringName ) )
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext( DbConnectionStringName ) )
             {
                 try
                 {

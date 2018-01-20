@@ -1,18 +1,13 @@
-﻿//Here is the once-per-application setup information
+﻿using System.Linq;
+using System.Threading;
+using Core.BLL;
+using log4net;
+
+//Here is the once-per-application setup information
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace Tellstick.ConsoleForTestingPurpose
 {
-    using System;
-    using System.Linq;
-    using System.Threading;
-
-    using log4net;
-
-    using Core.BLL;
-    using Core.BLL.Interfaces;
-    using Core.Model.Enums;
-    using Core.Model.Interfaces;
 
     class Program
     {
@@ -37,7 +32,7 @@ namespace Tellstick.ConsoleForTestingPurpose
         private static void CreateDBTest(string dbConnectionStringName)
         {
             System.Data.Entity.Database.SetInitializer(new Core.Model.DefaultDataDbInitializer());
-            using (var db = new Core.Model.TellstickDBContext(dbConnectionStringName))
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(dbConnectionStringName))
             {
 #if DEBUG
                 db.Database.Initialize(true);

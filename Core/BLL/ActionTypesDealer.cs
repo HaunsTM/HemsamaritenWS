@@ -1,13 +1,10 @@
-﻿
+﻿using System.Linq;
+using Core.BLL.Interfaces;
 using Core.Model.Enums;
+using log4net;
 
 namespace Core.BLL
 {
-    using System.Linq;
-    using log4net;
-
-    using Core.BLL.Interfaces;
-
     public class ActionTypesDealer : IActionTypesDealer
     {
 
@@ -23,7 +20,7 @@ namespace Core.BLL
 
         public Core.Model.TellstickActionType GetActionTypeBy(ActionTypeOption actionTypeOption)
         {
-            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
                 var actionType = from a in db.TellstickActionTypes
                     where a.ActionTypeOption == actionTypeOption

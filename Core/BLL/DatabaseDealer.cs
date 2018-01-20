@@ -1,7 +1,8 @@
-﻿namespace Core.BLL
+﻿using System.Linq;
+using Core.BLL.Interfaces;
+
+namespace Core.BLL
 {
-    using Core.BLL.Interfaces;
-    using System.Linq;
 
     public class DatabaseDealer : IDatabaseDealer
     {
@@ -22,7 +23,7 @@
 
             System.Data.Entity.Database.SetInitializer(new Core.Model.DefaultDataDbInitializer());
 
-            using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
             {
                 db.Database.Initialize(true);
 

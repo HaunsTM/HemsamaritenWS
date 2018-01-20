@@ -2,13 +2,13 @@
 
 namespace Core.Model
 {
-    public class TellstickDBContext : DbContext
+    public class HemsamaritenWindowsServiceDbContext : DbContext
     {
         /// <summary>
         /// The constructor for derived context.
         /// </summary>
         /// <param name="nameOrConnectionString">Either the database name or a connection string, example: "name=DefaultConnection"</param>
-        public TellstickDBContext(string nameOrConnectionString)
+        public HemsamaritenWindowsServiceDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
         }
@@ -24,11 +24,8 @@ namespace Core.Model
         public DbSet<MediaOutputSetting> MediaOutputSettings { get; set; }
         public DbSet<MediaAction> MediaActions { get; set; }
 
-
-
         public DbSet<Scheduler> Schedulers { get; set; }
         
         public DbSet<PerformedAction> PerformedActions { get; set; }
-
     }
 }

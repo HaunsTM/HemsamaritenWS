@@ -1,10 +1,14 @@
-﻿using System;
+﻿using Core.Model.Enums;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Core.Model
 {
-    public class DefaultDataDbInitializer : DropCreateDatabaseIfModelChanges<TellstickDBContext>
+
+    public class DefaultDataDbInitializer : DropCreateDatabaseIfModelChanges<HemsamaritenWindowsServiceDbContext>
     {
         private TellstickAuthentication Authenticated20171203
         {
@@ -55,6 +59,43 @@ namespace Core.Model
                 new TellstickActionType { Active = true, ActionTypeOption = Enums.ActionTypeOption.RefreshBearerToken}
             };
             return tellstickActionTypes;
+        }
+
+        private TellstickUnit[] TellstickUnits()
+        {
+            var tellstickUnits = new TellstickUnit[]
+                {
+                    new TellstickUnit { Active = true, NativeDeviceId = 2, Name = "1", LocationDesciption = "Fönsterlampa vardagsrum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 3, Name = "2", LocationDesciption = "Pianobelysning"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 4, Name = "3", LocationDesciption = "Golvlampa i vardagsrum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 5, Name = "4", LocationDesciption = "Uterum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 6, Name = "5", LocationDesciption = "Fönsterlampor i köket"},
+
+                    new TellstickUnit { Active = true, NativeDeviceId = 7, Name = "6", LocationDesciption = "Belysning vid fågelmataren"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 8, Name = "7", LocationDesciption = "Golvlampa i TV-rum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 9, Name = "8", LocationDesciption = "Subwoofer"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 10, Name = "9", LocationDesciption = "Liten lampa på byrå i TV-rum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 11, Name = "10", LocationDesciption = "Ljusglober i hall utanför toalett"},
+
+                    new TellstickUnit { Active = true, NativeDeviceId = 12, Name = "11", LocationDesciption = "Spegelbordet utanför den lilla toaletten"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 13, Name = "12", LocationDesciption = "Ljusglober i Atikas rum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 14, Name = "13", LocationDesciption = "Fönsterkarm Atikas rum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 15, Name = "14", LocationDesciption = "Grön lampa i Atikas rum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 16, Name = "15", LocationDesciption = "Liten bokhylla närmast fönstret Hans"},
+
+                    new TellstickUnit { Active = true, NativeDeviceId = 17, Name = "16", LocationDesciption = "Vinkelbokhylla i hörnet Hans rum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 18, Name = "17", LocationDesciption = "Liten bordslampa Hans rum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 19, Name = "18", LocationDesciption = "Bokhyllebelysning i vardagsrum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 20, Name = "19", LocationDesciption = "Ljusorgel vardagsrum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 21, Name = "20", LocationDesciption = "Ljusstake sovrum"},
+
+                    new TellstickUnit { Active = true, NativeDeviceId = 22, Name = "21", LocationDesciption = ""},
+                    new TellstickUnit { Active = true, NativeDeviceId = 23, Name = "22", LocationDesciption = ""},
+                    new TellstickUnit { Active = true, NativeDeviceId = 24, Name = "23", LocationDesciption = ""},
+                    new TellstickUnit { Active = true, NativeDeviceId = 25, Name = "24", LocationDesciption = ""},
+                    new TellstickUnit { Active = true, NativeDeviceId = 1, Name =  "25", LocationDesciption = ""}
+                };
+            return tellstickUnits;
         }
 
         private Scheduler[] TellstickSchedulers()
@@ -11774,17 +11815,18 @@ namespace Core.Model
             return tellstickSchedulers;
         }
 
-        private void AddAndSaveDummyDataWithoutConstraints(TellstickDBContext context)
+        private void AddAndSaveDummyDataWithoutConstraints(HemsamaritenWindowsServiceDbContext context)
         {
             context.TellstickAuthentications.AddRange(this.Authentications());
             context.TellstickZNetLiteV2s.AddRange(this.TellstickZNetLiteV2s());
             context.TellstickActionTypes.AddRange(this.TellstickActionTypes());
+            context.TellstickUnits.AddRange(this.TellstickUnits());
             context.Schedulers.AddRange(this.TellstickSchedulers());
 
             context.SaveChanges();
         }
 
-        private void InitiallyConnectAuthentication_TellstickZNetLiteV2(TellstickDBContext context)
+        private void InitiallyConnectAuthentication_TellstickZNetLiteV2(HemsamaritenWindowsServiceDbContext context)
         {
             //get references from db
             var tellstickZNetLiteV2 = (from t in context.TellstickZNetLiteV2s.ToList()
@@ -11803,7 +11845,7 @@ namespace Core.Model
             context.SaveChanges();
         }
 
-        private void InitiallyConnectActionTypes_TellstickZNetLiteV2(TellstickDBContext context)
+        private void InitiallyConnectActionTypes_TellstickZNetLiteV2(HemsamaritenWindowsServiceDbContext context)
         {
             //get references from db
             var tellstickZNetLiteV2 = (from t in context.TellstickZNetLiteV2s
@@ -11822,11 +11864,35 @@ namespace Core.Model
             // other changed properties
             context.SaveChanges();
         }
-        protected override void Seed(TellstickDBContext context)
+
+        private void InitiallyConnectTellstickActions(HemsamaritenWindowsServiceDbContext context)
+        {
+            var defaultDataDbInitializerHelper = new DefaultDataDbInitializerHelper(context: context);
+
+            var tellstickActionsToSave = new List<Tuple<string, ActionTypeOption, string>>
+            {
+                new Tuple<string, ActionTypeOption, string>("1", ActionTypeOption.TurnOff, "0 45 5 * * ?"),
+                new Tuple<string, ActionTypeOption, string>("2", ActionTypeOption.TurnOff, "0 45 5 * * ?"),
+                new Tuple<string, ActionTypeOption, string>("3", ActionTypeOption.TurnOff, "0 45 5 * * ?"),
+
+            };
+
+            var tellstickActions = Task.Run(() => defaultDataDbInitializerHelper.TellstickActionsToSaveAsync(tellstickActionsToSave)).Result;
+
+            context.TellstickActions.AddRange(tellstickActions);
+
+            // other changed properties
+            context.SaveChanges();
+        }
+
+
+
+        protected override void Seed(HemsamaritenWindowsServiceDbContext context)
         {
             AddAndSaveDummyDataWithoutConstraints(context);
             InitiallyConnectAuthentication_TellstickZNetLiteV2(context);
             InitiallyConnectActionTypes_TellstickZNetLiteV2(context);
+            InitiallyConnectTellstickActions(context);
         }
     }
 }

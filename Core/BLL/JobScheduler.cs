@@ -1,21 +1,19 @@
-﻿namespace Core.BLL
+﻿using Core.BLL.Interfaces;
+using Core.Model.Interfaces;
+
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using log4net;
+
+using Quartz;
+using Quartz.Impl;
+
+using IScheduler = Core.Model.Interfaces.IScheduler;
+
+namespace Core.BLL
 {
-    using Core.Model.Interfaces;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.Linq;
-
-    using log4net;
-
-    using Quartz;
-    using Quartz.Impl;
-
-    using Core.BLL.Interfaces;
-
-    using IScheduler = Core.Model.Interfaces.IScheduler;
-
     public class JobScheduler : IJobScheduler
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -55,7 +53,6 @@
                 }
 
                 return executingJobsNames;
-
             }
         }
 
@@ -174,7 +171,7 @@
 
             try
             {
-                using (var db = new Model.TellstickDBContext(this.DbConnectionStringName))
+                using (var db = new Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
                 {
                     var queryResult = from activeAction in db.TellstickActions
                                       where (activeAction.Active == true) &&

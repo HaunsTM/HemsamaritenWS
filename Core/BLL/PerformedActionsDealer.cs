@@ -1,16 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using Core.BLL.Interfaces;
+using Core.Model;
 using Core.Model.Enums;
+using log4net;
 
 namespace Core.BLL
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using log4net;
-
-    using Core.BLL.Interfaces;
-    using Core.Model;
 
     public class PerformedActionsDealer : IPerformedActionsDealer
     {
@@ -37,7 +35,7 @@ namespace Core.BLL
 
             try
             {
-                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
                 {
                     var pa = new PerformedAction() { Active = true, Action = occurredAction, Time = timeOfOccurrence };
                     db.PerformedActions.Add(pa);
@@ -66,7 +64,7 @@ namespace Core.BLL
 
             try
             {
-                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
                 {
                     var pa = new PerformedAction() { Active = true, Action_Id = occurredAction_Id, Time = timeOfOccurrence };
                     db.PerformedActions.Add(pa);
@@ -95,7 +93,7 @@ namespace Core.BLL
 
             try
             {
-                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
                 {
                     var queryResult = from performedAct in db.PerformedActions
                                       where (performedAct.Time >= startTime && performedAct.Time <= endTime && performedAct.Active == active)
@@ -123,7 +121,7 @@ namespace Core.BLL
 
             try
             {
-                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
                 {
                     var performedAction = (from performedAct in db.PerformedActions
                         where performedAct.Action.TellstickUnit.Name == name
@@ -150,7 +148,7 @@ namespace Core.BLL
 
             try
             {
-                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
                 {
                     var query = db.PerformedActions
                         .GroupBy(element => element.Action.TellstickUnit_Id)

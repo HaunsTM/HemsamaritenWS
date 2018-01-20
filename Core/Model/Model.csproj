@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="DefaultDataDBInitializer.cs" />
+    <Compile Include="DefaultDataDbInitializerHelper.cs" />
     <Compile Include="Enums\Helper.cs" />
     <Compile Include="Enums\ActionTypeOption.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
@@ -141,7 +142,7 @@
     <Compile Include="TellstickActionType.cs" />
     <Compile Include="TellstickAction.cs" />
     <Compile Include="Scheduler.cs" />
-    <Compile Include="TellstickDBContext.cs" />
+    <Compile Include="HemsamaritenWindowsServiceDbContext.cs" />
     <Compile Include="TellstickZNetLiteV2.cs" />
     <Compile Include="TellstickAuthentication.cs" />
     <Compile Include="TellstickUnit.cs" />

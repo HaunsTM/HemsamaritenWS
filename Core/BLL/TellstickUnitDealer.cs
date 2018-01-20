@@ -36,7 +36,7 @@
                 TellstickUnit dbUnit = null;
 
                 //Which Unit are we talking about? Get Unit from DB
-                using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
                 {
                     dbUnit = (from tU in db.TellstickUnits
                                        where tU.Active == true && tU.NativeDeviceId == unit.NativeDeviceId
@@ -99,7 +99,7 @@
                 TellstickUnit dbUnit = null;
 
                 //Which TellstickUnit are we talking about? Get TellstickUnit from DB
-                using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
                 {
                     dbUnit = (from tU in db.TellstickUnits
                                        where tU.Active == true && tU.NativeDeviceId == unit.NativeDeviceId
@@ -205,7 +205,7 @@
             TellstickUnit dbUnit = null;
             try
             {
-                using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
                 {
                     dbUnit = (from u in db.TellstickUnits
                               where u.Active == true && u.Name == name
@@ -285,7 +285,7 @@
                     usedAction = ActionsDealer.RegisterNewManualAction(nativeDeviceId: nativeDeviceId, actionTypeOption: ActionTypeOption.TurnOn);
                 }
 
-                using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
                 {
                     var performedAction = new PerformedAction { Active = true, Action_Id = usedAction.Id, Time = time };
                     db.PerformedActions.Add(performedAction);
@@ -320,7 +320,7 @@
                     usedAction = ActionsDealer.RegisterNewManualAction(nativeDeviceId: nativeDeviceId, actionTypeOption: ActionTypeOption.TurnOff);
                 }
 
-                using (var db = new Core.Model.TellstickDBContext(this.DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
                 {
                     var performedAction = new PerformedAction { Active = true, Action_Id = usedAction.Id, Time = time };
                     db.PerformedActions.Add(performedAction);

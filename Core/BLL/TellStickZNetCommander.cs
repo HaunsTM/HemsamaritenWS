@@ -112,7 +112,7 @@ namespace Core.BLL
         {
             DbConnectionStringName = dbConnectionStringName;
 
-            using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
                 DefaultTellstickZNetLiteV2s = (from s in db.TellstickZNetLiteV2s
                     orderby s.Id ascending
@@ -126,7 +126,7 @@ namespace Core.BLL
         {
             get
             {
-                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
                 {
                     var client = new RestClient(DefaultTellstickZNetLiteV2s.BaseIP);
                     client.AddDefaultHeader("Authorization", " Bearer " + TellstickAuthentication.Token);
@@ -139,7 +139,7 @@ namespace Core.BLL
         {
             set
             {
-                using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
                 {
                     value.Received = DateTime.Now;
                     db.TellstickAuthentications.Add(value);
@@ -151,7 +151,7 @@ namespace Core.BLL
             {
                 if (_bearerToken == null)
                 {
-                    using (var db = new Core.Model.TellstickDBContext(DbConnectionStringName))
+                    using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
                     {
                         var bearerToken = (from a in db.TellstickAuthentications
                             where a.Active == true && a.TellstickZNetLiteV2_Id == DefaultTellstickZNetLiteV2s.Id
