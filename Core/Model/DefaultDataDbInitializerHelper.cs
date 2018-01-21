@@ -14,7 +14,7 @@ namespace Core.Model
             _context = context;
         }
 
-        public TellstickAction TellstickActionToSave(string tellstickUnitName, ActionTypeOption actionTypeOption, string cronExpression)
+        public TellstickAction TellstickActionToSave(bool active, string tellstickUnitName, ActionTypeOption actionTypeOption, string cronExpression)
         {
             var tellstickAction = new TellstickAction();
 
@@ -33,6 +33,7 @@ namespace Core.Model
                 .Where(u => u.Name == tellstickUnitName)
                 .FirstOrDefault<TellstickUnit>();
 
+            tellstickAction.Active = active;
             tellstickAction.Scheduler = scheduler;
             tellstickAction.TellstickActionType = tellstickActionType;
             tellstickAction.TellstickUnit = tellstickUnit;
@@ -41,22 +42,22 @@ namespace Core.Model
         }
 
 
-        public List<TellstickAction> TellstickActionsToSave(List<Tuple<string, ActionTypeOption, string>> tellstickActionData)
+        public List<TellstickAction> TellstickActionsToSave(List<Tuple<bool, string, ActionTypeOption, string>> tellstickActionData)
         {
             var tellstickActionsToSave = new List<TellstickAction>();
             foreach (var data in tellstickActionData)
             {
-                var tellstickUnitName = data.Item1;
-                var actionTypeOption = data.Item2;
-                var cronExpression = data.Item3;
+                var tellstickActionActiveStatus = data.Item1;
+                var tellstickUnitName = data.Item2;
+                var actionTypeOption = data.Item3;
+                var cronExpression = data.Item4;
 
-                var tellstickActionToSave =  TellstickActionToSave(tellstickUnitName: tellstickUnitName,
+                var tellstickActionToSave =  TellstickActionToSave(active: tellstickActionActiveStatus, tellstickUnitName: tellstickUnitName,
                     actionTypeOption: actionTypeOption, cronExpression: cronExpression);
 
                 tellstickActionsToSave.Add(tellstickActionToSave);
             }
             return tellstickActionsToSave;
         }
-
     }
 }

@@ -15,13 +15,13 @@ namespace Core.Model
 
         #endregion
 
+        public string Name { get; set; }
         public string Url { get; set; }
         public string MediaDataBase64 { get; set; }
 
-        #region Navigation properties
+        public Core.Model.Enums.MediaCategoryType MediaCategoryType { get; set; }
 
-        [JsonIgnore]
-        public virtual MediaSourceCategory MediaSourceCategory { get; set; }
+        #region Navigation properties
 
         [JsonIgnore]
         public virtual List<MediaAction> MediaActions { get; set; }
