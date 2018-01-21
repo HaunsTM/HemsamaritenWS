@@ -1,21 +1,16 @@
 ﻿//Here is the once-per-application setup information
-
-using Newtonsoft.Json;
-using Core.BLL;
-using Core.BLL.Interfaces;
 using Core.Model.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.ServiceModel;
+using System.ServiceProcess;
+
+using WCF.ServiceLibrary.Interfaces;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace WCF.ServiceLibrary
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.ServiceModel;
-    using System.ServiceProcess;
-
-    using WCF.ServiceLibrary.Interfaces;
 
     [ServiceBehavior(
         InstanceContextMode = InstanceContextMode.Single,
@@ -195,8 +190,6 @@ namespace WCF.ServiceLibrary
                 log.Error(String.Format("Failed in creating and initializing TellstickDB."), ex);
             }
         }
-        
-        #region Turn on/off device
 
         public string TurnOnTellstickDevice(string name)
         {
@@ -236,9 +229,7 @@ namespace WCF.ServiceLibrary
             }
             return returnMessage;
         }
-
-        #endregion
-
+        
         public LastPerformedTellstickAction LastPerformedAction(string name)
         {
             var lastPerformedAction = new LastPerformedTellstickAction();

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using Core.Model.Enums;
 
 namespace Core.Model
@@ -16,7 +14,7 @@ namespace Core.Model
             _context = context;
         }
 
-        public TellstickAction TellstickActionToSaveAsync(string tellstickUnitName, ActionTypeOption actionTypeOption, string cronExpression)
+        public TellstickAction TellstickActionToSave(string tellstickUnitName, ActionTypeOption actionTypeOption, string cronExpression)
         {
             var tellstickAction = new TellstickAction();
 
@@ -43,7 +41,7 @@ namespace Core.Model
         }
 
 
-        public List<TellstickAction> TellstickActionsToSaveAsync(List<Tuple<string, ActionTypeOption, string>> tellstickActionData)
+        public List<TellstickAction> TellstickActionsToSave(List<Tuple<string, ActionTypeOption, string>> tellstickActionData)
         {
             var tellstickActionsToSave = new List<TellstickAction>();
             foreach (var data in tellstickActionData)
@@ -52,7 +50,7 @@ namespace Core.Model
                 var actionTypeOption = data.Item2;
                 var cronExpression = data.Item3;
 
-                var tellstickActionToSave =  TellstickActionToSaveAsync(tellstickUnitName: tellstickUnitName,
+                var tellstickActionToSave =  TellstickActionToSave(tellstickUnitName: tellstickUnitName,
                     actionTypeOption: actionTypeOption, cronExpression: cronExpression);
 
                 tellstickActionsToSave.Add(tellstickActionToSave);

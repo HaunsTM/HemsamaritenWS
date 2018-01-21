@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Core.Model
 {
-    public class MediaSource : IMediaSource
+    public class MediaSourceCategory : IMediaSourceCategory
     {
         #region IEntity members
 
@@ -15,22 +15,18 @@ namespace Core.Model
 
         #endregion
 
-        public string Url { get; set; }
-        public string MediaDataBase64 { get; set; }
+        public Enums.MediaCategoryType MediaCategoryType{ get; set; }
 
         #region Navigation properties
-
+        
         [JsonIgnore]
-        public virtual MediaSourceCategory MediaSourceCategory { get; set; }
-
-        [JsonIgnore]
-        public virtual List<MediaAction> MediaActions { get; set; }
+        public virtual List<MediaSource> MediaSources { get; set; }
 
         #endregion
 
-        public MediaSource()
+        public MediaSourceCategory()
         {
-            this.MediaActions = new List<MediaAction>();
+            this.MediaSources = new List<MediaSource>();
         }
     }
 }

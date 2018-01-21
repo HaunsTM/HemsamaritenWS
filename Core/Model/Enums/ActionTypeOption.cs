@@ -1,14 +1,20 @@
-﻿namespace Core.Model.Enums
-{
-    using System.ComponentModel;
+﻿using System.ComponentModel;
 
-    public enum ActionTypeOption
+namespace Core.Model.Enums
+{
+    public enum MediaCategoryType
     {
-        [Description("Turn on")]
-        TurnOn,
-        [Description("Turn off")]
-        TurnOff,
-        [Description("Refresh bearer token")]
-        RefreshBearerToken
+        [Description("Internet radio - music")]
+        InternetStreamRadioMusic,
+        [Description("Internet radio - classical music")]
+        InternetStreamRadioMusicClassical,
+        [Description("Internet radio - dinner music")]
+        InternetStreamRadioMusicDinner,
+        [Description("Internet radio - talk")]
+        InternetStreamRadioTalk,
+        [Description("Internet radio - news talk")]
+        InternetStreamRadioTalkNews,
+        [Description("Database - alarm sound")]
+        DatabaseB64SoundAlarm
     }
 }

@@ -11877,7 +11877,7 @@ namespace Core.Model
 
             };
 
-            var tellstickActions = Task.Run(() => defaultDataDbInitializerHelper.TellstickActionsToSaveAsync(tellstickActionsToSave)).Result;
+            var tellstickActions = Task.Run(() => defaultDataDbInitializerHelper.TellstickActionsToSave(tellstickActionsToSave)).Result;
 
             context.TellstickActions.AddRange(tellstickActions);
 
