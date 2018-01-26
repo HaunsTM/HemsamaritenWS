@@ -114,6 +114,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />
+    <Compile Include="DefaultDataDBInitializer - Audio - Base64.cs" />
+    <Compile Include="DefaultDataDBInitializer - Schedulers.cs" />
     <Compile Include="DefaultDataDBInitializer.cs" />
     <Compile Include="DefaultDataDbInitializerHelper.cs" />
     <Compile Include="Enums\ActionTypeOption.cs" />
