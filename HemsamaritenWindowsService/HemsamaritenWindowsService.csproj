@@ -170,7 +170,7 @@ if "$(ConfigurationName)" == "Deploy to Hemsamariten" goto copyAudioFiles
 if "$(ConfigurationName)" == "Run locally on Hemsamariten" goto copyAudioFiles
 goto copyAudioFilesDone
 :copyAudioFiles
-robocopy "$(SolutionDir)Tellstick\Audio\Media" "$(TargetDir)Media" /is /mir /e
+robocopy "$(SolutionDir)Core\Audio\Media" "$(TargetDir)Media" /is /mir /e
 if %25errorlevel%25 leq 1 exit 0 else exit %25errorlevel%25
 :copyAudioFilesDone
 

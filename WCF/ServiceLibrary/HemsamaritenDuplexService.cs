@@ -70,7 +70,7 @@ namespace WCF.ServiceLibrary
         
         #region Tellstick
 
-        private Core.BLL.JobScheduler TellstickJobScheduler { get; set; }
+        private Core.BLL.TellstickJobScheduler TellstickJobScheduler { get; set; }
 
         public void DumpCurrentlyExecutingTellstickJobsNamesToLog()
         {
@@ -133,7 +133,7 @@ namespace WCF.ServiceLibrary
             {
                 lock (_syncRoot)
                 {
-                    this.TellstickJobScheduler = new Core.BLL.JobScheduler(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                    this.TellstickJobScheduler = new Core.BLL.TellstickJobScheduler(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
                     this.TellstickJobScheduler.Start();
 
                     log.Debug(String.Format("Started TellstickScheduler."));

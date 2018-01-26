@@ -139,7 +139,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionsDealer.cs" />
     <Compile Include="ActionTypesDealer.cs" />
     <Compile Include="DatabaseDealer.cs" />
     <Compile Include="Interfaces\IActionsDealer.cs" />
@@ -151,10 +150,11 @@
     <Compile Include="Interfaces\ISchedulerDealer.cs" />
     <Compile Include="Interfaces\ITellstickUnitDealer.cs" />
     <Compile Include="Interfaces\IUnitDealer.cs" />
+    <Compile Include="TellstickActionsDealer.cs" />
     <Compile Include="UnitDealer.cs" />
     <Compile Include="SchedulerDealer.cs" />
     <Compile Include="TellstickJob.cs" />
-    <Compile Include="JobScheduler.cs" />
+    <Compile Include="TellstickJobScheduler.cs" />
     <Compile Include="PerformedActionsDealer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TellStickZNetCommander.cs" />

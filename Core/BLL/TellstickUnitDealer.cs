@@ -22,7 +22,7 @@
         {
             DbConnectionStringName = dbConnectionStringName;
             NativeCommander = new TellStickZNetCommander(dbConnectionStringName);
-            ActionsDealer = new ActionsDealer(dbConnectionStringName: dbConnectionStringName);
+            ActionsDealer = new TellstickActionsDealer(dbConnectionStringName: dbConnectionStringName);
         }
         
         #region TurnOnDevice (without registration to PerformedAction table)

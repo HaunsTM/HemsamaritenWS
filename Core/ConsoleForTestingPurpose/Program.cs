@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using Core.Audio;
 using Core.BLL;
+using Core.Model.Enums;
 using log4net;
 
 //Here is the once-per-application setup information
@@ -20,13 +22,13 @@ namespace Tellstick.ConsoleForTestingPurpose
         static void Main(string[] args)
         {
             //TestScheduler();
-            CreateDBTest(DB_CONNECTION_STRING_NAME);
+            //CreateDBTest(DB_CONNECTION_STRING_NAME);
             //var registeredDevice = RegisterDevice(dbConnectionStringName: DB_CONNECTION_STRING_NAME, commander: new NativeTellstickCommander(), name: "Ett namn på en Tellstick", locationDesciption: "Liggandes på skrivbordet i Hans rum", protocol: EnumTellstickProtocol.arctech, modelType: EnumTellstickModelType.codeswitch, modelManufacturer: EnumTellstickModelManufacturer.Nexa, unit: EnumTellstickParameter_Unit._1, house: EnumTellstickParameter_House.A);
             //new TellstickUnitDealer(DB_CONNECTION_STRING_NAME, new NativeTellstickCommander()).TurnOnDevice(
             //    registeredDevice);
             //DisplayInfo();
             //var un12 = UnregisterDevice(nativeDeviceId: 12, dbConnectionStringName: DB_CONNECTION_STRING_NAME, commander: new NativeTellstickCommander());
-            //PlaySound();
+            PlaySound(DB_CONNECTION_STRING_NAME);
         }
 
 
@@ -45,25 +47,38 @@ namespace Tellstick.ConsoleForTestingPurpose
         
         private static void TestScheduler()
         {
-            JobScheduler jobScheduler;
-            jobScheduler = new JobScheduler(DB_CONNECTION_STRING_NAME);
+            TellstickJobScheduler jobScheduler;
+            jobScheduler = new TellstickJobScheduler(DB_CONNECTION_STRING_NAME);
             jobScheduler.Start();
             Thread.Sleep(10000);
             jobScheduler.Stop();
             Thread.Sleep(10000);
-            jobScheduler = new JobScheduler(DB_CONNECTION_STRING_NAME);
+            jobScheduler = new TellstickJobScheduler(DB_CONNECTION_STRING_NAME);
             jobScheduler.Start();
         }
 
-
-        private static void PlaySound()
+        private static void PlaySound(string dbConnectionStringName)
         {
             var mediaPlayer = new WMPLib.WindowsMediaPlayer();
             var windowsNativeAudioSystem = new SystemVolumeConfigurator();
             var player = new Core.Audio.Player(mediaPlayer, windowsNativeAudioSystem);
             //player
+
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(dbConnectionStringName))
+            {
+                var mediaSource = db.MediaSources
+                    .Where(mS => mS.Active && mS.Url == "Media/Animal-Dog-Growl-BullTerrier-02.flac").Select(x => x)
+                    .FirstOrDefault();
+
+                var mediaVolume =
+                    db.MediaOutputVolumes.Where(vol => vol.Active && vol.Label == MediaOutputVolumeValue._50).Select(x => x)
+                        .FirstOrDefault();
+
+                player.Play(mediaSource, mediaVolume);
+            }
+            Console.ReadLine();
         }
 
-        
+
     }
 }

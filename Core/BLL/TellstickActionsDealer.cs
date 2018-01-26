@@ -15,7 +15,7 @@ namespace Core.BLL
         public string[] cronExpressions { get; set; }
     }
 
-    public class ActionsDealer : IActionsDealer
+    public class TellstickActionsDealer : IActionsDealer
     {
 
         private static readonly ILog log =
@@ -23,7 +23,7 @@ namespace Core.BLL
 
         public string DbConnectionStringName { get; private set; }
 
-        public ActionsDealer(string dbConnectionStringName)
+        public TellstickActionsDealer(string dbConnectionStringName)
         {
             DbConnectionStringName = dbConnectionStringName;
         }

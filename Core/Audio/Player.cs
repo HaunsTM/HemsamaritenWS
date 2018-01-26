@@ -44,7 +44,7 @@ namespace Core.Audio
 
         public void Play(IMediaSource mediaSource)
         {
-            if (mediaSource.MediaDataBase64 == null)
+            if (mediaSource.MediaDataBase64 != null)
             {
                 throw new NotImplementedException("Playing media from data in base 64 format is not yet implemented");
             }

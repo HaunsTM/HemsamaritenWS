@@ -14,7 +14,7 @@ using IScheduler = Core.Model.Interfaces.IScheduler;
 
 namespace Core.BLL
 {
-    public class JobScheduler : IJobScheduler
+    public class TellstickJobScheduler : IJobScheduler
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -29,7 +29,7 @@ namespace Core.BLL
             return properties;
         }
 
-        public JobScheduler(string dbConnectionStringName)
+        public TellstickJobScheduler(string dbConnectionStringName)
         {
             this.DbConnectionStringName = dbConnectionStringName;
 

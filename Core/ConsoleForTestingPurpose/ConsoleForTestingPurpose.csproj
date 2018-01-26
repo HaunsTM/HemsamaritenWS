@@ -156,8 +156,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rem robocopy "$(SolutionDir)Audio\Media" "$(TargetDir)Media" /is /mir /e
-rem if %25errorlevel%25 leq 1 exit 0 else exit %25errorlevel%25</PostBuildEvent>
+    <PostBuildEvent>robocopy "$(SolutionDir)Core\Audio\Media" "$(TargetDir)Media" /is /mir /e
+if %25errorlevel%25 leq 1 exit 0 else exit %25errorlevel%25</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
