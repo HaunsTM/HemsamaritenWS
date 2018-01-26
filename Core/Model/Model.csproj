@@ -115,18 +115,18 @@
   <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="DefaultDataDBInitializer - Audio - MediaSourcesSoundEffects.cs" />
-    <Compile Include="DefaultDataDBInitializer - Audio - RadioStations.cs" />
+    <Compile Include="DefaultDataDBInitializer - Audio - MediaSourcesRadioStations.cs" />
     <Compile Include="DefaultDataDBInitializer - Schedulers.cs" />
     <Compile Include="DefaultDataDBInitializer.cs" />
     <Compile Include="DefaultDataDbInitializerHelper.cs" />
-    <Compile Include="Enums\ActionTypeOption.cs" />
+    <Compile Include="Enums\MediaOutputVolumeValue.cs" />
+    <Compile Include="Enums\TellstickActionTypeOption.cs" />
     <Compile Include="Enums\Helper.cs" />
     <Compile Include="Enums\MediaCategoryType.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IMediaAction.cs" />
     <Compile Include="Interfaces\IMediaActionType.cs" />
-    <Compile Include="Interfaces\IMediaOutput.cs" />
-    <Compile Include="Interfaces\IMediaOutputSetting.cs" />
+    <Compile Include="Interfaces\IMediaOutputVolume.cs" />
     <Compile Include="Interfaces\IMediaSource.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Interfaces\ITellstickActionType.cs" />
@@ -138,8 +138,7 @@
     <Compile Include="Interfaces\IPerformedAction.cs" />
     <Compile Include="MediaAction.cs" />
     <Compile Include="MediaActionType.cs" />
-    <Compile Include="MediaOutput.cs" />
-    <Compile Include="MediaOutputSetting.cs" />
+    <Compile Include="MediaOutputVolume.cs" />
     <Compile Include="MediaSource.cs" />
     <Compile Include="PerformedAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

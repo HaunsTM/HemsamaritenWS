@@ -35,7 +35,7 @@ namespace Core.BLL
         /// <param name="actionTypeOption"></param>
         /// <param name="scheduler"></param>
         /// <returns>An Action if it is found, NULL if it is not found</returns>
-        public Core.Model.TellstickAction ActionExists(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption, Core.Model.Interfaces.IScheduler scheduler)
+        public Core.Model.TellstickAction ActionExists(int nativeDeviceId, Core.Model.Enums.TellstickActionTypeOption actionTypeOption, Core.Model.Interfaces.IScheduler scheduler)
         {
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
@@ -76,7 +76,7 @@ namespace Core.BLL
             }
         }
 
-        public Core.Model.TellstickAction RegisterNewManualAction(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption)
+        public Core.Model.TellstickAction RegisterNewManualAction(int nativeDeviceId, Core.Model.Enums.TellstickActionTypeOption actionTypeOption)
         {
             try
             {

@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using Core.Model.Interfaces;
+
 namespace Core.Audio
 {
-    public class Player
+    public class Player : IPlayer
     {
         //https://msdn.microsoft.com/en-us/library/windows/desktop/dd562692(v=vs.85).aspx
         private WMPLib.WindowsMediaPlayer _mediaPlayer;
-
         private ISystemVolumeConfigurator _windowsNativeAudioSystem;
 
         public Player(WMPLib.WindowsMediaPlayer mediaPlayer, ISystemVolumeConfigurator windowsNativeAudioSystem)
@@ -40,11 +42,26 @@ namespace Core.Audio
             _mediaPlayer.controls.play();
         }
 
-        public void Bark()
+        public void Play(IMediaSource mediaSource)
         {
-            this.Volume = 100;
-            this.Play(@"http://live-icy.gss.dr.dk/A/A03H.mp3.m3u");
-            int i = 0;
+            if (mediaSource.MediaDataBase64 == null)
+            {
+                throw new NotImplementedException("Playing media from data in base 64 format is not yet implemented");
+            }
+            var url = mediaSource.Url;
+            this.Play(url);
+        }
+
+        public void Play(IMediaSource mediaSource, IMediaOutputVolume mediaOutputVolume)
+        {
+            this.Volume = mediaOutputVolume.Value;
+
+            this.Play(mediaSource);
+        }
+
+        public void Stop()
+        {
+            _mediaPlayer.controls.stop();
         }
     }
 }

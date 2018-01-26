@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Core.Model
 {
-    public class MediaOutput : IMediaOutput
+    public class MediaOutputVolume : IMediaOutputVolume
     {
         #region IEntity members
 
@@ -15,6 +15,10 @@ namespace Core.Model
 
         #endregion
 
+        [Range(0, 100, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
+        public int Value { get; set; }
+        public Enums.MediaOutputVolumeValue Label { get; set; }
+
         #region Navigation properties
 
         [JsonIgnore]
@@ -22,7 +26,7 @@ namespace Core.Model
 
         #endregion
 
-        public MediaOutput()
+        public MediaOutputVolume ()
         {
             this.MediaActions = new List<MediaAction>();
         }

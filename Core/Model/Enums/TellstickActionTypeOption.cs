@@ -2,7 +2,7 @@
 
 namespace Core.Model.Enums
 {
-    public enum ActionTypeOption
+    public enum TellstickActionTypeOption
     {
         [Description("Turn on")]
         TurnOn,

@@ -275,14 +275,14 @@
                 Core.Model.TellstickAction usedAction = null;
 
                 //do we have an Action in db for this event already?
-                var possibleRegisteredAction = ActionsDealer.ActionExists(nativeDeviceId: nativeDeviceId, actionTypeOption: ActionTypeOption.TurnOn, scheduler: null);
+                var possibleRegisteredAction = ActionsDealer.ActionExists(nativeDeviceId: nativeDeviceId, actionTypeOption: TellstickActionTypeOption.TurnOn, scheduler: null);
 
                 usedAction = possibleRegisteredAction;
 
                 if (possibleRegisteredAction == null)
                 {
                     //no we haven't, register an new Action
-                    usedAction = ActionsDealer.RegisterNewManualAction(nativeDeviceId: nativeDeviceId, actionTypeOption: ActionTypeOption.TurnOn);
+                    usedAction = ActionsDealer.RegisterNewManualAction(nativeDeviceId: nativeDeviceId, actionTypeOption: TellstickActionTypeOption.TurnOn);
                 }
 
                 using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
@@ -296,7 +296,7 @@
             }
             catch (Exception ex)
             {
-                throw new Exception(String.Format("Couldn't register manual {0} to db for Tellstick.NativeDeviceId={1} at time={2}.", ActionTypeOption.TurnOn.GetAttributeOfType<DescriptionAttribute>().Description, nativeDeviceId, time), ex);
+                throw new Exception(String.Format("Couldn't register manual {0} to db for Tellstick.NativeDeviceId={1} at time={2}.", TellstickActionTypeOption.TurnOn.GetAttributeOfType<DescriptionAttribute>().Description, nativeDeviceId, time), ex);
             }
 
             return registered;
@@ -310,14 +310,14 @@
                 Core.Model.TellstickAction usedAction = null;
 
                 //do we have an Action in db for this event already?
-                var possibleRegisteredAction = ActionsDealer.ActionExists(nativeDeviceId: nativeDeviceId, actionTypeOption: ActionTypeOption.TurnOff, scheduler: null);
+                var possibleRegisteredAction = ActionsDealer.ActionExists(nativeDeviceId: nativeDeviceId, actionTypeOption: TellstickActionTypeOption.TurnOff, scheduler: null);
 
                 usedAction = possibleRegisteredAction;
 
                 if (possibleRegisteredAction == null)
                 {
                     //no we haven't, register an new Action
-                    usedAction = ActionsDealer.RegisterNewManualAction(nativeDeviceId: nativeDeviceId, actionTypeOption: ActionTypeOption.TurnOff);
+                    usedAction = ActionsDealer.RegisterNewManualAction(nativeDeviceId: nativeDeviceId, actionTypeOption: TellstickActionTypeOption.TurnOff);
                 }
 
                 using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
@@ -331,7 +331,7 @@
             }
             catch (Exception ex)
             {
-                throw new Exception(String.Format("Couldn't register manual {0} to db for Tellstick.NativeDeviceId={1} at time={2}.", ActionTypeOption.TurnOff.GetAttributeOfType<DescriptionAttribute>().Description, nativeDeviceId, time), ex);
+                throw new Exception(String.Format("Couldn't register manual {0} to db for Tellstick.NativeDeviceId={1} at time={2}.", TellstickActionTypeOption.TurnOff.GetAttributeOfType<DescriptionAttribute>().Description, nativeDeviceId, time), ex);
             }
 
             return registered;

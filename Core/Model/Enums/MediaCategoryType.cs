@@ -6,7 +6,7 @@ namespace Core.Model.Enums
     {
         [Description("Internet radio")]
         InternetStreamRadio,
-        [Description("FileSoundEffect")]
+        [Description("File sound effect")]
         FileSoundEffect
     }
 }

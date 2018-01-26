@@ -14,7 +14,7 @@ namespace Core.Model
             _context = context;
         }
 
-        public TellstickAction TellstickActionToSave(bool active, string tellstickUnitName, ActionTypeOption actionTypeOption, string cronExpression)
+        public TellstickAction TellstickActionToSave(bool active, string tellstickUnitName, TellstickActionTypeOption actionTypeOption, string cronExpression)
         {
             var tellstickAction = new TellstickAction();
 
@@ -42,7 +42,7 @@ namespace Core.Model
         }
 
 
-        public List<TellstickAction> TellstickActionsToSave(List<Tuple<bool, string, ActionTypeOption, string>> tellstickActionData)
+        public List<TellstickAction> TellstickActionsToSave(List<Tuple<bool, string, TellstickActionTypeOption, string>> tellstickActionData)
         {
             var tellstickActionsToSave = new List<TellstickAction>();
             foreach (var data in tellstickActionData)

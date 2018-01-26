@@ -16,7 +16,7 @@ namespace Core.Model
 
         #endregion
 
-        public Enums.ActionTypeOption ActionTypeOption { get; set; }
+        public Enums.TellstickActionTypeOption ActionTypeOption { get; set; }
 
         #region Navigation properties
 

@@ -1,12 +1,11 @@
-﻿namespace Core.BLL
+﻿using System;
+
+using Quartz;
+
+using Core.Model.Enums;
+
+namespace Core.BLL
 {
-    using System;
-
-    using Quartz;
-
-    using Core.BLL.Interfaces;
-    using Core.Model.Enums;
-
     [DisallowConcurrentExecution]
     public class TellstickJob : IJob
     {
@@ -28,7 +27,7 @@
                 #region Job Data
 
                 var jsonSerializedCurrentTellstickActionType = dataMap.GetString("jsonSerializedTellstickActionType");
-                var currentTellstickActionType = Newtonsoft.Json.JsonConvert.DeserializeObject<ActionTypeOption>(jsonSerializedCurrentTellstickActionType);
+                var currentTellstickActionType = Newtonsoft.Json.JsonConvert.DeserializeObject<TellstickActionTypeOption>(jsonSerializedCurrentTellstickActionType);
 
                 var jsonSerializedCurrentNativeDeviceId = dataMap.GetString("jsonSerializedCurrentNativeDeviceId");
                 var nativeDeviceId = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(jsonSerializedCurrentNativeDeviceId);
@@ -62,21 +61,21 @@
             }
         }
 
-        private bool PerformWork(ActionTypeOption actionTypeOption, ITellstickUnitDealer commander, int nativeDeviceId)
+        private bool PerformWork(TellstickActionTypeOption actionTypeOption, ITellstickUnitDealer commander, int nativeDeviceId)
         {
             var workPerformed = false;
 
             switch (actionTypeOption)
             {
-                case ActionTypeOption.TurnOn:
+                case TellstickActionTypeOption.TurnOn:
                     commander.TurnOnDevice(nativeDeviceId);
                     workPerformed = true;
                     break;
-                case ActionTypeOption.TurnOff:
+                case TellstickActionTypeOption.TurnOff:
                     commander.TurnOffDevice(nativeDeviceId);
                     workPerformed = true;
                     break;
-                case ActionTypeOption.RefreshBearerToken:
+                case TellstickActionTypeOption.RefreshBearerToken:
                     commander.RefreshBearerToken();
                     workPerformed = true;
                     break;

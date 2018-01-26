@@ -16,10 +16,10 @@ namespace Core.BLL.Interfaces
 
         Core.Model.TellstickAction ActionExists(
             int nativeDeviceId,
-            Core.Model.Enums.ActionTypeOption actionTypeOption,
+            Core.Model.Enums.TellstickActionTypeOption actionTypeOption,
             Core.Model.Interfaces.IScheduler scheduler);
 
-        Core.Model.TellstickAction RegisterNewManualAction(int nativeDeviceId, Core.Model.Enums.ActionTypeOption actionTypeOption);
+        Core.Model.TellstickAction RegisterNewManualAction(int nativeDeviceId, Core.Model.Enums.TellstickActionTypeOption actionTypeOption);
 
         List<Core.Model.TellstickAction> ActivateActionsFor(IActionSearchParameters searchParameters);
         

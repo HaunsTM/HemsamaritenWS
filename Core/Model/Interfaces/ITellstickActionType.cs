@@ -2,6 +2,6 @@
 {
     public interface ITellstickActionType : IEntity
     {
-        Core.Model.Enums.ActionTypeOption ActionTypeOption { get; set; }
+        Core.Model.Enums.TellstickActionTypeOption ActionTypeOption { get; set; }
     }
 }

@@ -61,8 +61,9 @@ namespace Tellstick.ConsoleForTestingPurpose
             var mediaPlayer = new WMPLib.WindowsMediaPlayer();
             var windowsNativeAudioSystem = new SystemVolumeConfigurator();
             var player = new Core.Audio.Player(mediaPlayer, windowsNativeAudioSystem);
-            player.Bark();
+            //player
         }
+
         
     }
 }
