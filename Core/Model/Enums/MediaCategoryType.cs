@@ -6,7 +6,7 @@ namespace Core.Model.Enums
     {
         [Description("Internet radio")]
         InternetStreamRadio,
-        [Description("Database - alarm sound")]
-        DatabaseB64SoundAlarm
+        [Description("FileSoundEffect")]
+        FileSoundEffect
     }
 }

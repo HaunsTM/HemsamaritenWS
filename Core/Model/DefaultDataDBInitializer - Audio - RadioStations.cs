@@ -4,7 +4,7 @@ namespace Core.Model
 {
     public partial class DefaultDataDbInitializer
     {
-        private MediaSource[] MediaSources()
+        private MediaSource[] MediaSourcesRadioStations()
         {
             var mediaSources = new MediaSource[]
             {
