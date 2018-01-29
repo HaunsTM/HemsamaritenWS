@@ -1,13 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Core.Model.Interfaces;
 using Newtonsoft.Json;
 
 namespace Core.Model
 {
+    [Table("MediaActions")]
     public class MediaAction : Action, IMediaAction
     {
+        #region IEntity members
+
+        [Key]
+        public int Id { get; set; }
+        public bool Active { get; set; }
+
+        #endregion
+
         #region Navigation properties
-        
+
         [JsonIgnore]
         public virtual MediaSource MediaSource { get; set; }
         [JsonIgnore]

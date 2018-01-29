@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Core.Model
 {
-    public abstract class Action : IEntity
+    public abstract class Action : IAction
     {
         #region IEntity members
 
