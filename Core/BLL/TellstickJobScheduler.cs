@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using Core.Model;
 using log4net;
 
 using Quartz;
@@ -173,7 +174,7 @@ namespace Core.BLL
             {
                 using (var db = new Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
                 {
-                    var queryResult = from activeAction in db.TellstickActions
+                    var queryResult = from activeAction in db.Actions.OfType<TellstickAction>()
                                       where (activeAction.Active == true) &&
                                             (activeAction.Scheduler != null ? activeAction.Scheduler.Active == true : false) &&
                                             (activeAction.TellstickActionType.Active == true) &&

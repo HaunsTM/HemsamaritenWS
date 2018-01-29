@@ -53,7 +53,7 @@ namespace Core.BLL
                 switch (scheduler == null)
                 {
                     case true:
-                        actionToSearchFor = (from existingAction in db.TellstickActions
+                        actionToSearchFor = (from existingAction in db.Actions.OfType<TellstickAction>()
                                              where
                                                  existingAction.Active == true
                                                  && existingAction.TellstickUnit.Id == currentUnit.Id
@@ -61,7 +61,7 @@ namespace Core.BLL
                                              select existingAction).FirstOrDefault();
                         break;
                     case false:
-                        actionToSearchFor = (from existingAction in db.TellstickActions
+                        actionToSearchFor = (from existingAction in db.Actions.OfType<TellstickAction>()
                                              where
                                                  existingAction.Active == true
                                                  && existingAction.Scheduler.Id == scheduler.Id
@@ -97,7 +97,7 @@ namespace Core.BLL
                                                     TellstickUnit = currentUnit
                                                 };
 
-                    db.TellstickActions.Add(newManualAction);
+                    db.Actions.Add(newManualAction);
                     db.SaveChanges();
 
                     // Return the new action from the existing entity, which was updated when the record was saved to the database
@@ -116,7 +116,7 @@ namespace Core.BLL
         {
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
-                var actions = (from a in db.TellstickActions
+                var actions = (from a in db.Actions.OfType<TellstickAction>()
                                orderby a.TellstickUnit_Id
                                select a).ToList();
                 return actions;
@@ -127,8 +127,8 @@ namespace Core.BLL
         {
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
-                var actions = from a in db.TellstickActions
-                               where a.TellstickUnit_Id == unitId
+                var actions = from a in db.Actions.OfType<TellstickAction>()
+                              where a.TellstickUnit_Id == unitId
                                select a;
 
                 return actions;
@@ -139,8 +139,8 @@ namespace Core.BLL
         {
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
-                var actions = from a in db.TellstickActions
-                    where a.TellstickUnit_Id == unitId && a.Active == activeStatus
+                var actions = from a in db.Actions.OfType<TellstickAction>()
+                              where a.TellstickUnit_Id == unitId && a.Active == activeStatus
                     select a;
                 return actions;
             }
@@ -165,13 +165,13 @@ namespace Core.BLL
                     var schedulersThatShouldBeUsed = sD.GetSchedulersBy(searchParameters.cronExpressions.ToList());
                     var unitIdToUse = int.Parse(searchParameters.unitId);
                     var currentUnit = uD.UnitBy(unitIdToUse);
-                    var actionTypeOption = aTD.ActionTypeOptionBy(searchParameters.actionTypeOption);
-                    var currentActionType = aTD.GetActionTypeBy(actionTypeOption);
+                    var actionTypeOption = aTD.TellstickActionTypeOptionBy(searchParameters.actionTypeOption);
+                    var currentActionType = aTD.GetTellstickActionTypeBy(actionTypeOption);
                     
                     var schedulersIdsList = (from s in schedulersThatShouldBeUsed
                                              select s.Id).ToList();
-                    var availableActionsThatCanBeUsed = (from a in db.TellstickActions
-                                                        where a.TellstickUnit_Id == unitIdToUse && schedulersIdsList.Contains((int)a.Scheduler_Id) && a.TellstickActionType.ActionTypeOption == actionTypeOption
+                    var availableActionsThatCanBeUsed = (from a in db.Actions.OfType<TellstickAction>()
+                                                         where a.TellstickUnit_Id == unitIdToUse && schedulersIdsList.Contains((int)a.Scheduler_Id) && a.TellstickActionType.ActionTypeOption == actionTypeOption
                                                         select a).ToList();
 
                     var availableActionsSchedulers = new List<Scheduler>();
@@ -202,7 +202,7 @@ namespace Core.BLL
                             TellstickUnit_Id = currentUnit.Id
                         };
 
-                        db.TellstickActions.Add(newAction);
+                        db.Actions.Add(newAction);
 
                     }
 
@@ -210,8 +210,8 @@ namespace Core.BLL
                     try
                     {
                         db.SaveChanges();
-                        var allActionsForCurrentUnit = (from action in db.TellstickActions
-                            where action.TellstickUnit.Id == unitIdToUse
+                        var allActionsForCurrentUnit = (from action in db.Actions.OfType<TellstickAction>()
+                                                        where action.TellstickUnit.Id == unitIdToUse
                             select action).ToList();
                         return allActionsForCurrentUnit;
                     }

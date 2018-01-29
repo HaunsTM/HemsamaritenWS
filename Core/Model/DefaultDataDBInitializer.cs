@@ -18,7 +18,7 @@ namespace Core.Model
                 {
                     Active = true,
                     Expires = 1543826561,
-                    Token =                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImF1ZCI6IkhlbXNhbWFyaXRlbkFwcCIsImV4cCI6MTU0MzgyNjU2MX0.eyJyZW5ldyI6dHJ1ZSwidHRsIjozMTUzNjAwMH0.K-pAl9gNbMSZEYkYYdzDrntUQRkgg9CPCOT3imr6qm0",
+                    Token =  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImF1ZCI6IkhlbXNhbWFyaXRlbkFwcCIsImV4cCI6MTU0MzgyNjU2MX0.eyJyZW5ldyI6dHJ1ZSwidHRsIjozMTUzNjAwMH0.K-pAl9gNbMSZEYkYYdzDrntUQRkgg9CPCOT3imr6qm0",
                     Received = new DateTime(year: 2017, month: 12, day: 03 )
                 };
             }
@@ -397,7 +397,7 @@ namespace Core.Model
 
             var tellstickActions = defaultDataDbInitializerHelper.TellstickActionsToSave(tellstickActionsToSave);
 
-            context.TellstickActions.AddRange(tellstickActions);
+            context.Actions.AddRange(tellstickActions);
 
             // other changed properties
             context.SaveChanges();

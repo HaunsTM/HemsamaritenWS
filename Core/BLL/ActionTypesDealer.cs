@@ -18,7 +18,7 @@ namespace Core.BLL
             DbConnectionStringName = dbConnectionStringName;
         }
 
-        public Core.Model.TellstickActionType GetActionTypeBy(TellstickActionTypeOption actionTypeOption)
+        public Core.Model.TellstickActionType GetTellstickActionTypeBy(TellstickActionTypeOption actionTypeOption)
         {
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
@@ -30,7 +30,7 @@ namespace Core.BLL
             }
         }
 
-        public TellstickActionTypeOption ActionTypeOptionBy(string name)
+        public TellstickActionTypeOption TellstickActionTypeOptionBy(string name)
         {
             var actionTypeOption = (TellstickActionTypeOption)System.Enum.Parse(typeof(TellstickActionTypeOption), name);
             return actionTypeOption;
