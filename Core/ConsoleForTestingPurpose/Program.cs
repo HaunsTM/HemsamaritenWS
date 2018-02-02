@@ -28,6 +28,7 @@ namespace Tellstick.ConsoleForTestingPurpose
             //    registeredDevice);
             //DisplayInfo();
             //var un12 = UnregisterDevice(nativeDeviceId: 12, dbConnectionStringName: DB_CONNECTION_STRING_NAME, commander: new NativeTellstickCommander());
+            //PlaySound();
             //PlaySound(DB_CONNECTION_STRING_NAME);
         }
 
@@ -57,11 +58,15 @@ namespace Tellstick.ConsoleForTestingPurpose
             jobScheduler.Start();
         }
 
+        private static void PlaySound()
+        {
+            Core.Audio.Player.Instance.Play("Media/Animal-Dog-Growl-BullTerrier-02.flac");
+            Console.ReadLine();
+        }
+
         private static void PlaySound(string dbConnectionStringName)
         {
-            var mediaPlayer = new WMPLib.WindowsMediaPlayer();
-            var windowsNativeAudioSystem = new SystemVolumeConfigurator();
-            var player = new Core.Audio.Player(mediaPlayer, windowsNativeAudioSystem);
+            var player = Core.Audio.Player.Instance;
             //player
 
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(dbConnectionStringName))

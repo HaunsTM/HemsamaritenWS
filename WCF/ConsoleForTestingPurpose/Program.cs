@@ -11,7 +11,7 @@
         static void Main(string[] args)
         {
             log4net.Config.XmlConfigurator.Configure();
-            //CreateLog4NetDB();
+            CreateLog4NetDB();
             //TestLogger();
             Console.ReadLine();
         }

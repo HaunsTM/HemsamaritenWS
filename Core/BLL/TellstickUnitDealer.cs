@@ -16,7 +16,7 @@
     {
         public string DbConnectionStringName { get; private set; }
         private ITellStickZNetCommander NativeCommander { get; set; }
-        private IActionsDealer ActionsDealer { get; set; }
+        private ITellstickActionsDealer ActionsDealer { get; set; }
 
         public TellstickUnitDealer(string dbConnectionStringName)
         {

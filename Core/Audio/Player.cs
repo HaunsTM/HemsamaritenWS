@@ -1,21 +1,36 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using AudioSwitcher.AudioApi.CoreAudio;
 using Core.Model.Interfaces;
 
 namespace Core.Audio
 {
-    public class Player : IPlayer
+    public sealed class Player
     {
         //https://msdn.microsoft.com/en-us/library/windows/desktop/dd562692(v=vs.85).aspx
         private WMPLib.WindowsMediaPlayer _mediaPlayer;
-        private ISystemVolumeConfigurator _windowsNativeAudioSystem;
+        private CoreAudioDevice _windowsNativeAudioSystem;
 
-        public Player(WMPLib.WindowsMediaPlayer mediaPlayer, ISystemVolumeConfigurator windowsNativeAudioSystem)
+        private Player()
         {
-            _mediaPlayer = mediaPlayer;
-            _windowsNativeAudioSystem = windowsNativeAudioSystem;
+            _mediaPlayer = new WMPLib.WindowsMediaPlayer();
 
+            _windowsNativeAudioSystem = new CoreAudioController().DefaultPlaybackDevice;
+            
             SetInitilalSettings();
+        }
+
+        public static Player Instance { get { return Nested.instance; } }
+
+        private class Nested
+        {
+            // Explicit static constructor to tell C# compiler
+            // not to mark type as beforefieldinit
+            static Nested()
+            {
+            }
+
+            internal static readonly Player instance = new Player();
         }
 
         private void SetInitilalSettings()
@@ -36,8 +51,16 @@ namespace Core.Audio
             set { _mediaPlayer.settings.volume = value; }
         }
 
-        private void Play(string url)
+        public void Play(string url)
         {
+            _mediaPlayer.URL = url;
+            _mediaPlayer.controls.play();
+        }
+
+        public void Play(string url, int mediaOutputVolume)
+        {
+            this.Volume = mediaOutputVolume;
+
             _mediaPlayer.URL = url;
             _mediaPlayer.controls.play();
         }

@@ -1,6 +1,6 @@
 ﻿namespace Core.Model.Interfaces
 {
-    interface IMediaAction : IEntity
+    public interface IMediaAction : IEntity
     {
     }
 }

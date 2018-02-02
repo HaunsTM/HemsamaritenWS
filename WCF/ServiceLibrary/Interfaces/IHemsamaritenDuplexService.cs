@@ -4,7 +4,7 @@
     using System.ServiceModel;
 
     [ServiceContract(CallbackContract = typeof(IHemsamaritenDuplexCallback))]
-    public interface IHemsamaritenDuplexService : ITellstickDuplexService
+    public interface IHemsamaritenDuplexService : ITellstickDuplexService, IMediaDuplexService
     {
         [OperationContract(IsOneWay = true)]
         void CreateAndInitializeHemsamaritenDB();

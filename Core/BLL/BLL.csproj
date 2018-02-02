@@ -141,7 +141,8 @@
   <ItemGroup>
     <Compile Include="ActionTypesDealer.cs" />
     <Compile Include="DatabaseDealer.cs" />
-    <Compile Include="Interfaces\IActionsDealer.cs" />
+    <Compile Include="Interfaces\IMediaDealer.cs" />
+    <Compile Include="Interfaces\ITellstickActionsDealer.cs" />
     <Compile Include="Interfaces\IActionTypesDealer.cs" />
     <Compile Include="Interfaces\IDatabaseDealer.cs" />
     <Compile Include="Interfaces\IJobScheduler.cs" />
@@ -150,7 +151,12 @@
     <Compile Include="Interfaces\ISchedulerDealer.cs" />
     <Compile Include="Interfaces\ITellstickUnitDealer.cs" />
     <Compile Include="Interfaces\IUnitDealer.cs" />
+    <Compile Include="MediaActionsDealer.cs" />
+    <Compile Include="MediaSourceDealer.cs" />
+    <Compile Include="MediaDealer.cs" />
     <Compile Include="TellstickActionsDealer.cs" />
+    <Compile Include="MediaJob.cs" />
+    <Compile Include="MediaJobScheduler.cs" />
     <Compile Include="UnitDealer.cs" />
     <Compile Include="SchedulerDealer.cs" />
     <Compile Include="TellstickJob.cs" />
@@ -167,6 +173,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\WCF\BLL\BLL.csproj">
+      <Project>{4aa68220-6993-4931-8702-e7b51fcc888e}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Audio\Audio.csproj">
+      <Project>{cf036b7b-db65-49ce-9ce6-b8139378a21c}</Project>
+      <Name>Audio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{80e3f2e7-77c9-4e92-8794-21cee5a51263}</Project>
       <Name>Model</Name>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Messaging;
 using System.ServiceModel.Web;
+using Core.Model;
 using Core.Model.ViewModel;
 
 namespace WCF.ServiceLibrary.Interfaces
@@ -76,6 +77,5 @@ namespace WCF.ServiceLibrary.Interfaces
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         List<LastPerformedTellstickAction> LastPerformedActionsForAllUnits();
-
     }
 }

@@ -47,11 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPlayer.cs" />
-    <Compile Include="ISystemVolumeConfigurator.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemVolumeConfigurator.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="WMPLib">
@@ -67,14 +64,32 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Media\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{80e3f2e7-77c9-4e92-8794-21cee5a51263}</Project>
       <Name>Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Media\Animal-Dog-Bark-01.flac" />
+    <Content Include="Media\Animal-Dog-Bark-02.flac" />
+    <Content Include="Media\Animal-Dog-Growl-01.flac" />
+    <Content Include="Media\Animal-Dog-Growl-BullTerrier-01.flac" />
+    <Content Include="Media\Animal-Dog-Growl-BullTerrier-02.flac" />
+    <Content Include="Media\Animal-Dog-Growl-Doberman-01.flac" />
+    <Content Include="Media\Animal-Dog-Growl-Doberman-02.flac" />
+    <Content Include="Media\Animal-Dog-Growl-Doberman-03.flac" />
+    <Content Include="Media\Animal-Dog-Howl.flac" />
+    <Content Include="Media\Emergency-Alarm-Danger-01.flac" />
+    <Content Include="Media\Emergency-Horn-Honk-01.flac" />
+    <Content Include="Media\Emergency-Horn-ShortDouble-01.flac" />
+    <Content Include="Media\Emergency-Siren-HighLow-01.flac" />
+    <Content Include="Media\Emergency-Siren-HighLow-02.flac" />
+    <Content Include="Media\Emergency-Siren-Wail-01.flac" />
+    <Content Include="Media\Emergency-Siren-Yelp-01.flac" />
+    <Content Include="Media\Emergency-Siren-Yelp-02.flac" />
+    <Content Include="Media\Emergency-Siren-Yelp-03.flac" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

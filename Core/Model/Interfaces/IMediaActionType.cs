@@ -1,6 +1,7 @@
 ﻿namespace Core.Model.Interfaces
 {
-    interface IMediaActionType : IEntity
+    public interface IMediaActionType : IEntity
     {
+        Enums.MediaActionTypeOption ActionTypeOption { get; set; }
     }
 }

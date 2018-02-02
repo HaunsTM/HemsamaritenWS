@@ -15,6 +15,8 @@ namespace Core.Model
 
         #endregion
 
+        public Enums.MediaActionTypeOption ActionTypeOption { get; set; }
+
         #region Navigation properties
 
         [JsonIgnore]

@@ -8,14 +8,14 @@ using log4net;
 namespace Core.BLL
 {
 
-    public class ActionSearchParameters : IActionSearchParameters
+    public class ActionSearchParameters : ITellstickActionSearchParameters
     {
         public string unitId { get; set; }
         public string actionTypeOption { get; set; }
         public string[] cronExpressions { get; set; }
     }
 
-    public class TellstickActionsDealer : IActionsDealer
+    public class TellstickActionsDealer : ITellstickActionsDealer
     {
 
         private static readonly ILog log =
@@ -152,7 +152,7 @@ namespace Core.BLL
 
 
 
-        public List<Core.Model.TellstickAction> ActivateActionsFor(IActionSearchParameters searchParameters)
+        public List<Core.Model.TellstickAction> ActivateActionsFor(ITellstickActionSearchParameters searchParameters)
         {
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext( DbConnectionStringName ) )
             {

@@ -9,14 +9,6 @@ namespace Core.Model
     public class TellstickAction : Action, ITellstickAction
     {
 
-        #region IEntity members
-
-        [Key]
-        public int Id { get; set; }
-        public bool Active { get; set; }
-
-        #endregion
-
         #region Navigation properties
 
         [JsonIgnore]

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceProcess;
-
+using Core.Model;
 using WCF.ServiceLibrary.Interfaces;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
@@ -15,7 +15,7 @@ namespace WCF.ServiceLibrary
     [ServiceBehavior(
         InstanceContextMode = InstanceContextMode.Single,
         ConcurrencyMode = ConcurrencyMode.Multiple)]
-    public class HemsamaritenDuplexService : ServiceBase, WCF.ServiceLibrary.Interfaces.IHemsamaritenDuplexService
+    public class HemsamaritenDuplexService : ServiceBase, IHemsamaritenDuplexService
     {
         //Here is the once-per-class call to initialize the log object
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -164,7 +164,6 @@ namespace WCF.ServiceLibrary
         }
 
         #endregion
-        
 
         /// <summary>
         /// Creates and initializes a database
@@ -259,6 +258,98 @@ namespace WCF.ServiceLibrary
                 log.Error($"Failed in getting LastPerformedActionsForAllDevices", ex);
             }
             return lastPerformedActions;
+
+        }
+
+        #endregion
+
+        #region Media
+
+        public string SetVolume(int value)
+        {
+            var returnMessage = "";
+            try
+            {
+                var mediaDealer = new Core.BLL.MediaDealer();
+                mediaDealer.SetVolume(value);
+
+                returnMessage = String.Format("Set volume to = {0}", value.ToString());
+                log.Debug(returnMessage);
+            }
+            catch (Exception ex)
+            {
+                returnMessage = String.Format("Failed in setting volume to = {0}. Reason: {1}", value.ToString(), ex.Message);
+            }
+            return returnMessage;
+        }
+
+        public string Play(string url)
+        {
+            var returnMessage = "";
+            try
+            {
+                var mediaDealer = new Core.BLL.MediaDealer();
+                mediaDealer.Play(url);
+
+                returnMessage = String.Format("Playing {0}.", url);
+                log.Debug(returnMessage);
+            }
+            catch (Exception ex)
+            {
+                returnMessage = String.Format("Failed in playing {0}. Reason {1}", url, ex.Message);
+            }
+            return returnMessage;
+        }
+
+        public string PlayAndSetVolume(string url, int mediaOutputVolume)
+        {
+            var returnMessage = "";
+            try
+            {
+                var mediaDealer = new Core.BLL.MediaDealer();
+                mediaDealer.Play(url, mediaOutputVolume);
+
+                returnMessage = String.Format("Playing {0} with volume {1}.", url, mediaOutputVolume.ToString());
+                log.Debug(returnMessage);
+            }
+            catch (Exception ex)
+            {
+                returnMessage = String.Format("Failed in playing {0} with volume {1}. Reason {2}", url, mediaOutputVolume.ToString(), ex.Message);
+            }
+            return returnMessage;
+        }
+
+        public string StopPlay()
+        {
+            var returnMessage = "";
+            try
+            {
+                var mediaDealer = new Core.BLL.MediaDealer();
+                mediaDealer.Stop();
+
+                returnMessage = String.Format("Stop");
+                log.Debug(returnMessage);
+            }
+            catch (Exception ex)
+            {
+                returnMessage = String.Format("Failed in stopping. Reason: {0}", ex.Message);
+            }
+            return returnMessage;
+        }
+
+        public List<RegisteredMediaSource> PresetMediaSources()
+        {
+            var presetMediaSources = new List<RegisteredMediaSource>();
+            try
+            {
+                var mediaSourceDealer = new Core.BLL.MediaSourceDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                presetMediaSources = mediaSourceDealer.PresetMediaSources();
+            }
+            catch (Exception ex)
+            {
+                log.Error($"Failed in getting LastPerformedActionsForAllDevices", ex);
+            }
+            return presetMediaSources;
 
         }
 

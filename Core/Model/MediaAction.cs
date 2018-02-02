@@ -8,18 +8,13 @@ namespace Core.Model
     [Table("MediaActions")]
     public class MediaAction : Action, IMediaAction
     {
-        #region IEntity members
-
-        [Key]
-        public int Id { get; set; }
-        public bool Active { get; set; }
-
-        #endregion
 
         #region Navigation properties
 
         [JsonIgnore]
         public virtual MediaSource MediaSource { get; set; }
+        [JsonIgnore]
+        public virtual MediaOutput MediaOutput{ get; set; }
         [JsonIgnore]
         public virtual MediaOutputVolume MediaOutputVolume { get; set; }
         [JsonIgnore]
@@ -27,6 +22,8 @@ namespace Core.Model
 
         [ForeignKey("MediaSource")]
         public int? MediaSource_Id { get; set; }
+        [ForeignKey("MediaOutput")]
+        public int? MediaOutput_Id { get; set; }
         [ForeignKey("MediaOutputVolume")]
         public int? MediaOutputVolume_Id { get; set; }
         [ForeignKey("MediaActionType")]

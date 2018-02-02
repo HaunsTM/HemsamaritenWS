@@ -1,9 +1,7 @@
+using Core.Model.Interfaces;
+
 namespace Core.BLL
 {
-    using Core.Model;
-    using Core.Model.Enums;
-    using Core.Model.Interfaces;
-
     public interface ITellstickUnitDealer
     {
         string DbConnectionStringName { get; }

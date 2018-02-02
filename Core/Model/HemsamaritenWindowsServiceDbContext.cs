@@ -20,8 +20,9 @@ namespace Core.Model
         //public DbSet<TellstickAction> TellstickActions { get; set; }
 
         public DbSet<MediaSource> MediaSources { get; set; }
+        public DbSet<MediaOutput> MediaOutputs { get; set; }
         public DbSet<MediaOutputVolume> MediaOutputVolumes { get; set; }
-        //public DbSet<MediaAction> MediaActions { get; set; }
+        public DbSet<MediaActionType> MediaActionTypes { get; set; }
 
         public DbSet<Action> Actions { get; set; }
         public DbSet<Scheduler> Schedulers { get; set; }

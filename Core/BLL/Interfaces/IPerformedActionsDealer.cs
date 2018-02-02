@@ -1,8 +1,8 @@
+using System;
+using System.Collections.Generic;
+
 namespace Core.BLL.Interfaces
 {
-    using System;
-    using System.Collections.Generic;
-
     public interface IPerformedActionsDealer
     {
         string DbConnectionStringName { get; }

@@ -140,6 +140,8 @@
     <Compile Include="Interfaces\IHemsamaritenDuplexCallback.cs" />
     <Compile Include="Interfaces\IHemsamaritenDuplexService.cs" />
     <Compile Include="Interfaces\ITellstickDuplexCallback.cs" />
+    <Compile Include="Interfaces\IMediaDuplexCallback.cs" />
+    <Compile Include="Interfaces\IMediaDuplexService.cs" />
     <Compile Include="Interfaces\ITellstickDuplexService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
