@@ -215,11 +215,17 @@ namespace Core.Model
             context.TellstickUnits.AddRange(this.TellstickUnits());
             context.Schedulers.AddRange(this.Schedulers());
 
-            context.MediaSources.AddRange(this.MediaSourcesRadioStations());
+            context.Countries.AddRange(this.AllCountries());
+
             context.MediaSources.AddRange(this.MediaSourcesSoundEffects());
             context.MediaOutputVolumes.AddRange(this.MediaOutputVolumes());
 
             context.SaveChanges();
+        }
+
+        private void AddRadioStationsWithCountries(HemsamaritenWindowsServiceDbContext context)
+        {
+            context.MediaSources.AddRange(this.MediaSourcesRadioStations());
         }
 
         private void InitiallyConnectAuthentication_TellstickZNetLiteV2(HemsamaritenWindowsServiceDbContext context)
@@ -406,6 +412,7 @@ namespace Core.Model
         protected override void Seed(HemsamaritenWindowsServiceDbContext context)
         {
             AddAndSaveDummyDataWithoutConstraints(context);
+            AddRadioStationsWithCountries(context);
             InitiallyConnectAuthentication_TellstickZNetLiteV2(context);
             InitiallyConnectActionTypes_TellstickZNetLiteV2(context);
             AddInitialTellstickActions(context);

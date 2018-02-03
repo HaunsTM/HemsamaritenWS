@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Core.Model.Interfaces;
 using Newtonsoft.Json;
 
@@ -25,6 +26,12 @@ namespace Core.Model
 
         [JsonIgnore]
         public virtual List<MediaAction> MediaActions { get; set; }
+
+        [JsonIgnore]
+        public virtual Country MediaCountry { get; set; }
+
+        [ForeignKey("Country")]
+        public int? MediaCountry_Id { get; set; }
 
         #endregion
 

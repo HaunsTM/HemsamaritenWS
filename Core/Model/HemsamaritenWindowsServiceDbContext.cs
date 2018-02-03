@@ -13,6 +13,8 @@ namespace Core.Model
         {
         }
 
+        public DbSet<Country> Countries { get; set; }
+
         public DbSet<TellstickAuthentication> TellstickAuthentications { get; set; }
         public DbSet<TellstickZNetLiteV2> TellstickZNetLiteV2s { get; set; }
         public DbSet<TellstickActionType> TellstickActionTypes { get; set; }
@@ -26,7 +28,7 @@ namespace Core.Model
 
         public DbSet<Action> Actions { get; set; }
         public DbSet<Scheduler> Schedulers { get; set; }
-        
+
         public DbSet<PerformedAction> PerformedActions { get; set; }
     }
 }

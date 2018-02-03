@@ -113,7 +113,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Country.cs" />
     <Compile Include="Action.cs" />
+    <Compile Include="DefaultDataDBInitializer - Countries.cs" />
     <Compile Include="DefaultDataDBInitializer - Audio - MediaSourcesSoundEffects.cs" />
     <Compile Include="DefaultDataDBInitializer - Audio - MediaSourcesRadioStations.cs" />
     <Compile Include="DefaultDataDBInitializer - Schedulers.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="Enums\TellstickActionTypeOption.cs" />
     <Compile Include="Enums\Helper.cs" />
     <Compile Include="Enums\MediaCategoryType.cs" />
+    <Compile Include="Interfaces\ICountry.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IMediaAction.cs" />
     <Compile Include="Interfaces\IMediaActionType.cs" />
