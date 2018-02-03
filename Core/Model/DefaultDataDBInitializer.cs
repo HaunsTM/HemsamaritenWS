@@ -225,7 +225,7 @@ namespace Core.Model
 
         private void AddRadioStationsWithCountries(HemsamaritenWindowsServiceDbContext context)
         {
-            context.MediaSources.AddRange(this.MediaSourcesRadioStations());
+            context.MediaSources.AddRange(this.MediaSourcesRadioStations(context));
         }
 
         private void InitiallyConnectAuthentication_TellstickZNetLiteV2(HemsamaritenWindowsServiceDbContext context)
