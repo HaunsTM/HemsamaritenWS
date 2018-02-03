@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         public string Url { get; set; }
-        public Enums.MediaCategoryType MediaCategoryType { get; set; }
+        public string MediaCategoryType { get; set; }
     }   
 }

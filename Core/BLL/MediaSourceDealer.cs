@@ -20,7 +20,7 @@ namespace Core.BLL
             {
                 var presetMediaSources = db.MediaSources.Where(mS => mS.Active).Select(mS => new RegisteredMediaSource
                 {
-                    MediaCategoryType = mS.MediaCategoryType,
+                    MediaCategoryType = mS.MediaCategoryType.ToString(),
                     Url = mS.Url,
                     Name = mS.Name
                 }).ToList();

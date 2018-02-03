@@ -6,3 +6,5 @@ v15/
 bin/
 obj/
 packages
+*.user
+npm-debug.log
