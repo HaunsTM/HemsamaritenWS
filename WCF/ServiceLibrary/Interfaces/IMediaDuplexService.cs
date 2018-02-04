@@ -8,34 +8,49 @@ namespace WCF.ServiceLibrary.Interfaces
     [ServiceContract(CallbackContract = typeof(IMediaDuplexCallback))]
     public interface IMediaDuplexService
     {
+
+        [OperationContract(IsOneWay = true)]
         [WebInvoke(Method = "GET",
-            BodyStyle = WebMessageBodyStyle.WrappedRequest,
             RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json)]
-        string SetVolume(int value);
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "StartMediaScheduler")]
+        void StartMediaScheduler();
+
+        [OperationContract(IsOneWay = true)]
+        [WebInvoke(Method = "GET",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "StopMediaScheduler")]
+        void StopMediaScheduler();
 
         [WebInvoke(Method = "GET",
             BodyStyle = WebMessageBodyStyle.WrappedRequest,
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        string Play(string url);
+        string SetMediaVolume(int value);
 
         [WebInvoke(Method = "GET",
             BodyStyle = WebMessageBodyStyle.WrappedRequest,
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        string PlayAndSetVolume(string url, int mediaOutputVolume);
+        string PlayMedia(string url);
 
         [WebInvoke(Method = "GET",
             BodyStyle = WebMessageBodyStyle.WrappedRequest,
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        string StopPlay();
+        string PlayMediaAndSetVolume(string url, int mediaOutputVolume);
 
         [WebInvoke(Method = "GET",
             BodyStyle = WebMessageBodyStyle.WrappedRequest,
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        List<RegisteredMediaSource> PresetMediaSources();
+        string StopMediaPlay();
+
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        List<RegisteredMediaSource> MediaSourcesList();
     }
 }

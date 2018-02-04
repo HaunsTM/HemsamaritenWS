@@ -75,19 +75,19 @@ namespace Core.BLL
             switch (mediaActionType.ActionTypeOption)
             {
                 case MediaActionTypeOption.Play:
-
+                    Audio.Player.Instance.Play(mediaSource, mediaOutputVolume);
                     workPerformed = true;
                     break;
                 case MediaActionTypeOption.Pause:
-
+                    Audio.Player.Instance.Pause();
                     workPerformed = true;
                     break;
                 case MediaActionTypeOption.Stop:
-
+                    Audio.Player.Instance.Stop();
                     workPerformed = true;
                     break;
                 case MediaActionTypeOption.SetVolume:
-
+                    Audio.Player.Instance.SetVolume(mediaOutputVolume);
                     workPerformed = true;
                     break;
 

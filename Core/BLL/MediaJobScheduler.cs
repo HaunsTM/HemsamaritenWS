@@ -180,18 +180,32 @@ namespace Core.BLL
                 using (var db = new Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
                 {
                     var queryResult = from activeAction in db.Actions.OfType<MediaAction>()
-                                      where (activeAction.Active == true) &&
-                                            (activeAction.Scheduler != null ? activeAction.Scheduler.Active == true : false) &&
-                                            
-                                            (activeAction.MediaSource != null ? activeAction.MediaSource.Active == true : true) &&
-                                            (activeAction.MediaOutput != null ? activeAction.MediaOutput.Active == true : true) &&
-                                            (activeAction.MediaOutputVolume != null ? activeAction.MediaOutputVolume.Active == true : true) &&
-                                            (activeAction.MediaActionType != null ? activeAction.MediaActionType.Active == true : true)
-                                      select
-                                          new RegisteredAction
-                                          (activeAction.Scheduler, activeAction, activeAction.MediaSource, activeAction.MediaOutput, activeAction.MediaOutputVolume, activeAction.MediaActionType);
+                        where (activeAction.Active == true) &&
+                              (activeAction.Scheduler != null ? activeAction.Scheduler.Active == true : false) &&
 
-                    tellstickUnitsWithActions = queryResult.ToList();
+                              (activeAction.MediaSource != null ? activeAction.MediaSource.Active == true : true) &&
+                              (activeAction.MediaOutput != null ? activeAction.MediaOutput.Active == true : true) &&
+                              (activeAction.MediaOutputVolume != null
+                                  ? activeAction.MediaOutputVolume.Active == true
+                                  : true) &&
+                              (activeAction.MediaActionType != null
+                                  ? activeAction.MediaActionType.Active == true
+                                  : true)
+                        select
+                            new RegisteredAction()
+                            {
+
+                                Scheduler = activeAction.Scheduler,
+                                Action = activeAction,
+                                MediaSource = activeAction.MediaSource,
+                                MediaOutput = activeAction.MediaOutput,
+                                MediaOutputVolume = activeAction.MediaOutputVolume,
+                                MediaActionType = activeAction.MediaActionType
+                            };
+
+
+
+                tellstickUnitsWithActions = queryResult.ToList();
                 }
             }
             catch (Exception ex)
@@ -217,16 +231,6 @@ namespace Core.BLL
         private class RegisteredAction
         {
             public RegisteredAction() { }
-
-            public RegisteredAction(IScheduler currentScheduler, IMediaAction action, IMediaSource mediaSource, IMediaOutput mediaOutput, IMediaOutputVolume mediaOutputVolume, IMediaActionType mediaActionType)
-            { 
-                this.Scheduler = currentScheduler;
-                this.Action = action;
-                this.MediaSource = mediaSource;
-                this.MediaOutput = mediaOutput;
-                this.MediaOutputVolume = mediaOutputVolume;
-                this.MediaActionType = mediaActionType;
-            }
 
             public IScheduler Scheduler { get; set; }
             public IMediaAction Action { get; set; }

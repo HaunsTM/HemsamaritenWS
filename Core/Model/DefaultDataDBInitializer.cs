@@ -207,6 +207,19 @@ namespace Core.Model
             return mediaOutputVolumes;
         }
 
+        private MediaActionType[] MediaActionTypes()
+        {
+            var mediaActionTypes = new MediaActionType[]
+            {
+                new MediaActionType { Active = true, ActionTypeOption = MediaActionTypeOption.Pause},
+                new MediaActionType { Active = true, ActionTypeOption = MediaActionTypeOption.Play},
+                new MediaActionType { Active = true, ActionTypeOption = MediaActionTypeOption.Stop},
+                new MediaActionType { Active = true, ActionTypeOption = MediaActionTypeOption.SetVolume}
+            };
+            return mediaActionTypes;
+
+        }
+
         private void AddAndSaveDummyDataWithoutConstraints(HemsamaritenWindowsServiceDbContext context)
         {
             context.TellstickAuthentications.AddRange(this.Authentications());
@@ -219,6 +232,7 @@ namespace Core.Model
 
             context.MediaSources.AddRange(this.MediaSourcesSoundEffects());
             context.MediaOutputVolumes.AddRange(this.MediaOutputVolumes());
+            context.MediaActionTypes.AddRange(this.MediaActionTypes());
 
             context.SaveChanges();
         }
@@ -409,6 +423,31 @@ namespace Core.Model
             context.SaveChanges();
         }
 
+        private void AddInitialMediaActions(HemsamaritenWindowsServiceDbContext context)
+        {
+            var defaultDataDbInitializerHelper = new DefaultDataDbInitializerHelper(context: context);
+            var actionIsActive = true;
+            //(string cronExpression, bool active, string mediaSourceName, MediaActionTypeOption mediaActionTypeOption, MediaOutputTargetType mediaOutputTargetType, MediaOutputVolumeValue mediaOutputVolumeLabel)
+            var mediaActionsToSave =
+                new List<Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?,
+                    MediaOutputVolumeValue?>>
+                {
+                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 45 14 * * ?", actionIsActive, "SR P1", MediaActionTypeOption.Play, MediaOutputTargetType.WindowsDefaultOutputSpeaker, MediaOutputVolumeValue._50),
+                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 46 14 * * ?", actionIsActive, null, MediaActionTypeOption.Stop, null, null),
+                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 47 14 * * ?", actionIsActive, "SR P1", MediaActionTypeOption.Play, MediaOutputTargetType.WindowsDefaultOutputSpeaker, MediaOutputVolumeValue._50),
+                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 48 14 * * ?", actionIsActive, null, MediaActionTypeOption.Stop, null, null),
+
+                };
+
+
+            var mediaActions = defaultDataDbInitializerHelper.MediaActionsToSave(mediaActionsToSave);
+
+            context.Actions.AddRange(mediaActions);
+
+            // other changed properties
+            context.SaveChanges();
+        }
+
         protected override void Seed(HemsamaritenWindowsServiceDbContext context)
         {
             AddAndSaveDummyDataWithoutConstraints(context);
@@ -416,6 +455,7 @@ namespace Core.Model
             InitiallyConnectAuthentication_TellstickZNetLiteV2(context);
             InitiallyConnectActionTypes_TellstickZNetLiteV2(context);
             AddInitialTellstickActions(context);
+            AddInitialMediaActions(context);
         }
     }
 }

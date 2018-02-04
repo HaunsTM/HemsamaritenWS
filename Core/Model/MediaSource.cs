@@ -30,8 +30,8 @@ namespace Core.Model
         [JsonIgnore]
         public virtual Country MediaCountry { get; set; }
 
-        [ForeignKey("Country")]
-        public int? Country_Id { get; set; }
+        [ForeignKey("MediaCountry")]
+        public int? MediaCountry_Id { get; set; }
 
         #endregion
 

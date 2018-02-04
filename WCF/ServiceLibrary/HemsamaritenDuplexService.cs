@@ -3,6 +3,7 @@ using Core.Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using System.ServiceModel.Web;
 using System.ServiceProcess;
 using Core.Model;
 using WCF.ServiceLibrary.Interfaces;
@@ -66,8 +67,25 @@ namespace WCF.ServiceLibrary
             }
         }
 
-        #endregion
+        #region Scheduler
+
         
+        public void StartAllSchedulers()
+        {
+            this.StartTellstickScheduler();
+            this.StartMediaScheduler();
+        }
+        
+        public void StopAllSchedulers()
+        {
+            this.StopTellstickScheduler();
+            this.StopMediaScheduler();
+        }
+
+        #endregion
+
+        #endregion
+
         #region Tellstick
 
         private Core.BLL.TellstickJobScheduler TellstickJobScheduler { get; set; }
@@ -265,7 +283,49 @@ namespace WCF.ServiceLibrary
 
         #region Media
 
-        public string SetVolume(int value)
+
+        #region Scheduler
+
+        public void StartMediaScheduler()
+        {
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var mediaJobScheduler = new Core.BLL.MediaJobScheduler(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                    mediaJobScheduler.Start();
+
+                    log.Debug(String.Format("Started MediaScheduler."));
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Failed in starting MediaScheduler."), ex);
+            }
+        }
+
+        public void StopMediaScheduler()
+        {
+            try
+            {
+                lock (_syncRoot)
+                {
+                    var mediaJobScheduler = new Core.BLL.MediaJobScheduler(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                    mediaJobScheduler.Stop();
+
+                    log.Debug(String.Format("Stopped MediaScheduler."));
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Failed in stopping MediaScheduler."), ex);
+            }
+        }
+
+        #endregion
+
+
+        public string SetMediaVolume(int value)
         {
             var returnMessage = "";
             try
@@ -283,7 +343,7 @@ namespace WCF.ServiceLibrary
             return returnMessage;
         }
 
-        public string Play(string url)
+        public string PlayMedia(string url)
         {
             var returnMessage = "";
             try
@@ -301,7 +361,7 @@ namespace WCF.ServiceLibrary
             return returnMessage;
         }
 
-        public string PlayAndSetVolume(string url, int mediaOutputVolume)
+        public string PlayMediaAndSetVolume(string url, int mediaOutputVolume)
         {
             var returnMessage = "";
             try
@@ -319,7 +379,7 @@ namespace WCF.ServiceLibrary
             return returnMessage;
         }
 
-        public string StopPlay()
+        public string StopMediaPlay()
         {
             var returnMessage = "";
             try
@@ -337,7 +397,7 @@ namespace WCF.ServiceLibrary
             return returnMessage;
         }
 
-        public List<RegisteredMediaSource> PresetMediaSources()
+        public List<RegisteredMediaSource> MediaSourcesList()
         {
             var presetMediaSources = new List<RegisteredMediaSource>();
             try

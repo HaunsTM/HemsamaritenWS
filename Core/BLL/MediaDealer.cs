@@ -8,7 +8,7 @@ namespace Core.BLL
     {
         public void SetVolume(int value)
         {
-            Core.Audio.Player.Instance.Volume = value;
+            Core.Audio.Player.Instance.SetVolume(value);
         }
 
         public void Play(string url)

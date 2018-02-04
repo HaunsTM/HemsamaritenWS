@@ -11,10 +11,11 @@ namespace Core.Audio
         private WMPLib.WindowsMediaPlayer _mediaPlayer;
         private CoreAudioDevice _windowsNativeAudioSystem;
 
+        private bool _paused;
+
         private Player()
         {
             _mediaPlayer = new WMPLib.WindowsMediaPlayer();
-
             _windowsNativeAudioSystem = new CoreAudioController().DefaultPlaybackDevice;
             
             SetInitilalSettings();
@@ -36,6 +37,7 @@ namespace Core.Audio
         private void SetInitilalSettings()
         {
             SetNativeVolumeControlToMax();
+            _paused = false;
         }
 
         private void SetNativeVolumeControlToMax()
@@ -48,7 +50,14 @@ namespace Core.Audio
         public int Volume
         {
             get { return _mediaPlayer.settings.volume; }
-            set { _mediaPlayer.settings.volume = value; }
+            private set { _mediaPlayer.settings.volume = value; }
+        }
+
+        public void Pause()
+        {
+            _mediaPlayer.controls.pause();
+            _paused = true;
+
         }
 
         public void Play(string url)
@@ -80,6 +89,25 @@ namespace Core.Audio
             this.Volume = mediaOutputVolume.Value;
 
             this.Play(mediaSource);
+        }
+
+        public void Resume()
+        {
+            if (!_paused)
+            {
+                _mediaPlayer.controls.play();
+                _paused = false;
+            }
+        }
+        
+        public void SetVolume(int mediaOutputVolumeValue)
+        {
+            this.Volume = mediaOutputVolumeValue;
+        }
+
+        public void SetVolume(IMediaOutputVolume mediaOutputVolume)
+        {
+            this.Volume = mediaOutputVolume.Value;
         }
 
         public void Stop()

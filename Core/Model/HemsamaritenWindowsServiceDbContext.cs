@@ -19,7 +19,6 @@ namespace Core.Model
         public DbSet<TellstickZNetLiteV2> TellstickZNetLiteV2s { get; set; }
         public DbSet<TellstickActionType> TellstickActionTypes { get; set; }
         public DbSet<TellstickUnit> TellstickUnits { get; set; }
-        //public DbSet<TellstickAction> TellstickActions { get; set; }
 
         public DbSet<MediaSource> MediaSources { get; set; }
         public DbSet<MediaOutput> MediaOutputs { get; set; }

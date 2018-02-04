@@ -24,24 +24,6 @@ namespace WCF.ServiceLibrary.Interfaces
                     ResponseFormat = WebMessageFormat.Json,
                     UriTemplate = "RefreshBearerToken")]
         bool RefreshBearerToken();
-
-        #region Scheduler
-
-        [OperationContract(IsOneWay = true)]
-        [WebInvoke(Method = "GET",
-                    RequestFormat = WebMessageFormat.Json,
-                    ResponseFormat = WebMessageFormat.Json,
-                    UriTemplate = "StartTellstickScheduler")]
-        void StartTellstickScheduler();
-
-        [OperationContract(IsOneWay = true)]
-        [WebInvoke(Method = "GET",
-                   RequestFormat = WebMessageFormat.Json,
-                   ResponseFormat = WebMessageFormat.Json,
-                   UriTemplate = "StopTellstickScheduler")]
-        void StopTellstickScheduler();
-
-        #endregion
         
         [OperationContract(IsOneWay = true)]
         [WebInvoke(Method = "POST",
