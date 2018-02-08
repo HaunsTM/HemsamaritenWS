@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using Core.Model;
 using log4net;
-
+using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
 
@@ -61,7 +61,6 @@ namespace Core.BLL
         {
             if (!this.Scheduler.IsStarted)
             {
-                this.Scheduler.Start();
 
                 var preparedJobs = this.PreparedJobs();
 
@@ -69,6 +68,7 @@ namespace Core.BLL
                 {
                     this.Scheduler.ScheduleJob(jobDetail: preparedJob.Job, trigger: preparedJob.Trigger);
                 }
+                this.Scheduler.Start();
                 log.Debug(String.Format("Started Scheduler for Media!"));
             }
             else
@@ -92,6 +92,9 @@ namespace Core.BLL
 
         private List<JobDetailAndTrigger> PreparedJobs()
         {
+            var serializerSettings = new JsonSerializerSettings();
+            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
+
             var jobDetailsAndTriggers = new List<JobDetailAndTrigger>();
 
             var mediaTasks = this.MediaTasks();
@@ -112,30 +115,30 @@ namespace Core.BLL
                     #region JobData
                     //PerformWork(IPlayer player, IMediaSource mediaSource, IMediaOutput mediaOutput, IMediaOutputVolume mediaOutputVolume, IMediaActionType mediaActionType)
 
-                    var jsonSerializedCurrentActionId_Key = Newtonsoft.Json.JsonConvert.SerializeObject(task.Action.Id);
-                    var jsonSerializedCurrentActionId_Value = "jsonSerializedCurrentActionId";
+                    var jsonSerializedCurrentAction_Key = "jsonSerializedCurrentAction"; 
+                    var jsonSerializedCurrentAction_Value = JsonConvert.SerializeObject(task.MediaAction);
 
                     var jsonSerializedMediaSource_Key = "jsonSerializedMediaSource";
-                    var jsonSerializedMediaSource_Value = Newtonsoft.Json.JsonConvert.SerializeObject(task.MediaSource); ;
+                    var jsonSerializedMediaSource_Value = JsonConvert.SerializeObject(task.MediaSource, serializerSettings);
 
                     var jsonSerializedMediaOutput_Key = "jsonSerializedMediaOutputTarget";
-                    var jsonSerializedMediaOutput_Value = Newtonsoft.Json.JsonConvert.SerializeObject(task.MediaOutput); ;
+                    var jsonSerializedMediaOutput_Value = JsonConvert.SerializeObject(task.MediaOutput, serializerSettings);
 
                     var jsonSerializedMediaOutputVolume_Key = "jsonSerializedMediaOutputVolume";
-                    var jsonSerializedMediaOutputVolume_Value = Newtonsoft.Json.JsonConvert.SerializeObject(task.MediaOutputVolume.Value);
+                    var jsonSerializedMediaOutputVolume_Value = JsonConvert.SerializeObject(task.MediaOutputVolume, serializerSettings);
 
                     var jsonSerializedMediaActionType_Key = "jsonSerializedMediaActionType";
-                    var jsonSerializedMediaActionType_Value = Newtonsoft.Json.JsonConvert.SerializeObject(task.MediaActionType.ActionTypeOption.ToString());
+                    var jsonSerializedMediaActionType_Value = JsonConvert.SerializeObject(task.MediaActionType.ActionTypeOption);
 
                     var jsonDbConnectionStringName_Key = "jsonSerializedDbConnectionStringName";
-                    var jsonDbConnectionStringName_Value = Newtonsoft.Json.JsonConvert.SerializeObject(this.DbConnectionStringName);
+                    var jsonDbConnectionStringName_Value = JsonConvert.SerializeObject(this.DbConnectionStringName);
 
 
                     #endregion
 
-                    var job = JobBuilder.Create<TellstickJob>()
+                    var job = JobBuilder.Create<MediaJob>()
                         .WithIdentity(jobId)
-                        .UsingJobData(jsonSerializedCurrentActionId_Key, jsonSerializedCurrentActionId_Value)
+                        .UsingJobData(jsonSerializedCurrentAction_Key, jsonSerializedCurrentAction_Value)
                         .UsingJobData(jsonSerializedMediaSource_Key, jsonSerializedMediaSource_Value)
                         .UsingJobData(jsonSerializedMediaOutput_Key, jsonSerializedMediaOutput_Value)
                         .UsingJobData(jsonSerializedMediaOutputVolume_Key, jsonSerializedMediaOutputVolume_Value)
@@ -173,7 +176,7 @@ namespace Core.BLL
         /// <returns>A list of stuff to do ()</returns>
         private List<RegisteredAction> MediaTasks()
         {
-            var tellstickUnitsWithActions = new List<RegisteredAction>();
+            var mediaTasks = new List<RegisteredAction>();
 
             try
             {
@@ -196,7 +199,7 @@ namespace Core.BLL
                             {
 
                                 Scheduler = activeAction.Scheduler,
-                                Action = activeAction,
+                                MediaAction = activeAction,
                                 MediaSource = activeAction.MediaSource,
                                 MediaOutput = activeAction.MediaOutput,
                                 MediaOutputVolume = activeAction.MediaOutputVolume,
@@ -205,7 +208,7 @@ namespace Core.BLL
 
 
 
-                tellstickUnitsWithActions = queryResult.ToList();
+                mediaTasks = queryResult.ToList();
                 }
             }
             catch (Exception ex)
@@ -214,7 +217,7 @@ namespace Core.BLL
                 log.Error("Could not retrieve actions for performance from database!", ex);
                 throw ex;
             }
-            return tellstickUnitsWithActions;
+            return mediaTasks;
         }
         
         private class JobDetailAndTrigger
@@ -233,7 +236,7 @@ namespace Core.BLL
             public RegisteredAction() { }
 
             public IScheduler Scheduler { get; set; }
-            public IMediaAction Action { get; set; }
+            public IMediaAction MediaAction { get; set; }
             public IMediaSource MediaSource { get; set; }
             public IMediaOutput MediaOutput { get; set; }
             public IMediaOutputVolume MediaOutputVolume { get; set; }

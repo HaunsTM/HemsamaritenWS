@@ -432,11 +432,15 @@ namespace Core.Model
                 new List<Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?,
                     MediaOutputVolumeValue?>>
                 {
-                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 45 14 * * ?", actionIsActive, "SR P1", MediaActionTypeOption.Play, MediaOutputTargetType.WindowsDefaultOutputSpeaker, MediaOutputVolumeValue._50),
-                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 46 14 * * ?", actionIsActive, null, MediaActionTypeOption.Stop, null, null),
-                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 47 14 * * ?", actionIsActive, "SR P1", MediaActionTypeOption.Play, MediaOutputTargetType.WindowsDefaultOutputSpeaker, MediaOutputVolumeValue._50),
-                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 48 14 * * ?", actionIsActive, null, MediaActionTypeOption.Stop, null, null),
+                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 49 21 * * ?", actionIsActive, "SR P2", MediaActionTypeOption.Play, MediaOutputTargetType.WindowsDefaultOutputSpeaker, MediaOutputVolumeValue._50),
+                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 50 21 * * ?", actionIsActive, null, MediaActionTypeOption.Stop, null, null),
+                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 51 21 * * ?", actionIsActive, "SR P1", MediaActionTypeOption.Play, MediaOutputTargetType.WindowsDefaultOutputSpeaker, MediaOutputVolumeValue._50),
+                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 52 21 * * ?", actionIsActive, null, MediaActionTypeOption.Stop, null, null),
 
+                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 53 21 * * ?", actionIsActive, null, MediaActionTypeOption.SetVolume, MediaOutputTargetType.WindowsDefaultOutputSpeaker, MediaOutputVolumeValue._90),
+                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 54 21 * * ?", actionIsActive, null, MediaActionTypeOption.Stop, null, null),
+                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 55 21 * * ?", actionIsActive, "SR P2", MediaActionTypeOption.Play, MediaOutputTargetType.WindowsDefaultOutputSpeaker, MediaOutputVolumeValue._50),
+                    new Tuple<string, bool, string, MediaActionTypeOption, MediaOutputTargetType?, MediaOutputVolumeValue?>("0 56 21 * * ?", actionIsActive, null, MediaActionTypeOption.Play, null, MediaOutputVolumeValue._50),
                 };
 
 

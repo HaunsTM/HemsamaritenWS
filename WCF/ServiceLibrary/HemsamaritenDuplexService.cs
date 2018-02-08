@@ -247,38 +247,6 @@ namespace WCF.ServiceLibrary
             return returnMessage;
         }
         
-        public LastPerformedTellstickAction LastPerformedAction(string name)
-        {
-            var lastPerformedAction = new LastPerformedTellstickAction();
-            try
-            {
-                var performedActionsDealer = new Core.BLL.PerformedActionsDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
-                lastPerformedAction = performedActionsDealer.LastPerformedAction(name);
-            }
-            catch (Exception ex)
-            {
-                log.Error($"Failed in getting LastPerformedAction for {name}", ex);
-            }
-            return lastPerformedAction;
-
-        }
-
-        public List<LastPerformedTellstickAction> LastPerformedActionsForAllUnits()
-        {
-            var lastPerformedActions = new List<LastPerformedTellstickAction>();
-            try
-            {
-                var performedActionsDealer = new Core.BLL.PerformedActionsDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
-                lastPerformedActions = performedActionsDealer.LastPerformedActionsForAllUnits();
-            }
-            catch (Exception ex)
-            {
-                log.Error($"Failed in getting LastPerformedActionsForAllDevices", ex);
-            }
-            return lastPerformedActions;
-
-        }
-
         #endregion
 
         #region Media

@@ -24,10 +24,10 @@ namespace Core.Model
         #region Navigation properties
         
         [JsonIgnore]
-        public virtual TellstickAction Action { get; set; }
+        public virtual Action Action { get; set; }
 
         [ForeignKey("Action")]
-        public int Action_Id { get; set; }
+        public int? Action_Id { get; set; }
 
         #endregion
 

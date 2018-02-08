@@ -32,8 +32,8 @@ namespace Core.BLL
                 var jsonSerializedCurrentNativeDeviceId = dataMap.GetString("jsonSerializedCurrentNativeDeviceId");
                 var nativeDeviceId = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(jsonSerializedCurrentNativeDeviceId);
                 
-                var jsonSerializedCurrentActionId = dataMap.GetString("jsonSerializedCurrentActionId");
-                var currentActionId = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(jsonSerializedCurrentActionId);
+                var jsonSerializedCurrentAction = dataMap.GetString("jsonSerializedCurrentAction");
+                var currentActionId = Newtonsoft.Json.JsonConvert.DeserializeObject<Model.Action>(jsonSerializedCurrentAction);
 
                 var jsonSerializedDbConnectionStringName = dataMap.GetString("jsonSerializedDbConnectionStringName");
                 var dbConnectionStringName = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(jsonSerializedDbConnectionStringName);

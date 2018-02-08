@@ -76,6 +76,7 @@ namespace Core.Audio
 
         public void Play(IMediaSource mediaSource)
         {
+            if (mediaSource == null) throw new Exception("Trying to play but the expected mediaSource was null.");
             if (mediaSource.MediaDataBase64 != null)
             {
                 throw new NotImplementedException("Playing media from data in base 64 format is not yet implemented");
@@ -86,6 +87,7 @@ namespace Core.Audio
 
         public void Play(IMediaSource mediaSource, IMediaOutputVolume mediaOutputVolume)
         {
+            if (mediaOutputVolume == null) throw new Exception("Trying to play but the expected mediaOutputVolume was null.");
             this.Volume = mediaOutputVolume.Value;
 
             this.Play(mediaSource);

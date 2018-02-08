@@ -120,9 +120,9 @@ namespace Core.BLL
                     var jsonSerializedCurrentNativeDeviceId_Key = "jsonSerializedCurrentNativeDeviceId";
                     var jsonSerializedCurrentNativeDeviceId_Value = jsonSerializedCurrentNativeDeviceId;
 
-                    var jsonSerializedCurrentActionId= Newtonsoft.Json.JsonConvert.SerializeObject(task.Action.Id);
-                    var jsonSerializedCurrentActionId_Key = "jsonSerializedCurrentActionId";
-                    var jsonSerializedCurrentActionId_Value = jsonSerializedCurrentActionId;
+                    var jsonSerializedCurrentAction= Newtonsoft.Json.JsonConvert.SerializeObject(task.Action);
+                    var jsonSerializedCurrentAction_Key = "jsonSerializedCurrentAction";
+                    var jsonSerializedCurrentAction_Value = jsonSerializedCurrentAction;
 
                     var jsonSerializedDbConnectionStringName = Newtonsoft.Json.JsonConvert.SerializeObject(this.DbConnectionStringName);
                     var jsonDbConnectionStringName_Key = "jsonSerializedDbConnectionStringName";
@@ -134,7 +134,7 @@ namespace Core.BLL
                         .WithIdentity(jobId)
                         .UsingJobData(jsonSerializedTellstickActionType_Key, jsonSerializedTellstickActionType_Value)
                         .UsingJobData(jsonSerializedCurrentNativeDeviceId_Key, jsonSerializedCurrentNativeDeviceId_Value)
-                        .UsingJobData(jsonSerializedCurrentActionId_Key, jsonSerializedCurrentActionId_Value)
+                        .UsingJobData(jsonSerializedCurrentAction_Key, jsonSerializedCurrentAction_Value)
                         .UsingJobData(jsonDbConnectionStringName_Key, jsonDbConnectionStringName_Value)
                         .Build();
 
