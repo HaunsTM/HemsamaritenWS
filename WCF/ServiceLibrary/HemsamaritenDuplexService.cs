@@ -365,13 +365,13 @@ namespace WCF.ServiceLibrary
             return returnMessage;
         }
 
-        public List<RegisteredMediaSource> MediaSourcesList()
+        public List<IRegisteredMediaSource> MediaSourcesList()
         {
-            var presetMediaSources = new List<RegisteredMediaSource>();
+            var presetMediaSources = new List<IRegisteredMediaSource>();
             try
             {
                 var mediaSourceDealer = new Core.BLL.MediaSourceDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
-                presetMediaSources = mediaSourceDealer.PresetMediaSources();
+                presetMediaSources = mediaSourceDealer.PredefinedMediaSourcesList();
             }
             catch (Exception ex)
             {

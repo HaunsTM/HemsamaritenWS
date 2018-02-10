@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Core.Model.Interfaces;
 using Core.Model.ViewModel;
 
 namespace Core.BLL
@@ -13,7 +14,7 @@ namespace Core.BLL
             DbConnectionStringName = dbConnectionStringName;
         }
 
-        public List<RegisteredMediaSource> PresetMediaSources()
+        public List<IRegisteredMediaSource> PredefinedMediaSourcesList()
         {
             //Which Unit are we talking about? Get Unit from DB
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
@@ -23,7 +24,25 @@ namespace Core.BLL
                     MediaCategoryType = mS.MediaCategoryType.ToString(),
                     Url = mS.Url,
                     Name = mS.Name
-                }).ToList();
+                }).ToList<IRegisteredMediaSource>();
+                return presetMediaSources;
+            }
+        }
+
+        public List<IRegisteredMediaSource> PredefinedMediaSourcesListBy(ICountry country)
+        {
+            //Which Unit are we talking about? Get Unit from DB
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
+            {
+                var presetMediaSources = db.MediaSources
+                    .Where(mS => mS.Active)
+                    .Where(mS => mS.MediaCountry == country)
+                    .Select(mS => new RegisteredMediaSource
+                        {
+                            MediaCategoryType = mS.MediaCategoryType.ToString(),
+                            Url = mS.Url,
+                            Name = mS.Name
+                        }).ToList<IRegisteredMediaSource>();
                 return presetMediaSources;
             }
         }

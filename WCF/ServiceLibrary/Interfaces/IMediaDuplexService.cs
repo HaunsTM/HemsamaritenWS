@@ -51,6 +51,6 @@ namespace WCF.ServiceLibrary.Interfaces
             BodyStyle = WebMessageBodyStyle.WrappedRequest,
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        List<RegisteredMediaSource> MediaSourcesList();
+        List<IRegisteredMediaSource> MediaSourcesList();
     }
 }

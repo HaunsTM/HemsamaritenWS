@@ -22,7 +22,7 @@ namespace Tellstick.ConsoleForTestingPurpose
         static void Main(string[] args)
         {
             //TestScheduler();
-            CreateDBTest(DB_CONNECTION_STRING_NAME);
+            //CreateDBTest(DB_CONNECTION_STRING_NAME);
             //var registeredDevice = RegisterDevice(dbConnectionStringName: DB_CONNECTION_STRING_NAME, commander: new NativeTellstickCommander(), name: "Ett namn på en Tellstick", locationDesciption: "Liggandes på skrivbordet i Hans rum", protocol: EnumTellstickProtocol.arctech, modelType: EnumTellstickModelType.codeswitch, modelManufacturer: EnumTellstickModelManufacturer.Nexa, unit: EnumTellstickParameter_Unit._1, house: EnumTellstickParameter_House.A);
             //new TellstickUnitDealer(DB_CONNECTION_STRING_NAME, new NativeTellstickCommander()).TurnOnDevice(
             //    registeredDevice);
@@ -30,6 +30,8 @@ namespace Tellstick.ConsoleForTestingPurpose
             //var un12 = UnregisterDevice(nativeDeviceId: 12, dbConnectionStringName: DB_CONNECTION_STRING_NAME, commander: new NativeTellstickCommander());
             //PlaySound();
             //PlaySound(DB_CONNECTION_STRING_NAME);
+            TestDealers();
+
         }
 
 
@@ -84,6 +86,14 @@ namespace Tellstick.ConsoleForTestingPurpose
             Console.ReadLine();
         }
 
+        private static void TestDealers()
+        {
+            var cD = new CouyntryDealer(DB_CONNECTION_STRING_NAME);
+            var mSD = new MediaSourceDealer(DB_CONNECTION_STRING_NAME);
 
+            var allCountries = cD.AllCountriesList();
+            var countriesRepresentedInMediaSourcesList = cD.CountriesRepresentedInMediaSourcesList();
+            var predefinedMediaSourcesList = mSD.PredefinedMediaSourcesList();
+        }
     }
 }
