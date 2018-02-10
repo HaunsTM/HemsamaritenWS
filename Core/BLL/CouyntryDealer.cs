@@ -34,7 +34,7 @@ namespace Core.BLL
                     .GroupBy(c => c.MediaCountry).Select(group => group.FirstOrDefault()).ToList<Core.Model.MediaSource>();
                 var distinctCountries =
                     distinctCountriesRepresentedInMediaSourcesListIncludingNulls.Select(c => c.MediaCountry).ToList<ICountry>();
-                return null;
+                return distinctCountries;
             }
         }
     }

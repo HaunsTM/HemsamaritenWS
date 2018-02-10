@@ -2,11 +2,13 @@
 using Core.Model.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.ServiceProcess;
 using Core.Model;
 using WCF.ServiceLibrary.Interfaces;
+using System.Net.Http;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -16,7 +18,7 @@ namespace WCF.ServiceLibrary
     [ServiceBehavior(
         InstanceContextMode = InstanceContextMode.Single,
         ConcurrencyMode = ConcurrencyMode.Multiple)]
-    public class HemsamaritenDuplexService : ServiceBase, IHemsamaritenDuplexService
+    public class  HemsamaritenDuplexService : ServiceBase, IHemsamaritenDuplexService
     {
         //Here is the once-per-class call to initialize the log object
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
