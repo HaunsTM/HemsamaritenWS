@@ -1,32 +1,9 @@
-﻿using System.ServiceModel.Web;
+﻿using System.ServiceModel;
 
 namespace WCF.ServiceLibrary.Interfaces
 {
-    using System.Security.Cryptography.X509Certificates;
-    using System.ServiceModel;
-
-    [ServiceContract(CallbackContract = typeof(IHemsamaritenDuplexCallback))]
-    public interface IHemsamaritenDuplexService : ITellstickDuplexService, IMediaDuplexService
+    [ServiceContract]
+    public interface IHemsamaritenDuplexService: IBaseDuplexService, IMediaDuplexService, ITellstickDuplexService
     {
-        [OperationContract(IsOneWay = true)]
-        void CreateAndInitializeHemsamaritenDB();
-
-        #region Scheduler
-
-        [OperationContract(IsOneWay = true)]
-        [WebInvoke(Method = "GET",
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "StartAllSchedulers")]
-        void StartAllSchedulers();
-
-        [OperationContract(IsOneWay = true)]
-        [WebInvoke(Method = "GET",
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "StopAllSchedulers")]
-        void StopAllSchedulers();
-
-        #endregion
     }
 }

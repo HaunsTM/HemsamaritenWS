@@ -134,13 +134,20 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HemsamaritenDuplexService.cs">
+    <Compile Include="HemsamaritenService - Base.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Interfaces\IHemsamaritenDuplexCallback.cs" />
+    <Compile Include="HemsamaritenService - Tellstick.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HemsamaritenService - Media.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HemsamaritenService.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Interfaces\IHemsamaritenDuplexService.cs" />
-    <Compile Include="Interfaces\ITellstickDuplexCallback.cs" />
-    <Compile Include="Interfaces\IMediaDuplexCallback.cs" />
+    <Compile Include="Interfaces\IBaseDuplexService.cs" />
     <Compile Include="Interfaces\IMediaDuplexService.cs" />
     <Compile Include="Interfaces\ITellstickDuplexService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

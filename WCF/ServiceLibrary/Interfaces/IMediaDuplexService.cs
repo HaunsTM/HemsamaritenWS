@@ -5,10 +5,9 @@ using Core.Model.ViewModel;
 
 namespace WCF.ServiceLibrary.Interfaces
 {
-    [ServiceContract(CallbackContract = typeof(IMediaDuplexCallback))]
+    [ServiceContract]
     public interface IMediaDuplexService
     {
-
         [OperationContract(IsOneWay = true)]
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
@@ -51,6 +50,6 @@ namespace WCF.ServiceLibrary.Interfaces
             BodyStyle = WebMessageBodyStyle.WrappedRequest,
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        List<IRegisteredMediaSource> MediaSourcesList();
+        List<RegisteredMediaSource> MediaSourcesList();
     }
 }

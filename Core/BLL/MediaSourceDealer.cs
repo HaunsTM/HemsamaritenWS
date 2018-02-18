@@ -14,7 +14,7 @@ namespace Core.BLL
             DbConnectionStringName = dbConnectionStringName;
         }
 
-        public List<IRegisteredMediaSource> PredefinedMediaSourcesList()
+        public List<RegisteredMediaSource> PredefinedMediaSourcesList()
         {
             //Which Unit are we talking about? Get Unit from DB
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
@@ -24,12 +24,12 @@ namespace Core.BLL
                     MediaCategoryType = mS.MediaCategoryType.ToString(),
                     Url = mS.Url,
                     Name = mS.Name
-                }).ToList<IRegisteredMediaSource>();
+                }).ToList<RegisteredMediaSource>();
                 return presetMediaSources;
             }
         }
 
-        public List<IRegisteredMediaSource> PredefinedMediaSourcesListBy(ICountry country)
+        public List<RegisteredMediaSource> PredefinedMediaSourcesListBy(ICountry country)
         {
             //Which Unit are we talking about? Get Unit from DB
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
@@ -42,7 +42,7 @@ namespace Core.BLL
                             MediaCategoryType = mS.MediaCategoryType.ToString(),
                             Url = mS.Url,
                             Name = mS.Name
-                        }).ToList<IRegisteredMediaSource>();
+                        }).ToList<RegisteredMediaSource>();
                 return presetMediaSources;
             }
         }

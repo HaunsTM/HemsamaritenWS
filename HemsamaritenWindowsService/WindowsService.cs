@@ -19,7 +19,7 @@ namespace HemsamaritenWindowsService
             {
                 myServiceHost.Close();
             }
-            myServiceHost = new ServiceHost(typeof(WCF.ServiceLibrary.HemsamaritenDuplexService));
+            myServiceHost = new ServiceHost(typeof(WCF.ServiceLibrary.HemsamaritenService));
             myServiceHost.Open();
         }
         protected override void OnStop()

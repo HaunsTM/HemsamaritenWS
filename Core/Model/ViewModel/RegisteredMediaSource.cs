@@ -1,4 +1,6 @@
-﻿namespace Core.Model.ViewModel
+﻿using System;
+
+namespace Core.Model.ViewModel
 {
     public class RegisteredMediaSource : IRegisteredMediaSource
     {
