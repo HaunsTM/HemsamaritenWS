@@ -1,5 +1,8 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
 using System.ServiceModel.Web;
+using Core.Model;
+using Core.Model.ViewModel;
 
 namespace WCF.ServiceLibrary.Interfaces
 {
@@ -53,6 +56,42 @@ namespace WCF.ServiceLibrary.Interfaces
         RequestFormat = WebMessageFormat.Json,
         ResponseFormat = WebMessageFormat.Json)]
         string TurnOffTellstickDevice(string Name);
-        
+
+
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        List<Core.Model.TellstickUnit> GetAllTellstickUnits();
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        Core.Model.TellstickUnit GetTellstickUnitBy(int tellstickUnitId);
+
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        List<RegisteredTellstickAction> GetAllActions();
+
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        List<RegisteredTellstickAction> GetActionsBy(int tellstickUnitId);
+
+        [WebInvoke(Method = "POST",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        RegisteredTellstickAction AddAction(int tellstickUnitId, int tellstickActionTypeOption, string schedulerCronExpression);
+
+        [WebInvoke(Method = "DELETE",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        bool RemoveAction(int actionId);
+
     }
 }

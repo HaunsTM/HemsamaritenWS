@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Core.Model.Interfaces;
 
 namespace Core.BLL
@@ -31,5 +32,8 @@ namespace Core.BLL
         /// <param name="nativeDeviceId">Id of device to turn off</param>
         /// <returns>If turn off message were sent</returns>
         bool ManualTurnOffAndRegisterPerformedActionNative(int nativeDeviceId);
+
+        List<Core.Model.TellstickUnit> GetAllTellstickUnits();
+        Core.Model.TellstickUnit GetTellstickUnitBy(int tellstickUnitId);
     }
 }

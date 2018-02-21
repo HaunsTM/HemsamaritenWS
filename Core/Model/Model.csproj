@@ -156,10 +156,10 @@
     <Compile Include="TellstickZNetLiteV2.cs" />
     <Compile Include="TellstickAuthentication.cs" />
     <Compile Include="TellstickUnit.cs" />
-    <Compile Include="ViewModel\ILastPerformedTellstickAction.cs" />
+    <Compile Include="ViewModel\IRegisteredTellstickAction.cs" />
     <Compile Include="ViewModel\IRegisteredMediaSource.cs" />
     <Compile Include="ViewModel\RegisteredMediaSource.cs" />
-    <Compile Include="ViewModel\LastPerformedTellstickAction.cs" />
+    <Compile Include="ViewModel\RegisteredTellstickAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

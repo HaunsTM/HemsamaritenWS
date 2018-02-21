@@ -1,5 +1,10 @@
 ﻿//Here is the once-per-application setup information
 using System;
+using System.Collections.Generic;
+using System.Net;
+using Core.Model;
+using Core.Model.Enums;
+using Core.Model.ViewModel;
 using WCF.ServiceLibrary.Interfaces;
 
 namespace WCF.ServiceLibrary
@@ -161,5 +166,118 @@ namespace WCF.ServiceLibrary
             return returnMessage;
         }
 
+        List<Core.Model.TellstickUnit> ITellstickDuplexService.GetAllTellstickUnits()
+        {
+            List<Core.Model.TellstickUnit> allTellstickUnits = null;
+            try
+            {
+                var tellstickUnitDealer = new Core.BLL.TellstickUnitDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                allTellstickUnits = tellstickUnitDealer.GetAllTellstickUnits();
+                this.SetResponseHttpStatus(HttpStatusCode.OK);
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format($"Failed in getting all TellstickUnits."), ex);
+                this.SetResponseHttpStatus(HttpStatusCode.BadRequest);
+            }
+            return allTellstickUnits;
+        }
+
+        Core.Model.TellstickUnit ITellstickDuplexService.GetTellstickUnitBy(int tellstickUnitId)
+        { 
+            Core.Model.TellstickUnit tellstickUnit = null;
+            try
+            {
+                var tellstickUnitDealer = new Core.BLL.TellstickUnitDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                tellstickUnit = tellstickUnitDealer.GetTellstickUnitBy(tellstickUnitId);
+                this.SetResponseHttpStatus(HttpStatusCode.OK);
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format($"Failed in getting TellstickUnit by tellstickUnitId={tellstickUnitId}."), ex);
+                this.SetResponseHttpStatus(HttpStatusCode.BadRequest);
+            }
+            return tellstickUnit;
+        }
+
+        List<RegisteredTellstickAction> ITellstickDuplexService.GetAllActions()
+        {
+            List<RegisteredTellstickAction> tellstickActions = null;
+            try
+            {
+                var tellstickActionsDealer = new Core.BLL.TellstickActionsDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                tellstickActions = tellstickActionsDealer.GetAllActions();
+                this.SetResponseHttpStatus(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format($"Failed in getting all Actions."), ex);
+                this.SetResponseHttpStatus(HttpStatusCode.BadRequest);
+            }
+            return tellstickActions;
+        }
+
+        List<RegisteredTellstickAction> ITellstickDuplexService.GetActionsBy(int tellstickUnitId)
+        {
+            List<RegisteredTellstickAction> tellstickActionsByTellstickUnitId = null;
+            try
+            {
+                var tellstickActionsDealer = new Core.BLL.TellstickActionsDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                tellstickActionsByTellstickUnitId = tellstickActionsDealer.GetActionsBy(tellstickUnitId);
+                this.SetResponseHttpStatus(HttpStatusCode.OK);
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format($"Failed in getting Actions by tellstickUnitId={tellstickUnitId}."), ex);
+                this.SetResponseHttpStatus(HttpStatusCode.BadRequest);
+            }
+            return tellstickActionsByTellstickUnitId;
+        }
+
+        RegisteredTellstickAction ITellstickDuplexService.AddAction(int tellstickUnitId,
+            int tellstickActionTypeOption, string schedulerCronExpression)
+        {
+            RegisteredTellstickAction addedTellstickAction = null;
+
+            try
+            {
+                var tellstickActionsDealer = new Core.BLL.TellstickActionsDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                addedTellstickAction = tellstickActionsDealer.AddAction(tellstickUnitId, (TellstickActionTypeOption)tellstickActionTypeOption, schedulerCronExpression);
+                this.SetResponseHttpStatus(HttpStatusCode.OK);
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format($"Failed in adding Action tellstickUnitId={tellstickUnitId}, actionTypeOption={tellstickActionTypeOption}, schedulerCronExpression={schedulerCronExpression}."), ex);
+                this.SetResponseHttpStatus(HttpStatusCode.BadRequest);
+            }
+            return addedTellstickAction;
+        }
+
+        bool ITellstickDuplexService.RemoveAction(int actionId)
+        {
+            var removed = false;
+
+            try
+            {
+                var tellstickActionsDealer = new Core.BLL.TellstickActionsDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                removed = tellstickActionsDealer.RemoveAction(actionId);
+                this.SetResponseHttpStatus(HttpStatusCode.OK);
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format($"Failed in removing Action id={actionId}."), ex);
+                this.SetResponseHttpStatus(HttpStatusCode.BadRequest);
+            }
+            return removed;
+
+        }
+
     }
+
 }
+

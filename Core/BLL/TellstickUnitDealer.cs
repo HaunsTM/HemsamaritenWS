@@ -1,4 +1,6 @@
-﻿namespace Core.BLL
+﻿using System.Collections.Generic;
+
+namespace Core.BLL
 {
     using Core.BLL.Interfaces;
     using Core.Model;
@@ -200,7 +202,7 @@
             return turnedOffMessageSent;
         }
 
-        private TellstickUnit UnitBy(string name)
+        private TellstickUnit TellstickUnitBy(string name)
         {
             TellstickUnit dbUnit = null;
             try
@@ -229,7 +231,7 @@
             var turnedOnMessageSent = false;
             try
             {
-                var currentUnit = UnitBy(name);
+                var currentUnit = TellstickUnitBy(name);
                 this.TurnOnDevice(nativeDeviceId: currentUnit.NativeDeviceId);
                 turnedOnMessageSent = true;
                 this.RegisterManualPerformedAction_TurnOnNative(nativeDeviceId: currentUnit.NativeDeviceId, time: DateTime.Now);
@@ -254,7 +256,7 @@
 
             try
             {
-                var currentUnit = UnitBy(name);
+                var currentUnit = TellstickUnitBy(name);
                 this.TurnOffDevice(nativeDeviceId: currentUnit.NativeDeviceId);
                 turnedOffMessageSent = true;
                 this.RegisterManualPerformedAction_TurnOffNative(nativeDeviceId: currentUnit.NativeDeviceId, time: DateTime.Now);
@@ -356,5 +358,28 @@
             }
             return refreshed;
         }
+        
+        public List<Core.Model.TellstickUnit> GetAllTellstickUnits()
+        {
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
+            {
+                var tellstickUnits = (from t in db.TellstickUnits
+                                      where t.Active
+                                      select t).ToList();
+                return tellstickUnits;
+            }
+        }
+
+        public Core.Model.TellstickUnit GetTellstickUnitBy(int tellstickUnitId)
+        {
+            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
+            {
+                var tellstickUnits = (from t in db.TellstickUnits
+                    where t.Active && t.Id == tellstickUnitId
+                    select t).SingleOrDefault();
+                return tellstickUnits; 
+            }
+        }
+
     }
 }
