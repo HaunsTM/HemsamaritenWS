@@ -88,19 +88,19 @@ namespace Core.BLL
                 {
                     //which ActionType are we dealing with?
                     var currentActionType = (from actionType in db.TellstickActionTypes
-                                             where actionType.ActionTypeOption == actionTypeOption
+                                             where actionType.Active && actionType.ActionTypeOption == actionTypeOption
                                              select actionType).First();
 
                     //which tellstick Unit are we dealing with?
                     var currentUnit = (from unit in db.TellstickUnits where unit.NativeDeviceId == nativeDeviceId select unit).First();
 
                     var newManualAction = new Core.Model.TellstickAction
-                                                {
-                                                    Active = true,
-                                                    Scheduler = scheduler,
-                                                    TellstickActionType = currentActionType,
-                                                    TellstickUnit = currentUnit
-                                                };
+                    {
+                        Active = true,
+                        Scheduler_Id = scheduler?.Id,
+                        TellstickActionType_Id = currentActionType.Id,
+                        TellstickUnit_Id = currentUnit.Id
+                    };
 
                     db.Actions.Add(newManualAction);
                     db.SaveChanges();
@@ -282,6 +282,7 @@ namespace Core.BLL
                 }
                 else if (!possibleRegisteredAction.Active)
                 {
+                    //yes, but the the Action had Active = false
                     using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
                     {
                         var currentActionFromDatabase = db.Actions.SingleOrDefault(a => a.Id == possibleRegisteredAction.Id);
@@ -290,25 +291,37 @@ namespace Core.BLL
                         addedAction = (Core.Model.TellstickAction)currentActionFromDatabase;
                     }
                 }
+                else if (possibleRegisteredAction.Active)
+                {
+                    //yes, and the Action hade it's flag set to Active = false
+                    addedAction = possibleRegisteredAction;
+                }
+
+                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
+                {
+                    //since the db context for addedAction currently is disposed, we need to regain it in order to fetch extended properties for the added Action
+
+                    var regainedAddedAction = db.Actions.OfType<TellstickAction>().Where(a => a.Id == addedAction.Id).Single();
+
+                    var registeredTellstickAction = new RegisteredTellstickAction
+                    {
+                        Action_Id = addedAction.Id,
+                        CronDescription = regainedAddedAction.Scheduler != null ? regainedAddedAction.Scheduler.CronDescription : "",
+                        CronExpression = regainedAddedAction.Scheduler != null ? regainedAddedAction.Scheduler.CronExpression : "",
+                        LastPerformedTimeUTC = regainedAddedAction.PerformedActions != null ? ((DateTimeOffset)regainedAddedAction.PerformedActions.OrderByDescending(p => p.Time).Select(p => p.Time).Take(1).FirstOrDefault()).ToUnixTimeSeconds().ToString() : "",
+                        Scheduler_Id = regainedAddedAction.Scheduler != null ? (int)regainedAddedAction.Scheduler_Id : -1,
+                        TellstickActionType_Id = regainedAddedAction.TellstickActionType != null ? regainedAddedAction.TellstickActionType.Id : -1,
+                        TellstickUnit_Id = regainedAddedAction.TellstickUnit != null ? regainedAddedAction.TellstickUnit.Id : -1
+
+                    };
+
+                    return registeredTellstickAction;
+                }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
-            var registeredTellstickAction = new RegisteredTellstickAction
-            {
-
-                Action_Id = addedAction.Id,
-                CronDescription = addedAction.Scheduler != null ? addedAction.Scheduler.CronDescription : "",
-                CronExpression = addedAction.Scheduler != null ? addedAction.Scheduler.CronExpression : "",
-                LastPerformedTimeUTC = ((DateTimeOffset)addedAction.PerformedActions.OrderByDescending(p => p.Time).Select(p => p.Time).Take(1).FirstOrDefault()).ToUnixTimeSeconds().ToString(),
-                Scheduler_Id = addedAction.Scheduler != null ? (int)addedAction.Scheduler_Id : -1,
-                TellstickActionType_Id = addedAction.TellstickActionType != null ? addedAction.TellstickActionType.Id : -1,
-                TellstickUnit_Id = addedAction.TellstickUnit != null ? addedAction.TellstickUnit.Id : -1
-
-            };
-            return registeredTellstickAction;
         }
 
         public RegisteredTellstickAction AddAction(int tellstickUnitId,
@@ -320,7 +333,8 @@ namespace Core.BLL
             {
                 try
                 {
-                    currentScheduler = db.Schedulers.Where(s => s.CronExpression == schedulerCronExpression).Single();
+                    var currentSchedulers = db.Schedulers.Where(s => s.Active && s.CronExpression == schedulerCronExpression).ToList();
+                    currentScheduler = db.Schedulers.Where(s => s.Active && s.CronExpression == schedulerCronExpression).Single();
                 }
                 catch (Exception ex)
                 {
