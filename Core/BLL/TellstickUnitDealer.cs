@@ -289,7 +289,7 @@ namespace Core.BLL
 
                 using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
                 {
-                    var performedAction = new PerformedAction { Active = true, Action = usedAction, Time = time };
+                    var performedAction = new PerformedAction { Active = true, Action_Id = usedAction.Id, Time = time };
                     db.PerformedActions.Add(performedAction);
                     db.SaveChanges();
                     registered = true;
@@ -324,7 +324,7 @@ namespace Core.BLL
 
                 using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
                 {
-                    var performedAction = new PerformedAction { Active = true, Action = usedAction, Time = time };
+                    var performedAction = new PerformedAction { Active = true, Action_Id = usedAction.Id, Time = time };
                     db.PerformedActions.Add(performedAction);
                     db.SaveChanges();
                     registered = true;
