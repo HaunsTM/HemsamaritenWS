@@ -84,8 +84,8 @@ namespace Core.Model
                     new TellstickUnit { Active = true, NativeDeviceId = 16, Name = "15", LocationDesciption = "Liten bokhylla närmast fönstret Hans"},
 
                     new TellstickUnit { Active = true, NativeDeviceId = 17, Name = "16", LocationDesciption = "Vinkelbokhylla i hörnet Hans rum"},
-                    new TellstickUnit { Active = true, NativeDeviceId = 18, Name = "17", LocationDesciption = "Liten bordslampa Hans rum"},
-                    new TellstickUnit { Active = true, NativeDeviceId = 19, Name = "18", LocationDesciption = "Bokhyllebelysning i vardagsrum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 19, Name = "17", LocationDesciption = "Liten bordslampa Hans rum"},
+                    new TellstickUnit { Active = true, NativeDeviceId = 18, Name = "18", LocationDesciption = "Bokhyllebelysning i vardagsrum"},
                     new TellstickUnit { Active = true, NativeDeviceId = 20, Name = "19", LocationDesciption = "Ljusorgel vardagsrum"},
                     new TellstickUnit { Active = true, NativeDeviceId = 21, Name = "20", LocationDesciption = "Ljusstake sovrum"},
 
