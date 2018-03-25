@@ -50,6 +50,18 @@ namespace WCF.ServiceLibrary.Interfaces
             BodyStyle = WebMessageBodyStyle.WrappedRequest,
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        List<RegisteredMediaSource> MediaSourcesList();
+        List<RegisteredMediaSource> AllMediaSourcesList();
+
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        List<RegisteredMediaSource> InternetStreamRadioSourcesList();
+
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        List<RegisteredMediaSource> SoundEffectSourcesList();
     }
 }
