@@ -2,6 +2,7 @@
 using Core.Model.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using WCF.ServiceLibrary.Interfaces;
 
 namespace WCF.ServiceLibrary
@@ -128,6 +129,7 @@ namespace WCF.ServiceLibrary
             {
                 log.Error($"Failed in getting LastPerformedActionsForAllDevices", ex);
             }
+            this.SetResponseHttpStatus(HttpStatusCode.OK);
             return presetMediaSources;
 
         }

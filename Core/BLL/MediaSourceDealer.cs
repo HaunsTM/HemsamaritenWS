@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Core.Model;
 using Core.Model.Interfaces;
 using Core.Model.ViewModel;
 
@@ -23,7 +24,8 @@ namespace Core.BLL
                 {
                     MediaCategoryType = mS.MediaCategoryType.ToString(),
                     Url = mS.Url,
-                    Name = mS.Name
+                    Name = mS.Name,
+                    MediaSourceCountry = mS.MediaCountry.Name.ToString()
                 }).ToList<RegisteredMediaSource>();
                 return presetMediaSources;
             }

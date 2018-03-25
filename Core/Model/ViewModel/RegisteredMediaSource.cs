@@ -8,6 +8,6 @@ namespace Core.Model.ViewModel
         public string Url { get; set; }
         public string MediaCategoryType { get; set; }
 
-        public Country MediaSourceCountry { get; set; }
+        public string MediaSourceCountry { get; set; }
     }   
 }

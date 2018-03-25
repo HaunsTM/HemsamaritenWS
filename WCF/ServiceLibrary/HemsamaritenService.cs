@@ -25,6 +25,14 @@ namespace WCF.ServiceLibrary
         {
             var context = WebOperationContext.Current;
             context.OutgoingResponse.StatusCode = statusCode;
+            context.OutgoingResponse.Headers.Add("Access-Control-Allow-Origin", "*");
+
+            if (context.IncomingRequest.Method == "OPTIONS")
+            {
+                context.OutgoingResponse.Headers.Add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+                context.OutgoingResponse.Headers.Add("Access-Control-Allow-Header", "Content-Type, Accept, SOAPAction");
+                context.OutgoingResponse.Headers.Add("Access-Control-Allow-Credentials", "false");
+            }
         }
     }
 }
