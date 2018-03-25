@@ -170,6 +170,24 @@ namespace WCF.ServiceLibrary
             return presetMediaSources;
         }
 
+        List<RegisteredMediaSource> IMediaDuplexService.InternetStreamRadioSourcesListBy(string mediaSourceCountry_ISOAlpha2)
+        {
+            var presetMediaSources = new List<RegisteredMediaSource>();
+            try
+            {
+                var mediaSourceDealer = new Core.BLL.MediaSourceDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                presetMediaSources = mediaSourceDealer.PredefinedMediaSourcesListBy(MediaCategoryType.InternetStreamRadio, mediaSourceCountry_ISOAlpha2);
+
+                this.SetResponseHttpStatus(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                this.SetResponseHttpStatus(HttpStatusCode.BadRequest);
+                log.Error($"Failed in getting InternetStreamRadioSourcesList", ex);
+            }
+            return presetMediaSources;
+        }
+
         List<RegisteredMediaSource> IMediaDuplexService.SoundEffectSourcesList()
         {
             var presetMediaSources = new List<RegisteredMediaSource>();

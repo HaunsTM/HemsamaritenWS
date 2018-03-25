@@ -62,6 +62,12 @@ namespace WCF.ServiceLibrary.Interfaces
             BodyStyle = WebMessageBodyStyle.WrappedRequest,
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
+        List<RegisteredMediaSource> InternetStreamRadioSourcesListBy(string mediaSourceCountry_ISOAlpha2);
+
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
         List<RegisteredMediaSource> SoundEffectSourcesList();
     }
 }

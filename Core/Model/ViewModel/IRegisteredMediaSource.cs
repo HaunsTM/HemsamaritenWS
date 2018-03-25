@@ -9,5 +9,6 @@ namespace Core.Model.ViewModel
         string MediaCategoryType { get; set; }
 
         string MediaSourceCountry { get; set; }
+        string MediaSourceCountry_ISOAlpha2 { get; set; }
     }
 }
