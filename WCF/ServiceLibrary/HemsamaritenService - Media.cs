@@ -3,7 +3,9 @@ using Core.Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using Core.Model;
 using Core.Model.Enums;
+using Core.Model.Interfaces;
 using WCF.ServiceLibrary.Interfaces;
 
 namespace WCF.ServiceLibrary
@@ -187,6 +189,26 @@ namespace WCF.ServiceLibrary
             }
             return presetMediaSources;
         }
+
+        List<Country> IMediaDuplexService.InternetStreamRadioRegisteredCountries()
+        {
+            var countriesRepresentedInMediaSourcesList = new List<Country>();
+            try
+            {
+                var mediaSourceDealer = new Core.BLL.CouyntryDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                countriesRepresentedInMediaSourcesList = mediaSourceDealer.CountriesRepresentedInMediaSourcesList();
+
+                this.SetResponseHttpStatus(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                this.SetResponseHttpStatus(HttpStatusCode.BadRequest);
+                log.Error($"Failed in getting InternetStreamRadioRegisteredCountries", ex);
+            }
+
+            return countriesRepresentedInMediaSourcesList;
+        }
+
 
         List<RegisteredMediaSource> IMediaDuplexService.SoundEffectSourcesList()
         {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Web;
+using Core.Model;
 using Core.Model.ViewModel;
 
 namespace WCF.ServiceLibrary.Interfaces
@@ -62,7 +63,14 @@ namespace WCF.ServiceLibrary.Interfaces
             BodyStyle = WebMessageBodyStyle.WrappedRequest,
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        List<RegisteredMediaSource> InternetStreamRadioSourcesListBy(string mediaSourceCountry_ISOAlpha2);
+        List<RegisteredMediaSource> InternetStreamRadioSourcesListBy(string country);
+
+
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        List<Country> InternetStreamRadioRegisteredCountries();
 
         [WebInvoke(Method = "GET",
             BodyStyle = WebMessageBodyStyle.WrappedRequest,

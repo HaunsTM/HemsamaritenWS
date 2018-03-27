@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Core.Model;
 using Core.Model.Interfaces;
 
 namespace Core.BLL
@@ -24,7 +25,7 @@ namespace Core.BLL
             }
         }
 
-        public List<ICountry> CountriesRepresentedInMediaSourcesList()
+        public List<Country> CountriesRepresentedInMediaSourcesList()
         {
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(this.DbConnectionStringName))
             {
@@ -32,8 +33,18 @@ namespace Core.BLL
                     .Where(c => c.Active)
                     .Where(c => c.MediaCountry != null)
                     .GroupBy(c => c.MediaCountry).Select(group => group.FirstOrDefault()).ToList<Core.Model.MediaSource>();
+
                 var distinctCountries =
-                    distinctCountriesRepresentedInMediaSourcesListIncludingNulls.Select(c => c.MediaCountry).ToList<ICountry>();
+                    distinctCountriesRepresentedInMediaSourcesListIncludingNulls.Select(c => c.MediaCountry).Select( c => new Country
+                    {
+                        ISOAlpha2 = c.ISOAlpha2,
+                        ISOAlpha3 = c.ISOAlpha3,
+                        Name = c.Name,
+                        Id = c.Id,
+                        Code = c.Code,
+                        Active = c.Active
+                    }).ToList<Country>();
+                
                 return distinctCountries;
             }
         }
