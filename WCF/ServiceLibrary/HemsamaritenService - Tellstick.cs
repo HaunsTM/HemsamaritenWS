@@ -202,45 +202,27 @@ namespace WCF.ServiceLibrary
             return tellstickUnit;
         }
 
-        List<RegisteredTellstickAction> ITellstickDuplexService.GetAllActions()
-        {
-            List<RegisteredTellstickAction> tellstickActions = null;
-            try
-            {
-                var tellstickActionsDealer = new Core.BLL.TellstickActionsDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
-                tellstickActions = tellstickActionsDealer.GetAllActions();
-                this.SetResponseHttpStatus(HttpStatusCode.OK);
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format($"Failed in getting all Actions."), ex);
-                this.SetResponseHttpStatus(HttpStatusCode.BadRequest);
-            }
-            return tellstickActions;
-        }
+        //List<RegisteredTellstickAction> ITellstickDuplexService.GetAllActions()
+        //{
+        //    List<RegisteredTellstickAction> tellstickActions = null;
+        //    try
+        //    {
+        //        var tellstickActionsDealer = new Core.BLL.TellstickActionsDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+        //        tellstickActions = tellstickActionsDealer.GetAllActions();
+        //        this.SetResponseHttpStatus(HttpStatusCode.OK);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Error(String.Format($"Failed in getting all Actions."), ex);
+        //        this.SetResponseHttpStatus(HttpStatusCode.BadRequest,ex.Message);
+        //    }
+        //    return tellstickActions;
+        //}
 
-        List<RegisteredTellstickAction> ITellstickDuplexService.GetActionsBy(int tellstickUnitId)
-        {
-            List<RegisteredTellstickAction> tellstickActionsByTellstickUnitId = null;
-            try
-            {
-                var tellstickActionsDealer = new Core.BLL.TellstickActionsDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
-                tellstickActionsByTellstickUnitId = tellstickActionsDealer.GetActionsBy(tellstickUnitId);
-                this.SetResponseHttpStatus(HttpStatusCode.OK);
-
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format($"Failed in getting Actions by tellstickUnitId={tellstickUnitId}."), ex);
-                this.SetResponseHttpStatus(HttpStatusCode.BadRequest);
-            }
-            return tellstickActionsByTellstickUnitId;
-        }
-
-        RegisteredTellstickAction ITellstickDuplexService.AddAction(int tellstickUnitId,
+        Core.Model.Action ITellstickDuplexService.AddAction(int tellstickUnitId,
             int tellstickActionTypeOption, string schedulerCronExpression)
         {
-            RegisteredTellstickAction addedTellstickAction = null;
+            Core.Model.Action addedTellstickAction = null;
 
             try
             {

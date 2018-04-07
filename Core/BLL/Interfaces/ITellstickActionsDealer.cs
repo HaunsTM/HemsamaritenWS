@@ -24,11 +24,10 @@ namespace Core.BLL.Interfaces
 
         List<Core.Model.TellstickAction> ActivateActionsFor(ITellstickActionSearchParameters searchParameters);
 
-        List<RegisteredTellstickAction> GetAllActions();
-        List<RegisteredTellstickAction> GetActionsBy(int tellstickUnitId);
+        List<TellsticksSchedulerActionTypeOption> GetAllActions();
 
-        RegisteredTellstickAction AddAction(int nativeDeviceId, Core.Model.Enums.TellstickActionTypeOption actionTypeOption, Scheduler scheduler);
-        RegisteredTellstickAction AddAction(int tellstickUnitId, Core.Model.Enums.TellstickActionTypeOption actionTypeOption, string schedulerCronExpression);
+        Core.Model.TellstickAction AddAction(int nativeDeviceId, Core.Model.Enums.TellstickActionTypeOption actionTypeOption, Scheduler scheduler);
+        Core.Model.TellstickAction AddAction(int tellstickUnitId, Core.Model.Enums.TellstickActionTypeOption actionTypeOption, string schedulerCronExpression);
         bool RemoveAction(int actionId);
     }
 }

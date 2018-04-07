@@ -69,23 +69,17 @@ namespace WCF.ServiceLibrary.Interfaces
             ResponseFormat = WebMessageFormat.Json)]
         Core.Model.TellstickUnit GetTellstickUnitBy(int tellstickUnitId);
 
-        [WebInvoke(Method = "GET",
-            BodyStyle = WebMessageBodyStyle.WrappedRequest,
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json)]
-        List<RegisteredTellstickAction> GetAllActions();
-
-        [WebInvoke(Method = "GET",
-            BodyStyle = WebMessageBodyStyle.WrappedRequest,
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json)]
-        List<RegisteredTellstickAction> GetActionsBy(int tellstickUnitId);
+        //[WebInvoke(Method = "GET",
+        //    BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        //    RequestFormat = WebMessageFormat.Json,
+        //    ResponseFormat = WebMessageFormat.Json)]
+        //List<RegisteredTellstickAction> GetAllActions();
 
         [WebInvoke(Method = "POST",
             BodyStyle = WebMessageBodyStyle.WrappedRequest,
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        RegisteredTellstickAction AddAction(int tellstickUnitId, int tellstickActionTypeOption, string schedulerCronExpression);
+        Core.Model.Action AddAction(int tellstickUnitId, int tellstickActionTypeOption, string schedulerCronExpression);
 
         [WebInvoke(Method = "DELETE",
             BodyStyle = WebMessageBodyStyle.WrappedRequest,

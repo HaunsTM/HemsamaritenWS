@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Core.BLL.Interfaces;
 using Core.Model;
 using Core.Model.Enums;
 using Core.Model.Interfaces;
 using Core.Model.ViewModel;
 using log4net;
+using MoreLinq;
 
 namespace Core.BLL
 {
@@ -131,60 +133,27 @@ namespace Core.BLL
             return this.RegisterNewManualAction(nativeDeviceId: currentUnit.NativeDeviceId, actionTypeOption: actionTypeOption, scheduler: scheduler);
         }
 
-        public List<RegisteredTellstickAction> GetAllActions()
+        public List<TellsticksSchedulerActionTypeOption> GetAllActions()
         {
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
-                var actions = db.Actions.OfType<TellstickAction>()
-                    .Where(a => a.Active)
-                    .OrderByDescending(a => a.TellstickUnit_Id)
-                    .Select(a => new
-                    {
-                        Action_Id = a.Id,
-                        Scheduler = a.Scheduler,
-                        LastPerformedDateTime = a.PerformedActions.OrderByDescending(p => p.Time).Select(p => p.Time).Take(1).FirstOrDefault(),
-                        TellstickActionType = a.TellstickActionType,
-                        TellstickUnit = a.TellstickUnit
-                    }).AsEnumerable().Select(a => new RegisteredTellstickAction
-                               {
-                                   Action_Id = a.Action_Id,
-                                   CronDescription = a.Scheduler != null ?  a.Scheduler.CronDescription : "",
-                                   CronExpression = a.Scheduler != null ? a.Scheduler.CronExpression : "",
-                                   LastPerformedTimeUTC = a.LastPerformedDateTime != null ? ((DateTimeOffset)a.LastPerformedDateTime).ToUnixTimeSeconds().ToString() : "",
-                                   Scheduler_Id = a.Scheduler != null ? (int) a.Scheduler.Id : -1,
-                                   TellstickActionType_Id = a.TellstickActionType != null ? a.TellstickActionType.Id : -1,
-                                   TellstickUnit_Id = a.TellstickUnit != null ? a.TellstickUnit.Id : -1
-                               }).ToList();
-                return actions;
-            }
-        }
+                
+                var schedulersWithActions = db.Actions.OfType<TellstickAction>()
+                    .Where(a => a.Active).DistinctBy(s => new { s.Scheduler_Id, s.TellstickActionType_Id}).ToList()
+                    .Select( s => new { tellstickAction_Id = s.Id, scheduler_Id = s.Scheduler_Id, cronExpression = s.Scheduler.CronExpression, tellstickActionType_Id = s.TellstickActionType_Id} ).ToList();
 
-        public List<RegisteredTellstickAction> GetActionsBy(int tellstickUnitId)
-        {
-            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
-            {
-                var actions = db.Actions.OfType<TellstickAction>()
-                    .Where(a => a.Active)
-                    .Where(a => a.TellstickUnit.Id == tellstickUnitId)
-                    .OrderByDescending(a => a.TellstickUnit_Id)
-                    .Select(a => new
-                    {
-                        Action_Id = a.Id,
-                        Scheduler = a.Scheduler,
-                        LastPerformedDateTime = a.PerformedActions.OrderByDescending(p => p.Time).Select(p => p.Time).Take(1).FirstOrDefault(),
-                        TellstickActionType = a.TellstickActionType,
-                        TellstickUnit = a.TellstickUnit
-                    }).AsEnumerable().Select(a => new RegisteredTellstickAction
-                    {
-                        Action_Id = a.Action_Id,
-                        CronDescription = a.Scheduler != null ? a.Scheduler.CronDescription : "",
-                        CronExpression = a.Scheduler != null ? a.Scheduler.CronExpression : "",
-                        LastPerformedTimeUTC = a.LastPerformedDateTime != DateTime.MinValue ? ((DateTimeOffset)a.LastPerformedDateTime).ToUnixTimeSeconds().ToString() : "",
-                        Scheduler_Id = a.Scheduler != null ? (int)a.Scheduler.Id : -1,
-                        TellstickActionType_Id = a.TellstickActionType != null ? a.TellstickActionType.Id : -1,
-                        TellstickUnit_Id = a.TellstickUnit != null ? a.TellstickUnit.Id : -1
-                    }).ToList();
-                return actions;
+                //which tellsticks share the same shedulers and actiontypes?
+                var shedulersSharingActions = schedulersWithActions.Select(s => new TellsticksSchedulerActionTypeOption
+                {
+                    TellstickActionId = s.tellstickAction_Id,
+                    LastPerformedTime = db.PerformedActions.Where( p => p.Action.Id == s.tellstickAction_Id ).OrderBy( t => t.Time).Select(t => t.Time).Take(1).FirstOrDefault(),
+                    Scheduler_Id = s.scheduler_Id,
+                    TellstickActionType_Id = s.tellstickActionType_Id,
+                    CronExpression = s.cronExpression,
+                    TellstickUnit_Ids = db.Actions.OfType<TellstickAction>()
+                        .Where(a => a.Scheduler_Id == s.scheduler_Id).Select(t => t.TellstickUnit_Id).ToList()
+                }).ToList();
+                return shedulersSharingActions;
             }
         }
         
@@ -267,7 +236,7 @@ namespace Core.BLL
             }
         }
 
-        public RegisteredTellstickAction AddAction(int nativeDeviceId, Core.Model.Enums.TellstickActionTypeOption actionTypeOption, Scheduler scheduler)
+        public Core.Model.TellstickAction AddAction(int nativeDeviceId, Core.Model.Enums.TellstickActionTypeOption actionTypeOption, Scheduler scheduler)
         {
             Core.Model.TellstickAction addedAction = null;
             try
@@ -297,26 +266,8 @@ namespace Core.BLL
                     addedAction = possibleRegisteredAction;
                 }
 
-                using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
-                {
-                    //since the db context for addedAction currently is disposed, we need to regain it in order to fetch extended properties for the added Action
-
-                    var regainedAddedAction = db.Actions.OfType<TellstickAction>().Where(a => a.Id == addedAction.Id).Single();
-
-                    var registeredTellstickAction = new RegisteredTellstickAction
-                    {
-                        Action_Id = addedAction.Id,
-                        CronDescription = regainedAddedAction.Scheduler != null ? regainedAddedAction.Scheduler.CronDescription : "",
-                        CronExpression = regainedAddedAction.Scheduler != null ? regainedAddedAction.Scheduler.CronExpression : "",
-                        LastPerformedTimeUTC = regainedAddedAction.PerformedActions != null ? ((DateTimeOffset)regainedAddedAction.PerformedActions.OrderByDescending(p => p.Time).Select(p => p.Time).Take(1).FirstOrDefault()).ToUnixTimeSeconds().ToString() : "",
-                        Scheduler_Id = regainedAddedAction.Scheduler != null ? (int)regainedAddedAction.Scheduler_Id : -1,
-                        TellstickActionType_Id = regainedAddedAction.TellstickActionType != null ? regainedAddedAction.TellstickActionType.Id : -1,
-                        TellstickUnit_Id = regainedAddedAction.TellstickUnit != null ? regainedAddedAction.TellstickUnit.Id : -1
-
-                    };
-
-                    return registeredTellstickAction;
-                }
+                return addedAction;
+                
             }
             catch (Exception ex)
             {
@@ -324,7 +275,7 @@ namespace Core.BLL
             }
         }
 
-        public RegisteredTellstickAction AddAction(int tellstickUnitId,
+        public Core.Model.TellstickAction AddAction(int tellstickUnitId,
             Core.Model.Enums.TellstickActionTypeOption actionTypeOption, string schedulerCronExpression)
         {
             Scheduler currentScheduler = null;

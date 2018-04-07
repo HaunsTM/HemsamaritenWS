@@ -4,6 +4,7 @@ using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.ServiceProcess;
+using System.Text.RegularExpressions;
 using WCF.ServiceLibrary.Interfaces;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
@@ -21,10 +22,12 @@ namespace WCF.ServiceLibrary
         private const string DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE = "name=HemsamaritenWindowsServiceDBConnection";
         private const string DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE_DEBUG_LOG = "name=HemsamaritenWindowsServiceDebugLogDBConnection";
 
-        private void SetResponseHttpStatus(HttpStatusCode statusCode)
+        private void SetResponseHttpStatus(HttpStatusCode statusCode, string statusDescription = "")
         {
             var context = WebOperationContext.Current;
             context.OutgoingResponse.StatusCode = statusCode;
+            context.OutgoingResponse.StatusDescription = Regex.Replace(statusDescription, @"\r\n?|\n", ""); 
+
             context.OutgoingResponse.Headers.Add("Access-Control-Allow-Origin", "*");
 
             if (context.IncomingRequest.Method == "OPTIONS")

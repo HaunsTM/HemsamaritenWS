@@ -28,9 +28,9 @@ namespace Tellstick.ConsoleForTestingPurpose
             //    registeredDevice);
             //DisplayInfo();
             //var un12 = UnregisterDevice(nativeDeviceId: 12, dbConnectionStringName: DB_CONNECTION_STRING_NAME, commander: new NativeTellstickCommander());
-            PlaySound();
+            //PlaySound();
             //PlaySound(DB_CONNECTION_STRING_NAME);
-            //TestDealers();
+            TestDealers();
 
         }
 
@@ -90,10 +90,13 @@ namespace Tellstick.ConsoleForTestingPurpose
         {
             var cD = new CouyntryDealer(DB_CONNECTION_STRING_NAME);
             var mSD = new MediaSourceDealer(DB_CONNECTION_STRING_NAME);
+            var tAD = new TellstickActionsDealer(DB_CONNECTION_STRING_NAME);
 
-            var allCountries = cD.AllCountriesList();
-            var countriesRepresentedInMediaSourcesList = cD.CountriesRepresentedInMediaSourcesList();
-            var predefinedMediaSourcesList = mSD.PredefinedMediaSourcesList();
+//            var allCountries = cD.AllCountriesList();
+//            var countriesRepresentedInMediaSourcesList = cD.CountriesRepresentedInMediaSourcesList();
+//            var predefinedMediaSourcesList = mSD.PredefinedMediaSourcesList();
+
+            var tADs = tAD.GetAllActions();
         }
     }
 }
