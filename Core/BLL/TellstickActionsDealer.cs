@@ -132,30 +132,6 @@ namespace Core.BLL
 
             return this.RegisterNewManualAction(nativeDeviceId: currentUnit.NativeDeviceId, actionTypeOption: actionTypeOption, scheduler: scheduler);
         }
-
-        public List<TellsticksSchedulerActionTypeOption> GetAllActions()
-        {
-            using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
-            {
-                
-                var schedulersWithActions = db.Actions.OfType<TellstickAction>()
-                    .Where(a => a.Active).DistinctBy(s => new { s.Scheduler_Id, s.TellstickActionType_Id}).ToList()
-                    .Select( s => new { tellstickAction_Id = s.Id, scheduler_Id = s.Scheduler_Id, cronExpression = s.Scheduler.CronExpression, tellstickActionType_Id = s.TellstickActionType_Id} ).ToList();
-
-                //which tellsticks share the same shedulers and actiontypes?
-                var shedulersSharingActions = schedulersWithActions.Select(s => new TellsticksSchedulerActionTypeOption
-                {
-                    TellstickActionId = s.tellstickAction_Id,
-                    LastPerformedTime = db.PerformedActions.Where( p => p.Action.Id == s.tellstickAction_Id ).OrderBy( t => t.Time).Select(t => t.Time).Take(1).FirstOrDefault(),
-                    Scheduler_Id = s.scheduler_Id,
-                    TellstickActionType_Id = s.tellstickActionType_Id,
-                    CronExpression = s.cronExpression,
-                    TellstickUnit_Ids = db.Actions.OfType<TellstickAction>()
-                        .Where(a => a.Scheduler_Id == s.scheduler_Id).Select(t => t.TellstickUnit_Id).ToList()
-                }).ToList();
-                return shedulersSharingActions;
-            }
-        }
         
         public List<Core.Model.TellstickAction> ActivateActionsFor(ITellstickActionSearchParameters searchParameters)
         {

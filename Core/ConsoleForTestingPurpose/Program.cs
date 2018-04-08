@@ -90,13 +90,13 @@ namespace Tellstick.ConsoleForTestingPurpose
         {
             var cD = new CouyntryDealer(DB_CONNECTION_STRING_NAME);
             var mSD = new MediaSourceDealer(DB_CONNECTION_STRING_NAME);
-            var tAD = new TellstickActionsDealer(DB_CONNECTION_STRING_NAME);
+            var sD = new SchedulerDealer(DB_CONNECTION_STRING_NAME);
 
 //            var allCountries = cD.AllCountriesList();
 //            var countriesRepresentedInMediaSourcesList = cD.CountriesRepresentedInMediaSourcesList();
 //            var predefinedMediaSourcesList = mSD.PredefinedMediaSourcesList();
 
-            var tADs = tAD.GetAllActions();
+            var tADs = sD.GetSchedulersWithUsingTellsticksSplitOnActions();
         }
     }
 }

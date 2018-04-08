@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using Core.Model.ViewModel;
 
 namespace Core.BLL.Interfaces
 {
@@ -11,5 +11,9 @@ namespace Core.BLL.Interfaces
 
         Scheduler GetSchedulerBy(string cronExpression);
         IEnumerable<Scheduler> GetSchedulersBy(List<string> cronExpressions);
+
+
+        List<TellsticksSchedulerActionTypeOption> GetTellsticksWithTheirSchedulersSplitOnActions();
+        List<SchedulersTellsticksActionTypeOption> GetSchedulersWithUsingTellsticksSplitOnActions();
     }
 }

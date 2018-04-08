@@ -155,9 +155,8 @@
     <Compile Include="TellstickZNetLiteV2.cs" />
     <Compile Include="TellstickAuthentication.cs" />
     <Compile Include="TellstickUnit.cs" />
-    <Compile Include="ViewModel\ITellsticksSchedulerActionTypeOption.cs" />
-    <Compile Include="ViewModel\IRegisteredMediaSource.cs" />
     <Compile Include="ViewModel\RegisteredMediaSource.cs" />
+    <Compile Include="ViewModel\SchedulersTellsticksActionTypeOption.cs" />
     <Compile Include="ViewModel\TellsticksSchedulerActionTypeOption.cs" />
   </ItemGroup>
   <ItemGroup>

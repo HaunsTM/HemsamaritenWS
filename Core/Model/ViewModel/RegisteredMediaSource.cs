@@ -2,7 +2,7 @@
 
 namespace Core.Model.ViewModel
 {
-    public class RegisteredMediaSource : IRegisteredMediaSource
+    public class RegisteredMediaSource
     {
         public string Name { get; set; }
         public string Url { get; set; }
