@@ -12,8 +12,7 @@ namespace Core.BLL.Interfaces
         Scheduler GetSchedulerBy(string cronExpression);
         IEnumerable<Scheduler> GetSchedulersBy(List<string> cronExpressions);
 
-
         List<TellsticksSchedulerActionTypeOption> GetTellsticksWithTheirSchedulersSplitOnActions();
-        List<SchedulersTellsticksActionTypeOption> GetSchedulersWithUsingTellsticksSplitOnActions();
+        List<SchedulersTellsticksActionTypeOption> GetSchedulersUsingTellsticksSplitOnActions();
     }
 }

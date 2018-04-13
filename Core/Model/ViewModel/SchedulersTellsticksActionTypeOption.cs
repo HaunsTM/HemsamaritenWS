@@ -7,6 +7,6 @@ namespace Core.Model.ViewModel
     {
         public string CronExpression { get; set; }
         public int? TellstickActionType_Id { get; set; }
-        public List<int> TellstickUnit_Id { get; set; }
+        public List<int?> TellstickUnit_Ids { get; set; }
     }   
 }

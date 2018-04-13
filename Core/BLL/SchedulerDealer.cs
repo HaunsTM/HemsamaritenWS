@@ -60,9 +60,26 @@ namespace Core.BLL
 
         public List<TellsticksSchedulerActionTypeOption> GetTellsticksWithTheirSchedulersSplitOnActions()
         {
+            /*  Example output:
+             *
+             * {TellstickUnit_Id: 14,
+             * TellstickActionType_Id: 2,
+             * crons expression: [
+             * "0 0 23 * * ?",
+             * "0 45 8 * * ?"
+             * ]},
+             * 
+             * TellstickUnit_Id: 15,
+             * TellstickActionType_Id: 1,
+             * crons expression: [
+             * "0 45 5 * * ?",
+             * "0 0 16 * * ?"
+             * ]}
+             */
+
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
-                var shedulersSharingActions = db.Actions.OfType<TellstickAction>()
+                var tellsticksWithTheirSchedulersSplitOnActions = db.Actions.OfType<TellstickAction>()
                     .Where(a => a.Active)
                     .GroupBy(t => new {t.TellstickUnit_Id, t.TellstickActionType_Id})
                     .OrderBy(t => t.Key.TellstickUnit_Id).ThenBy(t => t.Key.TellstickActionType_Id)
@@ -74,56 +91,49 @@ namespace Core.BLL
 
                     }).ToList();
 
-                foreach (var s in shedulersSharingActions)
-                {
-                    var output =
-                        "TellstickUnit_Id: " + s.TellstickUnit_Id.ToString() + "\n" +
-                        "    TellstickActionType_Id: " + s.TellstickActionType_Id.ToString() + "\n" +
-                        "    crons expression: " + "\n";
-                    foreach (var expr in s.CronExpression)
-                    {
-                        output += "        " + expr + "\n";
-                    }
-
-                    System.Diagnostics.Debug.WriteLine(output);
-                }
-
-                return shedulersSharingActions;
+                return tellsticksWithTheirSchedulersSplitOnActions;
             }
         }
 
-        public List<SchedulersTellsticksActionTypeOption> GetSchedulersWithUsingTellsticksSplitOnActions()
+        public List<SchedulersTellsticksActionTypeOption> GetSchedulersUsingTellsticksSplitOnActions()
         {
+            /* Output:
+             * CronExpression: 0 58 2 * * ?
+             *      TellstickActionType_Id: 3
+             *      TellstickUnit_Ids:        
+             *
+             *  CronExpression: 0 45 5 * * ?
+             *      TellstickActionType_Id: 1
+             *      TellstickUnit_Ids: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+             *
+             *  CronExpression: 0 46 5 * * ?
+             *      TellstickActionType_Id: 1
+             *      TellstickUnit_Ids: 13
+             *
+             *  CronExpression: 0 47 5 * * ?
+             *      TellstickActionType_Id: 1
+             *      TellstickUnit_Ids: 14, 15, 16
+             */
             using (var db = new Core.Model.HemsamaritenWindowsServiceDbContext(DbConnectionStringName))
             {
 
-                var shedulersSharingActions = db.Actions.OfType<TellstickAction>()
+                var schedulersUsingTellsticksSplitOnActions = db.Actions.OfType<TellstickAction>()
                     .Where(a => a.Active)
                     .GroupBy(t => new {t.Scheduler_Id, t.TellstickActionType_Id})
                     .OrderBy(t => t.Key.Scheduler_Id).ThenBy(t => t.Key.TellstickActionType_Id)
                     .Select(g => new SchedulersTellsticksActionTypeOption
                     {
-                        TellstickUnit_Id = g.Select(t => t.TellstickUnit.Id).ToList(),
                         TellstickActionType_Id = g.Key.TellstickActionType_Id,
-                        CronExpression = g.Where( c => c.Scheduler_Id == g.Key.Scheduler_Id).Select( c => c.Scheduler.CronExpression).FirstOrDefault()
-
-                    }).ToList();
-
-                foreach (var s in shedulersSharingActions)
-                {
-                    var output =
-                        "CronExpression: " + s.CronExpression.ToString() + "\n" +
-                        "    TellstickActionType_Id: " + s.TellstickActionType_Id.ToString() + "\n" +
-                        "    TellstickUnit_Ids: " + "\n";
-                    foreach (var expr in s.TellstickUnit_Id)
-                    {
-                        output += "        " + expr + "\n";
-                    }
-
-                    System.Diagnostics.Debug.WriteLine(output);
-                }
-
-                return shedulersSharingActions;
+                        CronExpression = g.Where(c => c.Scheduler_Id == g.Key.Scheduler_Id).Select(c => c.Scheduler.CronExpression).FirstOrDefault(),
+                        TellstickUnit_Ids = db.Actions.OfType<TellstickAction>()
+                            .Where(tA => tA.TellstickActionType_Id == g.Key.TellstickActionType_Id)
+                            .Where(s => s.Scheduler.CronExpression == g.Where(c => c.Scheduler_Id == g.Key.Scheduler_Id)
+                                            .Select(c => c.Scheduler.CronExpression).FirstOrDefault())
+                            .Select(i => i.TellstickUnit_Id).ToList()
+                    })
+                    .ToList();
+                
+                return schedulersUsingTellsticksSplitOnActions;
             }
         }
     }

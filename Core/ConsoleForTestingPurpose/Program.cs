@@ -96,7 +96,7 @@ namespace Tellstick.ConsoleForTestingPurpose
 //            var countriesRepresentedInMediaSourcesList = cD.CountriesRepresentedInMediaSourcesList();
 //            var predefinedMediaSourcesList = mSD.PredefinedMediaSourcesList();
 
-            var tADs = sD.GetSchedulersWithUsingTellsticksSplitOnActions();
+            var tADs = sD.GetSchedulersUsingTellsticksSplitOnActions();
         }
     }
 }

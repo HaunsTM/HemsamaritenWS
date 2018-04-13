@@ -202,22 +202,39 @@ namespace WCF.ServiceLibrary
             return tellstickUnit;
         }
 
-        //List<RegisteredTellstickAction> ITellstickDuplexService.GetAllActions()
-        //{
-        //    List<RegisteredTellstickAction> tellstickActions = null;
-        //    try
-        //    {
-        //        var tellstickActionsDealer = new Core.BLL.TellstickActionsDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
-        //        tellstickActions = tellstickActionsDealer.GetAllActions();
-        //        this.SetResponseHttpStatus(HttpStatusCode.OK);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        log.Error(String.Format($"Failed in getting all Actions."), ex);
-        //        this.SetResponseHttpStatus(HttpStatusCode.BadRequest,ex.Message);
-        //    }
-        //    return tellstickActions;
-        //}
+        List<TellsticksSchedulerActionTypeOption> ITellstickDuplexService.GetTellsticksWithTheirSchedulersSplitOnActions()
+        {
+            List<TellsticksSchedulerActionTypeOption> tellsticksWithTheirSchedulersSplitOnActions = null;
+            try
+            {
+                var tellstickActionsDealer = new Core.BLL.SchedulerDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                tellsticksWithTheirSchedulersSplitOnActions = tellstickActionsDealer.GetTellsticksWithTheirSchedulersSplitOnActions();
+                this.SetResponseHttpStatus(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format($"Failed in getting all Actions."), ex);
+                this.SetResponseHttpStatus(HttpStatusCode.BadRequest, ex.Message);
+            }
+            return tellsticksWithTheirSchedulersSplitOnActions;
+        }
+
+        List<SchedulersTellsticksActionTypeOption> ITellstickDuplexService.GetSchedulersUsingTellsticksSplitOnActions()
+        {
+            List<SchedulersTellsticksActionTypeOption> schedulersUsingTellsticksSplitOnActions = null;
+            try
+            {
+                var tellstickActionsDealer = new Core.BLL.SchedulerDealer(DB_CONN_HEMSAMARITEN_WINDOWS_SERVICE);
+                schedulersUsingTellsticksSplitOnActions = tellstickActionsDealer.GetSchedulersUsingTellsticksSplitOnActions();
+                this.SetResponseHttpStatus(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format($"Failed in getting all Actions."), ex);
+                this.SetResponseHttpStatus(HttpStatusCode.BadRequest, ex.Message);
+            }
+            return schedulersUsingTellsticksSplitOnActions;
+        }
 
         Core.Model.Action ITellstickDuplexService.AddAction(int tellstickUnitId,
             int tellstickActionTypeOption, string schedulerCronExpression)

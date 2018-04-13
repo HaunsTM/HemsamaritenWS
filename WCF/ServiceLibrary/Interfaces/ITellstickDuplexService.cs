@@ -59,32 +59,39 @@ namespace WCF.ServiceLibrary.Interfaces
 
 
         [WebInvoke(Method = "GET",
-            BodyStyle = WebMessageBodyStyle.WrappedRequest,
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json)]
+        BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        RequestFormat = WebMessageFormat.Json,
+        ResponseFormat = WebMessageFormat.Json)]
         List<Core.Model.TellstickUnit> GetAllTellstickUnits();
-        [WebInvoke(Method = "GET",
-            BodyStyle = WebMessageBodyStyle.WrappedRequest,
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json)]
-        Core.Model.TellstickUnit GetTellstickUnitBy(int tellstickUnitId);
 
-        //[WebInvoke(Method = "GET",
-        //    BodyStyle = WebMessageBodyStyle.WrappedRequest,
-        //    RequestFormat = WebMessageFormat.Json,
-        //    ResponseFormat = WebMessageFormat.Json)]
-        //List<RegisteredTellstickAction> GetAllActions();
+        [WebInvoke(Method = "GET",
+        BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        RequestFormat = WebMessageFormat.Json,
+        ResponseFormat = WebMessageFormat.Json)]
+        Core.Model.TellstickUnit GetTellstickUnitBy(int tellstickUnitId);
+        
+        [WebInvoke(Method = "GET",
+        BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        RequestFormat = WebMessageFormat.Json,
+        ResponseFormat = WebMessageFormat.Json)]
+        List <TellsticksSchedulerActionTypeOption> GetTellsticksWithTheirSchedulersSplitOnActions();
+
+        [WebInvoke(Method = "GET",
+        BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        RequestFormat = WebMessageFormat.Json,
+        ResponseFormat = WebMessageFormat.Json)]
+        List<SchedulersTellsticksActionTypeOption> GetSchedulersUsingTellsticksSplitOnActions();
 
         [WebInvoke(Method = "POST",
-            BodyStyle = WebMessageBodyStyle.WrappedRequest,
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json)]
+        BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        RequestFormat = WebMessageFormat.Json,
+        ResponseFormat = WebMessageFormat.Json)]
         Core.Model.Action AddAction(int tellstickUnitId, int tellstickActionTypeOption, string schedulerCronExpression);
 
         [WebInvoke(Method = "DELETE",
-            BodyStyle = WebMessageBodyStyle.WrappedRequest,
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json)]
+        BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        RequestFormat = WebMessageFormat.Json,
+        ResponseFormat = WebMessageFormat.Json)]
         bool RemoveAction(int actionId);
 
     }
